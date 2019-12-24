@@ -1,0 +1,39 @@
+
+
+<div class="layui-form-item layui-form-text">
+    <label class="layui-form-label">{$laber}</label>
+    <div class="layui-input-block" style="max-width:800px;">
+        <textarea placeholder="{$placeholder}" class="layui-textarea" name="{$name}" lay-verify="content1{if $verify neq null}|{$verify}{/if}" id="{$id}"  lay-verType="tips" lay-reqText="{$placeholder}" >{$value}</textarea>
+    </div>
+</div>
+
+
+
+<script >
+
+    layui.use(['element', 'jquery', 'layedit',], function () {
+        var element = layui.element;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var layedit = layui.layedit;
+
+        form.render();
+
+        //自定义工具栏
+        var demo1s= layedit.build("{$id}", {
+            tool:["strong","italic","underline","del","|","left","center","right","|","link","unlink","face"]
+            ,height: {$lay_height}
+        });
+
+        //自定义验证规则
+        form.verify({
+            content1:function (value) {
+                layedit.sync(demo1s);
+            }
+
+        });
+
+
+    });
+
+</script >

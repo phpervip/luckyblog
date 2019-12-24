@@ -1,0 +1,292 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/7/17-10:25
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: friend_link.html
+ **************************************************************
+ *                                                            *
+ *   .=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-.       *
+ *    |                     ______                     |      *
+ *    |                  .-"      "-.                  |      *
+ *    |                 /            \                 |      *
+ *    |     _          |              |          _     |      *
+ *    |    ( \         |,  .-.  .-.  ,|         / )    |      *
+ *    |     > "=._     | )(__/  \__)( |     _.=" <     |      *
+ *    |    (_/"=._"=._ |/     /\     \| _.="_.="\_)    |      *
+ *    |           "=._"(_     ^^     _)"_.="           |      *
+ *    |               "=\__|IIIIII|__/="               |      *
+ *    |              _.="| \IIIIII/ |"=._              |      *
+ *    |    _     _.="_.="\          /"=._"=._     _    |      *
+ *    |   ( \_.="_.="     `--------`     "=._"=._/ )   |      *
+ *    |    > _.="                            "=._ <    |      *
+ *    |   (_/                                    \_)   |      *
+ *    |                                                |      *
+ *    '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-='      *
+ *                                                            *
+ *                    JUST FIND YOUR BUG !                    *
+ **************************************************************
+ *-->
+
+<!-- 引入基类模板 -->
+{extend name='public/base' /}
+
+
+{block name="search"}
+
+{:widget('forms/search',array('name','链接搜索','请输入网址名称'))}
+
+{/block}
+
+{block name="btn"}
+<!--按钮区-->
+{:widget('forms/Delbtn',array('批量删除'))}
+{:widget('forms/Addbtn',array('新增友连',1,'add'))}
+{:widget('forms/reload')}
+
+
+{/block}
+
+{block name="table"} <!--表格区-->
+
+{:widget('forms/table')}
+
+{/block}
+
+{block name="js"} <!--js处理区-->
+
+
+
+<!--模板-->
+<script type="text/html" id="operationTpl">
+    {:widget('forms/Editbtn',array('编辑友链'))}
+    {:widget('forms/Delbtn',array('删除友链',2))}
+
+    <a href="javascript:;" class="layui-btn layui-btn-warm layui-btn-xs " onmouseover="tis(this)" data-title="邮件通知" lay-event="email">
+        <i class="layui-icon layui-icon-chat"></i>
+    </a>
+
+</script>
+
+
+<script type="text/html" id="status">
+    <input type="checkbox" name="status"  lay-data="{{d.status}}" value="{{d.id}}"  lay-filter="sexDemo" lay-skin="switch"  lay-text="是|否"  {{ d.status == 1 ? 'checked' : '' }}>
+</script>
+
+<script>
+
+    layui.use(['element', 'table', 'form', 'jquery', 'laydate','lucky'], function () {
+        var element = layui.element;
+        var form = layui.form;
+        var table = layui.table;
+        var $ = layui.jquery;
+        var laydate = layui.laydate;
+        var lucky=layui.lucky;
+
+        form.render();
+
+        // layer.load(2);
+        table.render({
+            elem: '#tableFilter',
+            url:"{:url('module/friendLink')}",
+            //toolbar: '#toolbarDemo',
+            even: true, //开启隔行背景
+            id:'table_id',
+            page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['limit', 'count', 'prev', 'page', 'next', 'skip','last'] //自定义分页布局
+                //,curr: 5 //设定初始在第 5 页
+                ,groups: 5 //只显示 1 个连续页码
+                ,first: false //不显示首页
+                ,last: false //不显示尾页
+                ,limit:20
+                ,limits:[20,30,40,60,80,100]
+            },
+            //  height: 'full-100',
+            text: {
+                none: '暂无相关数据'
+            },
+            cols: [[
+                {type: 'checkbox'},
+                // {field: 'id',  title: 'ID',width:60},
+
+                {field: 'name', minWidth: 200, title: '网站名称'},
+                {field: 'type',style:'cursor: pointer;',title: '类型',width: 100,templet:function (d) {
+                        if(d.type==1){
+                            var str='优秀博客';
+                        }else {
+                            var str="站长推荐";
+                        }
+                        return str;
+                    }},
+                {field: 'href',style:'cursor: pointer;',title: '网站地址',width: 300,templet:function (d) {
+                        return '<a target="_blank" href="'+d.href+'">'+d.href+'</a> ';
+                    }},
+
+                {field: 'email',style:'cursor: pointer;',title: '站长邮箱',width: 180},
+                {field:'status',title:'是否显示',templet: '#status',width:110 ,unresize: true},
+
+                {field: 'time_formt', title: '添加时间',align: 'center',width:200},
+                {fixed: 'right',templet: '#operationTpl', width: 150, align: 'center', title: '操作'}
+            ]],
+
+            done: function (res) {
+                layer.closeAll('loading');
+            }
+        });
+
+
+        /**
+         * 监听是否显示操作
+         */
+        form.on('switch(sexDemo)', function(obj){
+            var _id=parseInt(obj.value);
+            var pan=obj.elem.checked;
+            var status;
+            if (pan===false){
+                status=2;
+            }else {
+                status=1;
+            }
+            lucky.Change_status("table_id","friendlink",_id,"status",status, obj.othis);
+        });
+
+
+        /**
+         * 表格搜索
+         */
+        form.on('submit(search)', function (obj) {
+            lucky.CreateSearch("table_id",obj.field); //查询
+            return false;
+        });
+
+        /**
+         * 监听单行工具操作
+         */
+        table.on('tool(tableFilter)', function (obj) {
+            var data = obj.data;
+            // console.log(JSON.stringify(data));
+            var _id=parseInt(data.id);
+            var layEvent = obj.event;
+
+            if(layEvent==="del"){
+                lucky.Delete_data(_id,"{:url('module/delete_link')}","table_id");
+
+            }else if(layEvent==="edit"){
+                //console.log(JSON.stringify(obj.data));
+                addLink(obj.data);
+            }else if(layEvent==="email"){
+                layer.prompt({title: '邮件通知-【通知内容】', formType: 2}, function(content, index){
+
+                    layer.close(index);
+                    $.ajax({
+                        beforeSend:function(){
+                            layer.load(2);
+                        },
+                        url: "{:url('email/friendlink_email')}",
+                        type: "POST",
+                        async: true,
+                        dataType: "json",
+                        data:{content:content,id:_id},
+                        error: function(error) {
+                            layer.msg("服务器错误或超时");
+                            return false;
+                        },
+                        success: function(res) {
+                            if (res.code==1) {
+                                layer.msg(res.msg,{kin: 'layui-layer-lan', icon:1,time:1500},function () {
+                                    lucky.CreateReload("table_id");
+                                });
+                            }else{
+                                layer.msg(res.msg,{kin: 'layui-layer-lan', icon:5,time:1000},function () {
+                                    lucky.CreateReload("table_id");
+                                });
+                            }
+                        },
+                        complete:function(){
+                            layer.closeAll('loading');
+                        }
+                    });
+
+                });
+            }
+            else {
+                layer.msg("功能待开发",{time:1500});return false;
+            }
+
+        });
+
+
+
+
+        /**
+         * 添加友链
+         * @param edit
+         */
+        function addLink(edit){
+            var index = layer.open({
+                title : "添加友链",
+                type : 2,
+                area : ["50%","60%"],
+                skin:'layui-layer-molv',
+                shade: 0.5,
+                content : "{:url('module/addLink')}",
+                success : function(layero, index){
+                    if(edit){
+                        //var body = $(layero.find('iframe').contents());
+                        var body = layer.getChildFrame('body', index);
+                        body.find(".name").val(edit.name);
+                        body.find(".href").val(edit.href);
+                        body.find(".id").val(edit.id);
+                        body.find(".email").val(edit.email);
+                        body.find(".userGrade").val(edit.status);
+                        body.find(".link").val(edit.type);
+                        form.render();
+                    }
+                    setTimeout(function(){
+                        layer.tips('点击此处返回友链列表', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 3,time:1000
+                        });
+                    },500)
+                },
+                end:function () {
+                    setTimeout(function(){
+                        lucky.CreateReload("table_id");//重载表格
+                    },500);
+                }
+            })
+        }
+
+        var active = {
+
+            add:function(){
+               addLink();
+            },
+            del: function(){ //获取选中数据
+                var checkStatus = table.checkStatus('table_id'),data = checkStatus.data;
+                var num=0;
+                var id=[];
+                for (var i in data) {
+                    num++;
+                    id.push(data[i].id);
+                }
+                if (num<1) {
+                    layer.msg("请选择一项",{time:1500});return false;
+                }
+                lucky.Delete_data(id,"{:url('module/delete_link')}","table_id");
+            },
+            reload: function(){
+                lucky.CreateReload("table_id");
+            }
+
+        };
+
+        $('.do_btn .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+
+</script >
+
+{/block}

@@ -1,0 +1,126 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/7/2-15:58
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: edit_menu.html
+ *-->
+
+{include file="public/open_head" /}
+
+<div class="ok-body" xmlns="http://www.w3.org/1999/html" >
+
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <!-- <div class="layui-card-header"></div>-->
+
+            <div class="layui-card-body" style="padding: 15px;">
+                <form class="layui-form" action="" lay-filter="component-form-group">
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">上级菜单</label>
+                        <div class="layui-input-block">
+
+                            <select name="pid" lay-search="">
+                                <option value="0" {eq name="$pid" value="0"} selected {/eq}>顶级菜单</option>
+                                {volist name="tree" id="t"}
+                                <option value="{$t.id}" {eq name="$pid" value="$t.id"} selected {/eq}>{$t.title_show}</option>
+                                {/volist}
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="id" value="{$info.id}">
+                    {:token()}
+
+
+                    {lv:inputform  label="菜单名称："  name="title"  place="请输入菜单名称" verify="required" value="$info.title" /}
+
+                    {lv:inputform  label="选择图标："  name="icon" id="iconFonts"  place="请选择菜单图标"  verify="required" value="$info.icon" /}
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否菜单：</label>
+                        <div class="layui-input-block input-custom-width">
+                            <input type="radio" name="is_menu" value="1" title="菜单"   checked>
+                            <input type="radio" name="is_menu" value="2" title="按钮" >
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"></div>
+                    </div>
+
+
+                    {lv:inputform  label="地址："  name="href"  place="请求地址"  word="格式例如：index/index/index（模块名/控制器名/方法名）" value="$info.href" /}
+
+
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否显示：</label>
+                        <div class="layui-input-inline input-custom-width">
+                            <input type="radio" name="status" value="1" title="显示"  checked>
+                            <input type="radio" name="status" value="2" title="隐藏"  >
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"></div>
+
+                        <label class="layui-form-label">菜单排序：</label>
+                        <div class="layui-input-inline input-custom-width">
+                            <input type="number" name="listorder"  value="{$info.listorder}"   placeholder="排序" lay-verify="" lay-verType="tips" lay-reqText="排序"  autocomplete="off"  class="layui-input">
+                        </div>
+                    </div>
+
+
+
+                    {:widget('forms/submit',array('add','立即提交',2))}
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+<script>
+    layui.use(['element', 'form', 'jquery','IconFonts','lucky'], function () {
+        var element = layui.element;
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var IconFonts = layui.IconFonts;
+        var lucky = layui.lucky;
+
+        //图标选择器
+        IconFonts.render({
+            // 选择器，推荐使用input
+            elem: '#iconFonts',
+            // 数据类型：fontClass/layui_icon，
+            type: 'layui_icon',
+            // 是否开启搜索：true/false
+            search: true,
+            // 是否开启分页
+            page: true,
+            // 每页显示数量，默认12
+            limit: 12,
+            // 点击回调
+            click: function (data) {
+                $("#icon").text(data.icon);
+            }
+        });
+        /**
+         * 默认选选中图标
+         */
+        IconFonts.checkIcon("iconFonts","{$info.icon}","layui_icon");
+
+
+        form.on('submit(add)', function (data) {
+            lucky.FormSubmit("{:url('adminmenu/AddMenu')}",data.field,"tableFilter",1);
+            return false;
+        });
+    })
+</script>
+
+
+</body>
+</html>

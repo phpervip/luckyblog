@@ -1,0 +1,91 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/7/24-14:19
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: edit_content.html
+ *-->
+
+
+{include file="public/open_head" /}
+
+
+
+<div class="ok-body" >
+
+    <div class="layui-fluid" >
+
+        <form class="layui-form" style="margin-top: 30px;">
+
+            <div class="layui-form-item " style=""  >
+                <label class="layui-form-label" >所属栏目：</label >
+                <div class="layui-input-inline input-custom-width">
+                    <select name="navigate_id" lay-search=""  lay-verify="required" lay-verType="tips" lay-reqText="请选择栏目" >
+                        <option value="">请选择栏目</option>
+                        {volist name="navigate" id="v"}
+                        <option value="{$v.id}" {eq name="$v.pid" value="0" } disabled {/eq} {eq name="$info.navigate_id" value="$v.id" } selected {/eq} >├─ {$v.title}</option>
+                        {/volist}
+                    </select>
+                </div >
+            </div >
+
+            {lv:inputform  name="title"  value="$info.title" place="请输入标题" label="内容标题："  style="width: 350px;"  verify="required"  class="name"   /}
+
+            {:token()}
+
+            <input type="hidden" name="id" value="{$info.id}" >
+
+            {lv:textarea  name="description"  place="请输入摘要" label="摘要："  style="width: 450px;"  value="$info['description']"  /}
+
+            <div class="layui-form-item " >
+                <label class="layui-form-label" >点击量：</label >
+                <div class="layui-input-inline input-custom-width " >
+                    <input type="number" min="0" name="hits" value="{$info.hits}" lay-verify="required" lay-verType="tips" lay-reqText="点击量" autocomplete="off"  class="layui-input" >
+                </div >
+                <div class="layui-form-mid layui-word-aux">内容的点击数量</div>
+                <label class="layui-form-label" >添加时间：</label >
+                <div class="layui-input-inline input-custom-width " >
+                    <input type="text"  value="{$info.create_time}"  autocomplete="off"  class="layui-input" >
+                </div >
+            </div >
+
+
+            {:widget('forms/Ueditor',array('content|文章内容|文章内容|420',$info.content))}
+
+
+            {:widget('forms/submit',array('add','立即保存',2))}
+
+
+        </form>
+
+    </div >
+
+
+</div >
+
+
+<script >
+
+
+    layui.use(['element', 'form', 'jquery', 'upload','lucky'], function () {
+        var element = layui.element;
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var upload = layui.upload;
+        var lucky=layui.lucky;
+
+        /**
+         * 提交表单数据
+         */
+        form.on('submit(add)', function (data) {
+            lucky.FormSubmit("{:url('page/EditContent')}", data.field, "table_id", 1);
+            return false;
+        });
+
+    });
+</script >
+
+
+</body>
+</html>

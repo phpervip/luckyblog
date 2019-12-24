@@ -1,0 +1,122 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/8/20-12:56
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: addlink.html
+ *-->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>申请友链</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="{__PLUG_PATH}layui/css/layui.css">
+    <script src="{__HOME_PATH}js/jquery.min.js"></script>
+    <script src="{__PLUG_PATH}layui/layui.js"></script>
+    <style type="text/css">
+        body {
+            cursor: url({__HOME_PATH}images/1.png),default
+        }
+        a:hover {
+            cursor: url({__HOME_PATH}images/2.png),pointer
+        }
+    </style>
+</head>
+<body>
+<div class="ok-body">
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <div class="layui-card-body" style="padding: 15px;">
+                <div class="layui-form">
+
+                    <div class="layui-form-item" >
+                        <label class="layui-form-label">博客名称：</label>
+                        <div class="layui-input-block input-custom-width"  style="">
+                            <input type="text" name="name" placeholder="网站或者博客名称" lay-verify="required" lay-verType="tips" lay-reqText="网站或者博客名称"  autocomplete="off"  class="layui-input ">
+                        </div>
+                    </div>
+                    <div class="layui-form-item" >
+                        <label class="layui-form-label">网站地址：</label>
+                        <div class="layui-input-block input-custom-width"  style="">
+                            <input type="text" name="href" placeholder="以http://或者https://开头" lay-verify="required|url" lay-verType="tips" lay-reqText="请输入正确的地址"  autocomplete="off"  class="layui-input ">
+                        </div>
+                    </div>
+                    <div class="layui-form-item" >
+                        <label class="layui-form-label">联系邮箱：</label>
+                        <div class="layui-input-block input-custom-width"  style="">
+                            <input type="text" name="email" placeholder="联系邮箱" lay-verify="required|email" lay-verType="tips" lay-reqText="请输入正确的邮箱地址"  autocomplete="off"  class="layui-input ">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item layui-layout-admin " style="width: 100%">
+                        <div class="layui-input-block">
+                            <div class="layui-footer" style="left: 0px;text-align: center;">
+                                <button class="layui-btn" lay-submit="" lay-filter="add">立即提交</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+<script>
+
+    layui.use(['element', 'form', 'jquery'], function () {
+        var element = layui.element;
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+
+        /**
+         * 提交表单数据
+         */
+        form.on('submit(add)', function (data) {
+            $.ajax({
+                url:"{:url('index/link/addlink')}",
+                type:'post',
+                data:data.field,
+                error: function(error) {
+                    layer.msg("服务器错误或超时");
+                    return false;
+                },
+                beforeSend:function(){
+                    layer.load(2);
+                },
+                success:function(data)
+                {
+                    if (data.code==1) {
+                        layer.msg(data.msg,{icon:1,time:1000,shade:0.3,anim:4},function () {
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                        });
+                    }else{
+                        layer.msg(data.msg,{icon:15,time:1000,shade:0.3,anim:4},function () {
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                        });
+                    }
+                },
+                complete:function(){
+                    layer.closeAll('loading');
+                }
+            });
+            return false;
+        });
+
+    })
+</script>
+
+
+</body>
+</html>

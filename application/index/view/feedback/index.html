@@ -1,0 +1,131 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/8/16-17:19
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: index.html
+ *-->
+
+ {/*引入基类模板*/}
+{extend name='public/base' /}
+
+{block name="css"}
+<style>
+    .gbox { padding: 20px; overflow: hidden; }
+    .gbox p { margin-bottom: 10px }
+    p.fbtime { color: #000; }
+    .fbtime span { float: right; color: #999; font-size: 12px; }
+    p.fbinfo { margin: 10px 0; }
+    .fb ul {
+        margin: 1px 0px;
+        border-bottom: #ececec 1px solid;
+    }
+    .hf ul { padding: 5px 10px; background: #f9f9f9; }
+    .hf { margin: 0 10px; padding-bottom: 10px; border-bottom: #dedddd 1px dashed; }
+    textarea#lytext { width: 100%; }
+    .zzhf{word-wrap : break-word;}
+    .amg{width: 60px;height: 60px;border-radius: 50%; float: left;}
+</style>
+
+{/block}
+
+{block name="content"}
+<article>
+    <div class="container">
+        <h1 class="t_nav">
+            <span>Standing firm is to challenge difficult courageously and to leave the smile after sccess to oneself</span>
+            <a href="/" class="n1">网站首页</a><a href="javascript:" class="n2">{$nav_id|get_nav_name}</a></h1>
+        <div class="news_infos">
+
+            {volist name="data" id="v"}
+            <div class="fb">
+                <ul >
+                    <img src="{empty name='$v.img'}{__HOME_PATH}images/avatar.jpg {else /} {$v.img} {/empty}" class="amg"  >
+                    <p class="fbtime"><span> {$v.create_time|friend_time} </span> {$v.username}</p>
+                    <p class="fbinfo">{$v.content}</p>
+                </ul>
+            </div>
+            <?php  $com=comment($v['id']); ?>
+            {if !empty($com)}
+            <div class="hf">
+                <ul>
+                    <p class="zzhf"><font color="#FF0000">站长回复:&nbsp;</font>{$com}</p>
+                </ul>
+            </div>
+            {/if}
+            {/volist}
+
+            <!--分页-->
+            <div style="margin: 1px 0;height:20px;text-align: center;line-height: 20px;">
+                {$page}
+            </div>
+
+
+            <!--发表留言-->
+            <div id="comment" class="comment comment-main" style="margin-top: 60px;">
+                <div style="margin: 0 0 0 20px;color: #ff5e3a;">发表留言</div>
+                <div style="padding: 20px">
+                    <form class="commentform" id="comment-form">
+                        <div id="user-name-content" class="user-name-content">欢迎您：<span class="iconfont"></span> <b id="user-name" style="color:#fa889b;"></b></div>
+                        <div style="display: flex">
+                            <img id="avatar" src="{__HOME_PATH}images/avatar.jpg" height="42" width="42" class="avatar-42">
+                            <div style="width: 100%; margin-left: 5px;">
+                                <div class="form-group" id="user-info" style="overflow: hidden;">
+                                    <input type="hidden" id="image" name="img" >
+                                    <input type="text" name="qq" id="qq" placeholder="QQ（可获取头像和昵称）">
+                                    <input type="text" name="username" id="username" placeholder="自动获取" autocomplete="off" readonly="">
+                                </div>
+                                <div class="comment-textarea" style="margin-top: 5px">
+                                    <textarea id="comment-textarea" name="content" placeholder="既然来了就留下言呗" class="" style="height: 50px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="comment-submit">
+                            <button id="submitCommentBtn" type="button" class="commentbutton">提交</button>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+   {/*右侧*/}
+    <div class="sidebar">
+
+        <div class="about">
+            <p class="avatar"> <img src="{__HOME_PATH}images/my.jpg" id="logo1" alt="杰瑞克"> </p>
+            <p class="abname">杰瑞克 | 小贺</p>
+            <p class="abposition">码农一位</p>
+            <p class="abtext" style="text-indent: 2em ">
+                从2019年8月20日起，博客已运行<span id="runtime_span">0天1小时0分31秒</span>，
+                主要分享一些php，web技术。希望大家能够持续关注我，有什么想说的及问题反馈的都可以在这里留言。</p>
+            <script type="text/javascript">
+                function show_runtime(){
+                    window.setTimeout("show_runtime()",1000);X=new
+                    Date("08/20/2019 9:22:00");
+                    Y=new Date();T=(Y.getTime()-X.getTime());M=24*60*60*1000;
+                    a=T/M;A=Math.floor(a);b=(a-A)*24;B=Math.floor(b);c=(b-B)*60;C=Math.floor((b-B)*60);D=Math.floor((c-C)*60);
+                    runtime_span.innerHTML=A+"天"+B+"小时"+C+"分"+D+"秒"
+                }
+                show_runtime();
+            </script>
+        </div>
+
+
+        {include file="public/card" /}
+
+
+    </div>
+    </div>
+
+
+
+</article>
+
+{/block}
+
+

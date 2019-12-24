@@ -1,0 +1,225 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/7/12-14:05
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: images.html
+ *-->
+
+
+{include file="public/open_head" /}
+<link rel="stylesheet" href="{__ADMIN_PATH}css/admin.css?v=312">
+<link rel="stylesheet" href="{__ADMIN_PATH}css/sub-page.css">
+<link rel="stylesheet" href="{__ADMIN_PATH}css/fileCommon.css">
+
+    <style >
+
+        @media screen and (max-width: 420px) {
+            .btnDiv {
+                padding-top: 30px;
+                text-align: left;
+            }
+        }
+
+        .showBB .bottomBar {
+            display: block;
+        }
+
+    </style >
+
+<!-- 正文开始 -->
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">相册图库</div>
+                    <div class="layui-card-body">
+                        <div class="btnDiv">
+                            <button id="btnRefresh" class="layui-btn layui-btn-sm layui-btn-primary "><i class="layui-icon"></i>刷新
+                            </button>
+
+                            <button id="dele_all" class="layui-btn layui-btn-sm layui-btn-danger">
+                                <i class="layui-icon layui-icon-delete"></i>批量删除
+                            </button>
+                        </div>
+
+                        <div class="file-list">
+                           {volist name="data" id="vo"}
+                            <div class="file-list-item"  data-url="{$vo['img_url']}" data-name="{$vo['name']}"    data-title="{$vo['name']}">
+                                <div class="file-list-img media " data-id="{$vo['id']}" >
+
+                                    <img class="lazy" alt="ss" data-original="{$vo['img_url']}" />
+
+                                </div>
+                                <div class="file-list-name">{$vo['name']}</div>
+                                <div class="file-list-ck layui-form">
+                                    <input type="checkbox" name="imgCk" value="{$vo['id']}" lay-skin="primary" />
+                                </div>
+                            </div>
+                            {/volist}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+    </div>
+    </div>
+</div>
+<!-- 下拉菜单 -->
+<div class="dropdown-menu dropdown-anchor-top-left" id="dropdownFile">
+    <div class="dropdown-anchor"></div>
+    <ul>
+        <li><a id="open"><i class="layui-icon layui-icon-file"></i> 查看 </a></li>
+        <li><a id="copy" data-clipboard-text=""><i class="layui-icon layui-icon-release"></i> 复制 </a></li>
+        <li><a id="down" data-clipboard-text=""><i class="layui-icon layui-icon-download-circle"></i> 下载 </a></li>
+       <!-- <li>
+            <a id="del" style="color: red !important;">
+                <i class="layui-icon layui-icon-delete" style="font-size: 19px;"></i>&nbsp;&nbsp;&nbsp;删除 
+            </a>
+        </li>-->
+    </ul>
+</div>
+
+
+
+
+
+<script type="text/javascript" src="{__ADMIN_PATH}js/clipboard.min.js"></script>
+
+<script type="text/javascript" src={__ADMIN_PATH}js/jquery.lazyload.min.js?v=1.9.1"></script>
+
+<script type="text/javascript" charset="utf-8">
+    $(function() {
+        $("img.lazy").lazyload({effect: "fadeIn",threshold: 100});
+    });
+</script>
+
+<script>
+
+    layui.use(['jquery', 'layer', 'element', 'upload',  'util' ,'form'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var element = layui.element;
+        var upload = layui.upload;
+        var util = layui.util;
+        var form = layui.form;
+
+        form.render();
+
+        var domain="{$domain}";
+
+        // 刷新
+        $('#btnRefresh').click(function () {
+            FormSubmit("{:url('album/reload')}",{id:1});
+            return false;
+        });
+        var mUrl; //素材地址
+        var show; //素材类型
+        var names; //原始名称
+        var _id; //素材id
+        // 列表点击事件
+        $('body').on('click', '.file-list-item > .file-list-img', function (e) {
+            var name = $(this).parent().data('name');
+            mUrl = $(this).parent().data('url');
+            show=$(this).parent().data('ext');
+            names=name;
+            _id=parseInt( $(this).data('id'));
+            //console.log(_id);
+            $('#copy').attr('data-clipboard-text', domain+mUrl);
+            var $target = $(this);
+            $('#dropdownFile').css({
+                'top': $target.offset().top + 90,
+                'left': $target.offset().left + 25
+            });
+            $('#dropdownFile').addClass('dropdown-opened');
+            if (e !== void 0) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        });
+
+
+        // 点击空白隐藏下拉框
+        $('html').off('click.dropdown').on('click.dropdown', function () {
+            $('#copy').attr('data-clipboard-text', '');
+            $('#dropdownFile').removeClass('dropdown-opened');
+        });
+
+
+        // 打开
+        $('#open').click(function () {
+                layer.photos({
+                    photos: {
+                        title: "查看图片",
+                        data: [{
+                            src: mUrl
+                        }]
+                    },
+                    shade: .01,
+                    closeBtn: 1,
+                    //offset:'50px',
+                    anim: 5
+                })
+        });
+
+        //下载
+        $("#down").click(function () {
+            window.location.href="/admin/common/down_img/id/"+_id; //下载附件
+        });
+
+
+        // 复制
+        var clipboard = new ClipboardJS('#copy');
+        clipboard.on('success', function (e) {
+            e.clearSelection();
+            layer.msg('文件地址已复制', {icon: 1});
+        });
+        clipboard.on('error', function (e) {
+            layer.msg('复制失败，请手动复制', {icon: 2});
+        });
+
+
+
+        //批量删除
+        $("#dele_all").click(function () {
+            var numb =[];
+            $('input:checkbox[name=imgCk]:checked').each(function(k){
+                numb.push($(this).val());
+            });
+            if (numb.length>0){
+
+               var ids = numb.join(',');
+
+                // console.log(numb);
+                layer.confirm('确定要删除选择的文件吗？', function(index){
+                    var load=layer.load(2);
+                    $.post("{:url('album/del')}",{id:ids},function (res) {
+                        if (res.code==200){
+                            layer.close(load);
+                            layer.msg(res.msg,{kin: 'layui-layer-lan', icon:1,time:1500},function () {
+                                layer.close(index);
+                                location.reload();
+                            });
+                        }else {
+                            layer.close(load);
+                            layer.msg(res.msg,{kin: 'layui-layer-lan', icon:5,time:1000},function () {
+                                layer.close(index);
+                            });
+                        }
+                    },'json');
+                });
+
+            }else {
+                layer.msg('未选择有效数据', {
+                    anim: 6
+                });
+            }
+        });
+
+
+    });
+</script>
+
+</body>
+</html>

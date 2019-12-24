@@ -1,0 +1,159 @@
+
+{/*引入基类模板*/}
+{extend name='public/base' /}
+
+{block name="css"}
+<style type="text/css">@media only screen and (max-width: 1280px) {
+    .bz_about  {
+        margin: 0px 0;
+        width: 95%;
+        padding: 5px!important;
+        color: #555;
+        border-left: 4px solid #0cc;
+    }
+}
+
+.gd_title {
+    margin: 20px 0;
+    font-size: 18px;
+    background: url(../images/hline.png) no-repeat bottom right;
+    width: 120px;
+    background-size: 40px;
+    border-bottom: #000 1px dashed;
+    padding-left: 10px;
+    padding-bottom: 5px;
+    display: inline-block;
+}
+.gyw_intro {
+    font-size: 14px;
+}
+.bz_about  {
+    margin: 10px 0;
+    width: 95%;
+    padding: 10px 30px 10px 30px;
+    color: #555;
+    border-left: 4px solid #0cc;
+}
+.ly_button {
+    float: right;
+    width: 100px;
+    background: #000;
+    text-align: center;
+    border-radius: 3px;
+    line-height: 30px;
+}
+.ly_button a {
+    color: #fff;
+    text-decoration:none;
+}
+.bz_about .wb_url {
+    margin: 0 20px;
+}
+.bz_about .wb_url a {
+    color: #1ca368;
+    text-decoration:none;
+}
+</style>
+{/block}
+{block name="content"}
+<article>
+    <div class="container">
+        <h1 class="t_nav">
+            <span>Just Do it!</span>
+            <a href="/" class="n1">网站首页</a><a href="javascript:" class="n2">{$nav_id|get_nav_name}</a></h1>
+        <div class="news_infos">
+            <ul>
+                <div>
+                    <h2 class="gd_title">关于博客</h2>
+                    <div class="gyw_intro">
+                        <div class="bz_about">
+                            ❀域名：<a href="{$domain}" >{$domain}</a >。<br>
+                            ❀服务器：<a href="https://www.aliyun.com/" target="_blank" >阿里云服务器</a >。<br>
+                            ❀备案号：<a href="http://www.beian.miit.gov.cn" target="_blank">浙ICP备17019214号</a>。<br>
+                            ❀开发语言：PHP-7.1。<br>
+                            ❀框架：Thinkphp-5.0。<br>
+                        </div>
+                    </div>
+                    <h2 class="gd_title">关于我</h2>
+                    <div class="gyw_intro">
+                        <h5>个人信息 | Information：</h5>
+                        <div class="bz_about">昵称：亿莲<br>职业：程序媛<br>定居：中国·浙江·杭州<br>职业：PHP开发工程师</div>
+                        <h5>个人简介 | Resume：</h5>
+                        <div class="bz_about">
+                            1、大学专业：金融数学类。
+                            <br>2、五年PHP后端开发者。
+                        </div>
+                        <h5>个人技术 | Technology：</h5>
+                        <div class="bz_about">
+                            1、熟悉HTML、CSS、Javascript、AJAX、JSON等Web页面技术。<br>
+                            2、熟悉LAMP、LNMP网站架构搭建。<br>
+                            3、熟悉主流的ThinkPHP,Laraval等PHP框架。<br>
+                            4、熟悉TPshop,ShopNC的二次开发。<br>
+                            5、熟悉常用的第三方平台的接口开发。<br>
+                            6、熟悉微信小程序的开发。<br>
+                            7、具有良好的编码习惯和逻辑思维能力，抗压能力强。<br>
+                            8、其他技术正在学习中！比如：Python。
+                        </div>
+                        <h5 id="project">个人项目&nbsp;| Projects：</h5>
+                        <div class="bz_about"><span>项目名称、开发框架。</span><br>
+                            1、净宗学院 网站后台 (后端采用TP框架)<span class="wb_url"><a href="http://new.jingzong.org" target="_blank">前往</a></span><br>
+                            2、今现在说法 网站后台(后端采用TP框架)<span class="wb_url"><a href="http://hk.ciguang.tv" target="_blank">前往</a></span><br>
+                            3、慈光讲堂 app 后台及api 接口(后端采用TP框架)<br>
+                            4、慈光宝库 小程序 (后端采用TP框架) <span class="wb_url"></span>
+                        </div>
+                        <h5>个人爱好 | Hobbys：</h5>
+                        <div class="bz_about">
+                            1、纯素食者。<br>
+                            2、喜欢编程。<br>
+                            3、喜欢念经。<br>
+                            4、喜欢锻炼。<br>
+                        </div>
+                    </div>
+                </div>
+            </ul>
+
+        </div>
+    </div>
+
+
+    <!--右侧-->
+    <div class="sidebar">
+
+        <div class="about">
+            <p class="avatar"> <img src="{__HOME_PATH}images/my.jpg" id="logo1" alt="亿莲"> </p>
+            <p class="abname">yyii | 亿莲</p>
+            <p class="abposition">程序媛</p>
+            <p class="abtext" style="text-indent: 2em ">
+                从2019年12月24日起，博客已运行<span id="runtime_span">0天1小时0分31秒</span>，
+                博客主要记录一些程序人生。希望大家能够关注，一起分享知识和经验。</p>
+            <script type="text/javascript">
+                function show_runtime(){
+                    window.setTimeout("show_runtime()",1000);X=new
+            Date("12/24/2019 10:30:00");
+                Y=new Date();T=(Y.getTime()-X.getTime());M=24*60*60*1000;
+                a=T/M;A=Math.floor(a);b=(a-A)*24;B=Math.floor(b);c=(b-B)*60;C=Math.floor((b-B)*60);D=Math.floor((c-C)*60);
+                runtime_span.innerHTML=A+"天"+B+"小时"+C+"分"+D+"秒"
+                }
+                show_runtime();
+            </script>
+        </div>
+          <div class="guanzhu" id="follow-us">
+              <h2 class="hometitle">QQ关注，PHP技术问答群</h2>
+              <ul>
+                  <li class="wx"><img src="{__HOME_PATH}images/qq.jpg"></li>
+              </ul>
+          </div>
+        <div class="guanzhu" >
+            <h2 class="hometitle">微信关注，佛系程序员的修行之路</h2>
+            <ul>
+                <li class="wx"><img src="{__HOME_PATH}images/weixin.png"></li>
+            </ul>
+        </div>
+    </div>
+    </div>
+
+</article>
+
+{/block}
+
+

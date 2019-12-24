@@ -1,0 +1,189 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/7/19-11:11
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: addlink.html
+ **************************************************************
+ *                                                            *
+ *   .=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-.       *
+ *    |                     ______                     |      *
+ *    |                  .-"      "-.                  |      *
+ *    |                 /            \                 |      *
+ *    |     _          |              |          _     |      *
+ *    |    ( \         |,  .-.  .-.  ,|         / )    |      *
+ *    |     > "=._     | )(__/  \__)( |     _.=" <     |      *
+ *    |    (_/"=._"=._ |/     /\     \| _.="_.="\_)    |      *
+ *    |           "=._"(_     ^^     _)"_.="           |      *
+ *    |               "=\__|IIIIII|__/="               |      *
+ *    |              _.="| \IIIIII/ |"=._              |      *
+ *    |    _     _.="_.="\          /"=._"=._     _    |      *
+ *    |   ( \_.="_.="     `--------`     "=._"=._/ )   |      *
+ *    |    > _.="                            "=._ <    |      *
+ *    |   (_/                                    \_)   |      *
+ *    |                                                |      *
+ *    '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-='      *
+ *                                                            *
+ *                    JUST FIND YOUR BUG !                    *
+ **************************************************************
+ *-->
+
+
+{include file="public/open_head" /}
+
+<div class="ok-body">
+
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <!-- <div class="layui-card-header"></div>-->
+
+            <div class="layui-card-body" style="padding: 15px;">
+                <form class="layui-form" action="" lay-filter="component-form-group">
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">上级栏目：</label>
+                        <div class="layui-input-block">
+
+                            <select name="pid" lay-search="">
+                                <option value="0" >顶级栏目</option>
+                                {volist name="tree" id="t"}
+                                <option value="{$t.id}">{$t.title_show}</option>
+                                {/volist}
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="model_id" value="7" >
+
+                    {:token()}
+
+                    {lv:inputform  name="title"  place="请输入名称" label="栏目名称：" verify="required"  /}
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">图标类型：</label>
+                        <div class="layui-input-block input-custom-width">
+                            <input type="radio" name="fontFamily" value="layui-icon" title="layui图标" lay-filter="radio"  checked>
+                            <input type="radio" name="fontFamily" value="fa" title="font-awsome图标" lay-filter="radio" >
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"></div>
+                    </div>
+
+
+                    {lv:inputform  name="href"   place="链接地址" label="链接地址："  word="以http://或者https:// 开头" /}
+
+
+                    <div class="layui-form-item layui-tubiao"   >
+                        <label class="layui-form-label">选择图标：</label>
+                        <div class="layui-input-block input-custom-width">
+                            <input type="text" name="layui-icon"  value=""  id="iconFonts" placeholder="" lay-verify="" lay-verType="tips" lay-reqText=""  autocomplete="off"  class="layui-input">
+                        </div>
+                    </div>
+
+
+                    <div class="layui-form-item font-tubiao"  style="display:none;" >
+                        <label class="layui-form-label">选择图标：</label>
+                        <div class="layui-input-block input-custom-width">
+                            <input type="text" name="fa"  value=""  id="font-tubiao" placeholder="" lay-verify="" lay-verType="tips" lay-reqText=""  autocomplete="off"  class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否显示：</label>
+                        <div class="layui-input-inline input-custom-width">
+                            <input type="radio" name="status" value="1" title="显示" lay-filter=""  checked>
+                            <input type="radio" name="status" value="2" title="隐藏" lay-filter="" >
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"></div>
+                    </div>
+
+
+                    {lv:inputform  name="listorder"  lang="inline"  type="number" value="1"  place="排序" label="菜单排序："  word="数字越大越靠前" /}
+
+                    {:widget('forms/submit',array('add','立即提交'))}
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+<script>
+
+    layui.use(['element', 'form', 'jquery','IconFonts','iconPicker','lucky'], function () {
+        var element = layui.element;
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var IconFonts = layui.IconFonts;
+        var iconPicker=layui.iconPicker;
+        var lucky=layui.lucky;
+
+        //图标选择器
+        iconPicker.render({
+            // 选择器，推荐使用input
+            elem: '#iconFonts',
+            // 数据类型：fontClass/layui_icon，
+            type: 'fontClass',
+            // 是否开启搜索：true/false
+            search: true,
+            // 是否开启分页
+            page: true,
+            // 每页显示数量，默认12
+            limit: 12,
+            // 点击回调
+            click: function (data) {
+                //console.log(data);
+            }
+        });
+
+        IconFonts.render({
+            // 选择器，推荐使用input
+            elem: '#font-tubiao',
+            // 数据类型：fontClass/layui_icon，
+            type: 'fontClass',
+            // 是否开启搜索：true/false
+            search: true,
+            // 是否开启分页
+            page: true,
+            // 每页显示数量，默认12
+            limit: 12,
+            // 点击回调
+            click: function (data) {
+                //console.log(data);
+            }
+        });
+
+        /**
+         *
+         */
+        form.on("radio(radio)",function (data) {
+            //console.log(data);
+            if (data.value=="fa"){
+                $(".layui-tubiao").hide(0);
+                $(".font-tubiao").show(0);
+            } else {
+                $(".layui-tubiao").show(0);
+                $(".font-tubiao").hide(0);
+            }
+        });
+
+
+        form.on('submit(add)', function (data) {
+            lucky.FormSubmit("{:url('navigate/Addlink')}",data.field,"tableFilter",1);
+            return false;
+        });
+
+
+
+    })
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/7/10-16:27
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: view_img.html
+ *-->
+
+{include file="public/head" /}
+
+<style >
+    .picture_list_container{margin: 0px;}
+    .picture_list_container li{width:18.7%;float: left;background: #fff;margin-bottom:1.2%;margin-left :1.1%;}
+    .picture_list_container li:hover{box-shadow:0px 1px 16px -8px #000;}
+    .picture_list_container li .pic{display: block;overflow: hidden;width:92%;margin:4%;position: relative;}
+    .picture_list_container li .pic img{vertical-align: middle;width:100%;}
+    .trans_3{transition: all 0.3s linear;
+        -moz-transition: all 0.3s linear; /* Firefox 4 */
+        -webkit-transition: all 0.3s linear; /* Safari å’Œ Chrome */
+        -o-transition: all 0.3s linear; /* Opera */}
+</style >
+
+<body>
+<!-- 正文开始 -->
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md12">
+
+            <div class="layui-card">
+               <div class="layui-card-header">
+                  <h4>{$info['name']}</h4>
+               </div>
+            </div>
+
+                    <div class="picture_list_container" >
+                        <a name="kv" ></a >
+                        <ul class="pics">
+                            {notempty name="data"}
+                            {volist name="data" id="vo"}
+                            <li class="trans_3">
+                                <a href="javascript:" class="pic" >
+                                    <img class="lazy" data-original="{$vo.img_url}"  src="{__ADMIN_PATH}images/pic_loading_bg.png"  style="display: inline-block;height: auto;">
+                                </a>
+                            </li>
+                            <div class="clear"></div>
+                            {/volist}
+
+                            {/notempty}
+                        </ul>
+                    </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+{include file="public/js" /}
+
+<script src="{__ADMIN_PATH}pview/viewer-jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" href="{__ADMIN_PATH}pview/viewer.min.css" />
+
+<script>
+    $(function() {
+        $('.pics').viewer({
+            url: 'data-original',
+        });
+    });
+</script>
+
+<script src="{__ADMIN_PATH}js/jquery.lazyload.min.js?v=1.9.1"></script>
+
+<script type="text/javascript" charset="utf-8">
+    $(function() {
+        $("img.lazy").lazyload({effect: "fadeIn"});
+    });
+</script>
+
+<script>
+
+    layui.use(['element', 'form', 'jquery', 'laydate'], function () {
+        var element = layui.element;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var laydate = layui.laydate;
+
+    });
+
+</script >
+
+
+</body >
+</html >

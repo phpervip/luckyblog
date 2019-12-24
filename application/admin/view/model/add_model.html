@@ -1,0 +1,63 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/7/24-14:32
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: add_model.html
+ *-->
+
+
+{include file="public/open_head" /}
+
+
+
+<div class="ok-body" >
+
+    <div class="layui-fluid" >
+
+        <form class="layui-form" style="margin-top: 30px;">
+
+            {lv:inputform  label="模型名称：" name="name" place="请输入模型名称" style="width: 350px;"   verify="required"  class="name"   /}
+
+            {:token()}
+
+            {lv:inputform  label="模型表名：" name="tablename" place="请输入模型表名" style="width: 350px;"  /}
+
+            {lv:inputform  label="列表方法：" name="list_template" place="请输入列表方法" lang="inline"  word="查询该模型全部数据的方法名" /}
+
+            {lv:inputform  label="详细方法：" name="show_template" place="请输入详细方法" lang="inline"  word="查看单个数据详细的方法名" /}
+
+            {:widget('forms/submit',array('add','立即提交',2))}
+
+
+        </form>
+
+    </div >
+
+
+</div >
+
+
+<script >
+
+    layui.use(['element', 'form', 'jquery','lucky'], function () {
+        var element = layui.element;
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var lucky=layui.lucky;
+
+        /**
+         * 提交表单数据
+         */
+        form.on('submit(add)', function (data) {
+            lucky.FormSubmit("{:url('model/AddModel')}", data.field, "table_id", 1);
+            return false;
+        });
+
+    });
+</script >
+
+
+</body>
+</html>

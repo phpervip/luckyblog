@@ -1,0 +1,297 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/7/12-10:10
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: listalbum.html
+ *-->
+<!-- 引入基类模板 -->
+{extend name='public/base' /}
+
+
+{block name="search"}
+
+{:widget('forms/search',array('name','相册名称','相册名称'))}
+
+
+{/block}
+
+{block name="btn"}
+<!--按钮区-->
+{:widget('forms/Delbtn',array('删除'))}
+{:widget('forms/Addbtn',array('新增相册',1,'add_menu'))}
+{:widget('forms/reload')}
+<a class="layui-btn icon-btn layui-btn-normal layui-btn-sm " href="{:url('album/index')}" onmouseover="tis(this)" data-title="切换到图集模式" >
+    <i class="layui-icon layui-icon-list"></i> 图集模式
+</a>
+
+{/block}
+
+{block name="table"} <!--表格区-->
+
+{:widget('forms/table')}
+
+{/block}
+
+{block name="js"} <!--js处理区-->
+
+<style type="text/css">
+    .layui-table-cell{
+        text-align:center;
+        height: auto;
+        white-space: normal;
+    }
+    .layui-table img{
+        max-width:300px;
+        max-height: 50px;
+    }
+</style>
+
+
+<!--模板-->
+<script type="text/html" id="operationTpl">
+    <a href="javascript:;"   class="layui-btn layui-btn-xs "  onmouseover="tis(this)"  data-title="查看相册" lay-event="view"><i class="layui-icon layui-icon-camera"></i></a>
+    {:widget('forms/Addbtn',array('添加相册图片',2,'add'))}
+    {:widget('forms/Editbtn',array('编辑相册信息'))}
+
+</script>
+
+<script type="text/html" id="status">
+    <input type="checkbox" name="status"  lay-data="{{d.status}}" value="{{d.id}}"  lay-filter="sexDemo" lay-skin="switch"  lay-text="开启|关闭"  {{ d.status == 1 ? 'checked' : '' }}>
+</script>
+
+
+
+<script type="text/html" id="is_open">
+    <input type="checkbox" name="is_open"  lay-data="{{d.is_open}}" value="{{d.id}}"  lay-filter="is_open" lay-skin="switch"   lay-text="加密|不加密"  {{ d.is_open == 1 ? 'checked' : '' }}>
+</script>
+<script type="text/html" id="is_show">
+    <input type="checkbox" name="is_show"  lay-data="{{d.is_show}}" value="{{d.id}}"  lay-filter="is_show" lay-skin="switch"  lay-text="是|否"  {{ d.is_show == 1 ? 'checked' : '' }}>
+</script>
+
+<script type="text/html" id="is_top">
+    <input type="checkbox" name="is_top"  lay-data="{{d.is_top}}" value="{{d.id}}"  lay-filter="is_top" lay-skin="switch"  lay-text="是|否"  {{ d.is_top == 1 ? 'checked' : '' }}>
+</script>
+
+
+
+<script>
+
+    layui.use(['element', 'table', 'form', 'jquery', 'laydate','lucky','tree'], function () {
+        var element = layui.element;
+        var form = layui.form;
+        var table = layui.table;
+        var $ = layui.jquery;
+        var laydate = layui.laydate;
+        var tree=layui.tree;
+        var lucky=layui.lucky;
+
+        form.render();
+
+        // layer.load(2);
+        table.render({
+            elem: '#tableFilter',
+            url:"{:url('album/listalbum')}",
+            toolbar: true,
+            even: true, //开启隔行背景
+            id:'table_id',
+            page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['limit', 'count', 'prev', 'page', 'next', 'skip','last'] //自定义分页布局
+                //,curr: 5 //设定初始在第 5 页
+                ,groups: 5 //只显示 1 个连续页码
+                ,first: false //不显示首页
+                ,last: false //不显示尾页
+                ,limit:30
+                ,limits:[30,40,50,60,70,80,90,100]
+            },
+            text: {
+                none: '暂无相关数据'
+            },
+            cols: [[
+                {type: 'checkbox'},
+                {field: 'img', title: '相册封面', style:'cursor: pointer;',width: 150, align: "center",templet:function (d) {
+                        return '<img src="'+d.img+'"  layer-index="0" alt="无图" style="height:100px;" />';
+                    }},
+                {field: 'name', minWidth: 130, title: '相册名称'},
+                {field: 'nums', width: 80, title: '数量',sort:true},
+                {field: 'describe', minWidth: 150, title: '相册描述'},
+                {field:'is_open',title:'是否加密',templet: '#is_open',width:110 ,unresize: true},
+                {field: 'password',style:'cursor: pointer;',title: '加密密码',width:130},
+                {field:'is_show',title:'是否显示',templet: '#is_show',width:100 ,unresize: true},
+                {field: 'tags',style:'cursor: pointer;',title: '标签',width:150},
+                {field:'is_top',title:'是否置顶',templet: '#is_top',width:100 ,unresize: true},
+                {field: 'hits',style:'cursor: pointer;',title: '点击量',width:90,sort:true},
+                {field: 'time_formt', title: '添加时间',align: 'center',width:200},
+                {fixed: 'right',templet: '#operationTpl', width: 190, align: 'center', title: '操作'}
+            ]],
+            done: function (res) {
+                layer.closeAll('loading');
+                hoverOpenImg();
+            }
+        });
+
+
+        /**
+         * 鼠标悬浮显示大图
+         *
+         */
+        function hoverOpenImg(){
+            var img_show = null; // tips提示
+            $('td img').hover(function(){
+                var img = "<img class='img_msg' src='"+$(this).attr('src')+"' style='width:100%;' />";
+                img_show = layer.tips(img, this,{
+                    tips:[2, 'rgba(41,41,41,.0)']
+                    ,area: ['12%']
+                });
+            },function(){
+                layer.close(img_show);
+            });
+        }
+
+
+        /**
+         * 表格搜索
+         */
+        form.on('submit(search)', function (obj) {
+            lucky.CreateSearch("table_id",obj.field); //查询
+            return false;
+        });
+
+
+
+        /**
+         * 监听是否显示操作
+         */
+        form.on('switch(is_show)', function(obj){
+            var _id=parseInt(obj.value);
+            var pan=obj.elem.checked;
+            var status;
+            if (pan===false){
+                status=2;
+            }else {
+                status=1;
+            }
+            lucky.Change_status("table_id","album",_id,"is_show",status, obj.othis);
+        });
+
+
+        form.on('switch(is_top)', function(obj){
+            var _id=parseInt(obj.value);
+            var pan=obj.elem.checked;
+            var status;
+            if (pan===false){
+                status=0;
+            }else {
+                status=1;
+            }
+            lucky.Change_status("table_id","album",_id,"is_top",status);
+        });
+
+
+        /**
+         * 监听单行工具操作
+         */
+        table.on('tool(tableFilter)', function (obj) {
+            var data = obj.data;
+
+            var _id=parseInt(data.id);
+            var layEvent = obj.event;
+            if (layEvent==="view"){
+                var open=parseInt(data.is_open);
+                if (open==1){
+                    layer.prompt({
+                        btn: ['确定'],
+                        title: '请输入相册密码！',
+                        closeBtn: 1,
+                        formType: 1,
+                        shade: 0.5,
+                    }, function (value, index) {
+                        $.post("{:url('album/pass_lock')}",{password:value,id:_id},function (res) {
+                            if (res.code==1){
+                                layer.close(index);
+                                layer.msg(res.msg,{icon: 1, time: 1500,shade:0.3, anim: 4},function () {
+                                    var url="/admin/album/ViewImages/id/"+_id;
+                                    var p_layui = parent.layui;//获取父级的layui
+                                    var p_okTab = p_layui.okTab();//拿到导航操作对象
+                                    var page = '<a lay-id="u-"+_id href="javascript:;" data-url="' + url + '"><cite>查看相册</cite><span class="layui-badge-dot"></span></a>';
+                                    p_okTab.tabAdd(page);
+                                });
+                            }else {
+                                layer.msg(res.msg, {anim: 6,time:1500});
+                                return false;
+                            }
+                        });
+                    });
+                } else {
+                    var url="/admin/album/ViewImages/id/"+_id;
+                    var p_layui = parent.layui;//获取父级的layui
+                    var p_okTab = p_layui.okTab();//拿到导航操作对象
+                    var page = '<a lay-id="u-"+_id href="javascript:;" data-url="' + url + '"><cite>查看相册</cite><span class="layui-badge-dot"></span></a>';
+                    p_okTab.tabAdd(page);
+                }
+
+            }else if(layEvent==="edit"){
+
+                var url="/admin/album/EditAlbum/id/"+_id;
+                lucky.CreateForm("编辑相册",'70%','88%',url);
+                return false;
+
+            }else if(layEvent==="add"){
+
+                var url="/admin/album/AddImages/id/"+_id;
+                lucky.CreateForm("上传相册图片",'55%','65%',url);
+                return false;
+            }
+
+        });
+
+
+        var active = {
+            add_menu:function(){
+                var url="{:url('album/AddAlbum')}";
+                lucky.CreateForm("添加相册",'70%','88%',url);
+                return false;
+            },
+            del: function(){ //获取选中数据
+                var checkStatus = table.checkStatus('table_id'),data = checkStatus.data;
+                var num=0;
+                var id=[];
+                for (var i in data) {
+                    num++;
+                    id.push(data[i].id);
+                }
+                if (num<1) {
+                    layer.msg("请选择一项",{time:1500});return false;
+                }
+                lucky.Delete_data(id,"{:url('album/delete')}","table_id","确定删除选中的相册吗？删除后相册图片会放到回收相册中！");
+            },
+            reload: function(){
+                lucky.CreateReload("table_id");
+            },
+            move:function () {
+                var checkStatus = table.checkStatus('table_id'),data = checkStatus.data;
+                var num=0;
+                var id=[];
+                for (var i in data) {
+                    num++;
+                    id.push(data[i].id);
+                }
+                if (num<1) {
+                    layer.msg("请选择一项",{time:1500});return false;
+                }
+                layer.msg("功能待开发",{time:1500});return false;
+            }
+
+        };
+
+        $('.do_btn .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+
+    });
+
+</script >
+
+{/block}

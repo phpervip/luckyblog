@@ -1,0 +1,211 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/8/19-16:34
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: index.html
+ *-->
+
+<!-- 引入基类模板 -->
+{extend name='public/base' /}
+
+{block name="search"}
+
+{:widget('forms/search',array('title','标题名称','轮播标题'))}
+
+
+{/block}
+
+{block name="btn"}
+<!--按钮区-->
+{:widget('forms/Delbtn',array('删除'))}
+{:widget('forms/Addbtn',array('新增轮播',1,'add_bo'))}
+{:widget('forms/reload')}
+
+{/block}
+
+{block name="table"} <!--表格区-->
+
+{:widget('forms/table')}
+
+{/block}
+
+{block name="js"} <!--js处理区-->
+
+<style type="text/css">
+    .layui-table-cell{
+        text-align:center;
+        height: auto;
+        white-space: normal;
+    }
+    .layui-table img{
+        max-width:300px;
+        max-height: 50px;
+    }
+</style>
+
+
+<!--模板-->
+<script type="text/html" id="operationTpl">
+    {:widget('forms/Editbtn',array('编辑轮播信息'))}
+
+</script>
+
+<script type="text/html" id="status">
+    <input type="checkbox" name="status"  lay-data="{{d.status}}" value="{{d.id}}"  lay-filter="status" lay-skin="switch"  lay-text="显示|关闭"  {{ d.status == 1 ? 'checked' : '' }}>
+</script>
+
+
+
+
+
+
+<script>
+
+    layui.use(['element', 'table', 'form', 'jquery', 'laydate','lucky','tree'], function () {
+        var element = layui.element;
+        var form = layui.form;
+        var table = layui.table;
+        var $ = layui.jquery;
+        var laydate = layui.laydate;
+        var tree=layui.tree;
+        var lucky=layui.lucky;
+
+        form.render();
+
+        // layer.load(2);
+        table.render({
+            elem: '#tableFilter',
+            url:"{:url('bo/index')}",
+            even: true, //开启隔行背景
+            id:'table_id',
+            page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['limit', 'count', 'prev', 'page', 'next', 'skip','last'] //自定义分页布局
+                //,curr: 5 //设定初始在第 5 页
+                ,groups: 5 //只显示 1 个连续页码
+                ,first: false //不显示首页
+                ,last: false //不显示尾页
+                ,limit:30
+                ,limits:[30,40,50,60,70,80,90,100]
+            },
+            text: {
+                none: '暂无相关数据'
+            },
+            cols: [[
+                {type: 'checkbox'},
+                {field: 'image', title: '轮播图片', style:'cursor: pointer;',width: 190, align: "center",templet:function (d) {
+                        return '<img src="'+d.image+'"  layer-index="0" alt="无图" style="height:100px;" />';
+                    }},
+                {field: 'title', minWidth: 130, title: '标题名称'},
+                {field: 'url', width: 200, title: '连接地址',templet:function (d) {
+                        return '<a target="_blank" href="'+d.url+'"  title="点击查看" >'+d.url+'</a>';
+                    }},
+                {field:'status',title:'是否显示',templet: '#status',width:110 ,unresize: true},
+                {field: 'time_formt', title: '添加时间',align: 'center',width:200},
+                {fixed: 'right',templet: '#operationTpl', width: 100, align: 'center', title: '操作'}
+            ]],
+            done: function (res) {
+                layer.closeAll('loading');
+                hoverOpenImg();
+            }
+        });
+
+
+        /**
+         * 鼠标悬浮显示大图
+         *
+         */
+        function hoverOpenImg(){
+            var img_show = null; // tips提示
+            $('td img').hover(function(){
+                var img = "<img class='img_msg' src='"+$(this).attr('src')+"' style='width:100%;' />";
+                img_show = layer.tips(img, this,{
+                    tips:[2, 'rgba(41,41,41,.0)']
+                    ,area: ['12%']
+                });
+            },function(){
+                layer.close(img_show);
+            });
+        }
+
+
+        /**
+         * 表格搜索
+         */
+        form.on('submit(search)', function (obj) {
+            lucky.CreateSearch("table_id",obj.field); //查询
+            return false;
+        });
+
+
+
+        /**
+         * 监听是否显示操作
+         */
+
+        form.on('switch(status)', function(obj){
+            var _id=parseInt(obj.value);
+            var pan=obj.elem.checked;
+            var status;
+            if (pan===false){
+                status=0;
+            }else {
+                status=1;
+            }
+            lucky.Change_status("table_id","bo",_id,"status",status,obj.othis);
+        });
+
+
+        /**
+         * 监听单行工具操作
+         */
+        table.on('tool(tableFilter)', function (obj) {
+            var data = obj.data;
+            var _id=parseInt(data.id);
+            var layEvent = obj.event;
+            if(layEvent==="edit"){
+                var url="/admin/bo/EditBo/id/"+_id;
+                lucky.CreateForm("编辑轮播",'50%','60%',url,'table_id');
+                return false;
+
+            }
+
+        });
+
+
+        var active = {
+            add_bo:function(){
+                var url="{:url('bo/AddBo')}";
+                lucky.CreateForm("添加轮播图",'45%','60%',url,'table_id');
+                return false;
+            },
+            del: function(){ //获取选中数据
+                var checkStatus = table.checkStatus('table_id'),data = checkStatus.data;
+                var num=0;
+                var id=[];
+                for (var i in data) {
+                    num++;
+                    id.push(data[i].id);
+                }
+                if (num<1) {
+                    layer.msg("请选择一项",{time:1500});return false;
+                }
+                lucky.Delete_data(id,"{:url('bo/delete')}","table_id");
+            },
+            reload: function(){
+                lucky.CreateReload("table_id");
+            }
+
+        };
+
+        $('.do_btn .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+
+    });
+
+</script >
+
+{/block}

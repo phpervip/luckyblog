@@ -1,0 +1,202 @@
+<!-- 引入基类模板 -->
+{extend name='public/base' /}
+
+{block name="content"}
+<article>
+    <!--banner begin-->
+    <div class="picsbox">
+        <div class="banner">
+            <div id="banner" class="fader">
+                {volist name="bo" id="v"}
+                <li class="slide">
+                    <a href="{$v.url}" target="_blank"><img src="{$v.image}" alt="{$v.title}" title="{$v.title}"><span class="imginfo">{$v.title}</span></a>
+                </li>
+                {/volist}
+
+                <div class="fader_controls">
+                    <div class="page prev" data-target="prev">&lsaquo;</div>
+                    <div class="page next" data-target="next">&rsaquo;</div>
+                    <ul class="pager_list">
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--banner end-->
+
+        <div class="toppic">
+
+            {volist name="top_article" id="v"}
+            <li>
+                <a href="{$v.url}" target="_blank" title="{$v.title}"> <i>
+                    <img data-original="{$v.image_url}" alt="{$v.title}">
+                </i>
+                    <h2>{$v.title|title_str_cut="80"}</h2>
+                    <span>{$v.n_title}</span> </a>
+            </li>
+            {/volist}
+
+        </div>
+
+    </div>
+    <div class="blank"></div>
+
+
+
+
+    <!--blogsbox begin-->
+    <div class="blogsbox">
+        {//图片广告}
+        {notempty name="advice_pic"}
+        <div class="pics">
+       <ul>
+        {lv:list table="advice" limit="3" where="type=1"  order="create_time desc" id="v"}
+          <li><a href="{$v.url}" target="_blank"><img src="{$v.image}" alt="{$v.name}" ></a ><span>{$v.name}</span></li>
+        {/lv:list}
+      </ul>
+        </div>
+        {/notempty}
+
+        {notempty name="advice_zi"}
+      	<ul id="blogtab">  {//文字广告}
+        <li class="current">站长广告位</li>
+
+        {lv:list table="advice" limit="8" where="type=2" id="v"}
+        <li><a href="{$v.url}" target="_blank"  title="{$v.name}">{$v.content}</a ></li>
+        {/lv:list}
+        </ul>
+        {/notempty}
+
+
+        <!--文章内容-->
+        {volist name="article_data" id="v" empty="暂时没有数据"}
+        <div class="blogs" data-scroll-reveal="enter bottom over 1s">
+            <h3 class="blogtitle">
+                <a href="{$v.url}" target="_blank">
+                   {eq name="$v.is_top" value="1"} <font style="font-weight: bold;font-size: 1.07em;color: #3690cf;">【顶】</font> {/eq}
+                    <font style="font-weight: bold;font-size: 1.07em">{$v.title}</font>
+            </a>
+                {if condition="$v.source eq '原创'"}
+                <span class="layui-badge layui-bg-blue" style="float: right;">{$v.source}</span>
+                {else /}
+                <span class="layui-badge layui-bg-orange" style="float: right;">{$v.source}</span>
+                {/if}
+            </h3>
+
+            <span class="blogpic"><a href="{$v.url}" title="{$v.title}">
+                <img data-original="{$v.image_url}" alt="{$v.title}" title="{$v.title}"></a>
+            </span>
+
+            <p class="blogtext">
+              {$v.description}
+            </p>
+            <div class="bloginfo">
+                <ul>
+                    <li class="author">
+                        <a href="javascript:void">{$v.author}</a>
+                    </li>
+                    <li class="lmname">
+                        <a href="javascript:">{$v.n_title}</a>
+                    </li>
+                    <li class="timer">{$v.create_time|friend_time}</li>
+                    <li class="view"><span>{$v.hits}</span>次阅读</li>
+                    <li class="like">{$v.zan}</li>
+
+                </ul>
+            </div>
+        </div>
+        {/volist}
+        <!--文章内容结束-->
+
+        <!--分页-->
+        <div style="margin: 30px 0;height:30px;text-align: center;line-height: 30px;">
+            {$page}
+        </div>
+
+
+    </div>
+    <!--blogsbox end-->
+    <!--内容区-->
+    {/block}
+
+    <!--右侧&lt;!&ndash;&ndash;&gt;-->
+    <!---->
+    {block name="right"}
+
+    <div class="sidebar">
+        <div class="zhuanti">
+            <h2 class="hometitle">特别推荐</h2>
+            <ul>
+
+                {lv:article  id="v" limit="3" where="is_recommend=1"}
+                <li> <i><img src="{$v.image_url}"></i>
+                    <p>{$v.title|title_str_cut="70"} <span><a href="{$v.url}" target="_blank">阅读</a></span> </p>
+                </li>
+                {/lv:article}
+
+            </ul>
+        </div>
+
+        <div class="tuijian">
+            <h2 class="hometitle">点击排行</h2>
+
+            {lv:article  id="v" limit="5" order="hits DESC,create_time DESC"}
+
+            {if condition="$key eq '0'"}
+            <ul class="tjpic">
+                <i><img data-original="{$v.image_url}" alt="{$v.title}"></i>
+                <p>
+                    <a href="{$v.url}" target="_blank">{$v.title|title_str_cut="60"}</a>
+                </p>
+            </ul>
+            {else /}
+
+            <ul class="sidenews">
+                <li> <i><img data-original="{$v.image_url}" alt="{$v.title}"></i>
+                    <p>
+                        <a href="{$v.url}" target="_blank">{$v.title|title_str_cut="75"}</a>
+                    </p>
+                    <span>{$v.create_time|friend_time}</span>
+                </li>
+            </ul>
+            {/if}
+
+            {/lv:article}
+
+
+
+
+        </div>
+
+        <div class="cloud" >
+            <h2 class="hometitle">标签云</h2>
+            <ul >
+                {volist name="tags" id="t"}
+                <a href="/tags.html?tag={$t}" target="_blank" >{$t}</a>
+                {/volist}
+
+            </ul>
+        </div>
+        <div class="links">
+            <h2 class="hometitle">友情链接</h2>
+            <ul>
+                {lv:link  id="v"  order="create_time DESC"  limit="15" where="type=1"}
+                <li>
+                    <a href="{$v.href}?from=www.jackhhy.cn" target="_blank">{$v.name}</a>
+                </li>
+                {/lv:link}
+            </ul>
+        </div>
+
+
+       {include file="public/card" /}
+
+    </div>
+</article>
+<div class="clearfix"></div>
+
+<!--右侧区-->
+{/block}
+
+
+
+

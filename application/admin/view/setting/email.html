@@ -1,0 +1,417 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/7/4-14:39
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: email.html
+ *-->
+
+{include file="public/head" /}
+
+<body>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body" pad15>
+
+                    <div class="layui-tab ">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">邮件设置</li>
+                            <li>批量邮件发送</li>
+                            <li>邮件发送统计</li>
+                        </ul>
+                        <div class="layui-tab-content">
+
+                            <!--邮件设置-->
+                            <div class="layui-tab-item layui-show">
+                            <div class="layui-form" lay-filter="" id="form">
+
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">发件箱</label>
+                                    <div class="layui-input-inline">
+                                        <input name="email[from_email]" type="text"  lay-vertype="tips" lay-verify="email|required" autocomplete="off" class="layui-input" value="{$info->from_email}">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">发送邮件的邮箱地址</div>
+                                </div>
+
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">发件人</label>
+                                    <div class="layui-input-inline">
+                                        <input name="email[from_name]"  autocomplete="off"  lay-verify="required" class="layui-input" type="text" value="{$info->from_name}">
+                                    </div>
+                                </div>
+
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">smtp服务器</label>
+                                    <div class="layui-input-inline">
+                                        <input name="email[smtp]" type="text" lay-verify="require" lay-vertype="tips" autocomplete="off" class="layui-input" value="{$info->smtp}">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">如：smtp.126.com</div>
+                                </div>
+
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">账号</label>
+                                    <div class="layui-input-inline">
+                                        <input name="email[username]" type="text" lay-verify="email"  lay-vertype="tips" lay-verify="required" autocomplete="off" autocomplete="off" class="layui-input" value="{$info->username}">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">发送邮件的邮箱账户</div>
+                                </div>
+
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">密码</label>
+                                    <div class="layui-input-inline">
+                                        <input type="password" name="email[password]" lay-vertype="tips"  autocomplete="off" class="layui-input" value="{$info->password}">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">发送邮件的邮箱密码</div>
+                                </div>
+
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">邮件标题</label>
+                                    <div class="layui-input-block"  style="max-width: 400px">
+                                        <input name="email[title]" lay-verify="required" autocomplete="off" lay-vertype="tips"  class="layui-input" type="text" value="{$info->title}">
+                                    </div>
+                                </div>
+                                {:token()}
+
+
+                                {:widget('forms/Layedit',array('email[content]|邮件模板|请输入内容|2|required',$info->content))}
+
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <button class="layui-btn" lay-submit lay-filter="setmyinfo">确认修改</button>
+                                        &nbsp;&nbsp;
+                                        <button class="layui-btn layui-btn-normal" id="mailto" >发送测试</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            </div>
+
+                            <!--批量邮件发送-->
+                            <div class="layui-tab-item">
+
+                                <div class="layui-form" lay-filter="">
+                                    <div class="layui-form-item ">
+                                        <label class="layui-form-label">昵称：</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="nickname" lay-verify="required" value="jackhhy" autocomplete="off" class="layui-input">
+                                        </div>
+                                        <div class="layui-form-mid layui-word-aux">发件人的昵称</div>
+                                    </div>
+                                    <div class="layui-form-item ">
+                                        <label class="layui-form-label">邮件标题：</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="subject" value="{$info->title}" lay-verify="required" placeholder="请填写邮件标题" autocomplete="off" class="layui-input">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="layui-form-item layui-form-text">
+                                        <label class="layui-form-label">邮件内容：</label>
+                                        <div class="layui-input-block " style="max-width:800px;">
+                                            <textarea class="layui-textarea" name="content" placeholder="邮件内容必须填写" lay-verify="content"   id="LAY_demo1" >{$info->content}</textarea>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">导入邮箱：</label>
+                                        <button style="" type="button" class="layui-btn" id="test3">上传文件</button>&nbsp;&nbsp;&nbsp;
+                                        <font color="red">支持：txt,xlxs,xlx文件 </font>
+                                        <a class="layui-btn layui-btn-primary"  href="{:url('setting/download')}" title="下载模板文件">下载模板</a>
+                                    </div>
+
+                                    <div class="layui-form-item ">
+                                        <label class="layui-form-label">模板讲解：</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" readonly autocomplete="off" class="layui-input" value="xlsx,xlx文件请先下载模板，txt文件每行一个邮箱">
+                                        </div>
+                                    </div>
+
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">邮箱：</label>
+                                        <div class="layui-input-block">
+                                            <textarea name="maile" id="xin" class="layui-textarea" lay-verify="required" placeholder="多个邮箱用英文,隔开"></textarea>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block">
+                                            <button class="layui-btn" lay-submit lay-filter="demo1">确认发送</button>
+                                            &nbsp;&nbsp;
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!--邮件发送情况-->
+                            <div class="layui-tab-item">
+
+                                <div class="layui-card-header" style="line-height: 55px;">
+                                    <div class="layui-btn-container do_btn">
+                                        <!--按钮区-->
+                                        <button class="layui-btn layui-btn-sm layui-btn-danger" data-type="del" ><i class="layui-icon layui-icon-delete" ></i >删除</button >
+                                        <button class="layui-btn layui-btn-sm layui-btn-primary" data-type="reload" ><i class="fa fa-refresh" ></i > 刷新</button >
+                                        <button class="layui-btn layui-btn-normal layui-btn-sm"  onmouseover="tis(this)" lay-submit="" lay-filter="export" data-title="导出表格全部数据">
+                                            <i class="fa fa-tags"></i> 导出数据
+                                        </button>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="layui-card-body">
+                                    <!--表格区-->
+                                    {:widget('forms/table')}
+
+                                </div>
+
+
+                                <!--模板-->
+                                <script type="text/html" id="operationTpl">
+                                    <a href="javascript:;"   class="layui-btn layui-btn-danger layui-btn-xs "  onmouseover="tis(this)"  data-title="删除文章" lay-event="del"><i class="layui-icon " >&#xe640;</i></a>
+                                </script>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{__ADMIN_PATH}js/base.js"></script>
+
+<script >
+
+    layui.use(['element','form', 'jquery','lucky','upload','layedit','soulTable','table'], function () {
+        var element = layui.element;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var lucky=layui.lucky;
+        var upload=layui.upload;
+        var  soulTable = layui.soulTable;
+        var table=layui.table;
+
+        form.render();
+
+        var myTable=table.render({
+            elem: '#tableFilter',
+            url:"{:url('setting/sends')}",
+            //toolbar: '#toolbarDemo',
+            even: true, //开启隔行背景
+            id:'table_id',
+            page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['limit', 'count', 'prev', 'page', 'next', 'skip','last'] //自定义分页布局
+                //,curr: 5 //设定初始在第 5 页
+                ,groups: 5 //只显示 1 个连续页码
+                ,first: false //不显示首页
+                ,last: false //不显示尾页
+                ,limit:15
+                ,limits:[15,30,40,60,80,100]
+            },
+            height: $(document).height() - $('#tableFilter').offset().top - 20
+            ,
+            text: {
+                none: '暂无相关数据'
+            },
+            cols: [[
+                {type: 'checkbox'},
+                 {field: 'id',  title: 'ID',width:60},
+                {field: 'email',style:'cursor: pointer;',title: '邮箱',filter: true,width: 200},
+                {field: 'title',style:'cursor: pointer;',title: '标题',width: 280},
+                {field: 'nickname',style:'cursor: pointer;',title: '发送的名称',width: 200},
+                {field: 'content',style:'cursor: pointer;',title: '邮件内容',minWidth: 350},
+                {field: 'ok',style:'cursor: pointer;',title: '发送状态',width: 200},
+                {field: 'create_time', title: '发布时间',align: 'center',width:160},
+                {fixed:'right', width:80, align:'center',templet: '#operationTpl',title: '操作'}
+            ]],
+            filter: {
+                items:['column','data','condition','editCondition','excel'] //用于控制表头下拉显示，可以控制顺序、显示
+                ,bottom: true // 是否显示底部筛选区域，默认为true
+            },
+
+            done: function (res) {
+                soulTable.render(this);
+            }
+        });
+
+
+        //导出数据
+        form.on('submit(export)', function () {
+            soulTable.export(myTable);
+        });
+
+
+        //自定义工具栏
+        var demo1s= layui.layedit.build('LAY_demo1', {
+            tool: ['strong','italic','underline','del','link', 'unlink', '|', 'left', 'center', 'right']
+            ,height: 200
+        });
+
+        form.on('submit(demo1)', function(data) {
+            loading = layer.load(2, {
+                shade: [0.2, '#000'] //0.2透明度的白色背景
+            });
+            var param = data.field;
+            //console.log(param);
+            $.post(
+                "{:url('setting/send_post')}",
+                param,
+                function(data) {
+                    if(data.code == 1) {
+                        layer.close(loading);
+                        layer.msg(data.msg, {
+                            icon: 1,
+                            time: 3000
+                        }, function() {
+                            location.reload();
+                        });
+                    } else {
+                        layer.close(loading);
+                        layer.msg(data.msg, {
+                            icon: 2,
+                            anim: 6,
+                            time: 3000
+                        });
+                    }
+                }).error(function() {
+                layer.close(loading);
+                layer.msg('服务器错误', {
+                    icon: 2,
+                    anim: 6,
+                    time: 1500
+                });
+            });
+            return false;
+        });
+
+        //自定义验证规则
+        form.verify({
+            content: function(value){
+                layui.layedit.sync(demo1s);
+            },
+        });
+
+        //指定允许上传的文件类型
+        upload.render({
+            elem: '#test3'
+            ,url: "{:url('setting/upfile')}"
+            ,accept: 'file' //普通文件
+            ,exts: 'txt|xlsx|xls'
+            , before: function (input) {
+                loading = layer.load(2, {
+                    shade: [0.2, '#000'] //0.2透明度的白色背景
+                });
+            }
+            ,done: function(res){
+                layer.close(loading);
+                if (res.code==1) {
+                    layer.msg(res.msg, {icon: 1, time: 1000},function () {
+                        $("#xin").val(res.str);
+                    });
+                }else {
+                    layer.msg(res.msg, {icon: 2, time: 1000});
+                }
+                //console.log(res)
+            }
+            , error: function () {
+                layer.close(loading);
+                layer.msg('网络错误',{icon:2,time:1500});
+            }
+        });
+
+        /**
+         *邮件测试
+         */
+       $("#mailto").click(function () {
+           layer.prompt({
+               formType: 0,
+               value: '',
+               title: '请输入邮箱地址,不要重复点确定键'
+           }, function(value, index, elem){
+               email = value;
+               $.ajax({
+                   url:"{:url('admin/setting/mailto')}"
+                   ,type:'post'
+                   ,data:{email:email}
+                   ,beforeSend:function(){
+                           layer.load(2);
+                   }
+                   ,success:function(res) {
+                       layer.msg(res.msg,{time:1500});
+                       if(res.code == 1) {
+                           layer.close(index);
+                       }
+                   },
+                   complete:function(){
+                       layer.closeAll('loading');
+                   }
+               })
+           });
+           return false;
+       });
+
+
+
+        /**
+         * 表格提交
+         */
+        form.on('submit(setmyinfo)', function (data) {
+            lucky.FormSubmit("{:url('admin/setting/email')}",data.field);
+            return false;
+        });
+
+
+        table.on('tool(tableFilter)', function (obj) {
+            var data = obj.data;
+            // console.log(JSON.stringify(data));
+            var _id=parseInt(data.id);
+            var layEvent = obj.event;
+
+            if(layEvent==="del"){
+                lucky.Delete_data(_id,"{:url('setting/email_delete')}","table_id");
+            }
+        });
+
+
+        var active = {
+            del: function(){ //获取选中数据
+                var checkStatus = table.checkStatus('table_id'),data = checkStatus.data;
+                var num=0;
+                var id=[];
+                for (var i in data) {
+                    num++;
+                    id.push(data[i].id);
+                }
+                if (num<1) {
+                    layer.msg("请选择一项",{time:1500});return false;
+                }
+                lucky.Delete_data(id,"{:url('setting/email_delete')}","table_id");
+            },
+            reload: function(){
+                lucky.CreateReload("table_id");
+            }
+        };
+
+        $('.do_btn .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+
+</script >
+
+</body >
+</html>

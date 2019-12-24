@@ -1,0 +1,101 @@
+<style type="text/css">
+    .layui-upload-drag {
+        position: relative;
+        padding: 10px;
+        border: 1px dashed #e2e2e2;
+        background-color: #fff;
+        text-align: center;
+        cursor: pointer;
+        color: #999;
+    }
+</style>
+<div class="layui-input-block">
+    <div class="layui-upload-drag">
+        <a href="{if $imgUrl neq null}{$imgUrl}{else}javascript:void(0);{/if}" {if $imgUrl neq null}target="black"{/if}>
+        <img id="{$name}_show_id" src="{if $imgUrl neq null}{$imgUrl}{else}{__ADMIN_PATH}images/default_upload.png{/if}" alt="上传图片" width="{$imgW}" height="{$imgH}">
+        </a>
+        <input type="hidden" id="{$name}" name="{$name}" value="{if $img neq null}{$img}{/if}"   lay-verify="required" lay-verType="tips" lay-reqText="图片没有上传">
+    </div>
+    <div style="margin-top:10px;">
+        <button type="button" class="layui-btn" id="btnUploadImg_{$name}"><i class="layui-icon">&#xe67c;</i>上传{$nameStr}</button>
+    </div>
+    {if $sizeStr neq null}
+    <div class="layui-form-mid layui-word-aux">建议尺寸：{$sizeStr}</div>
+    {/if}
+</div>
+
+<script type="text/javascript">
+    layui.config({
+        base:  local_url+ 'module/'
+    }).extend({
+        croppers: 'cropper/croppers',
+    }).use(['upload','croppers'],function(){
+
+        //声明变量
+        var layer = layui.layer
+            ,upload = layui.upload
+            ,croppers = layui.croppers
+            ,$ = layui.$;
+
+        if({$isCrop}==1) {
+
+            //图片裁剪组件
+            croppers.render({
+                elem: '#btnUploadImg_{$name}'
+                ,name:"{$name}"
+                ,saveW:{$cropW}     //保存宽度
+                ,saveH:{$cropH}
+                ,mark:{$cropRate}    //选取比例
+                ,area:'60%'  //弹窗宽度
+                ,url: "{:url('admin/common/UpImages')}" //头像上传地址
+                ,done: function(data){
+                            //上传完毕回调
+                            $('#{$name}').val(data);
+                            $('#{$name}_show_id').attr('src',data);
+
+                }
+            });
+
+        }else{
+
+            /**
+             * 普通图片上传
+             */
+            var uploadInst = upload.render({
+                elem: '#btnUploadImg_{$name}'
+                ,url: "{:url('admin/common/UpThumbImg')}" //头像上传地址
+                ,accept:'images'
+                ,acceptMime:'image/*'
+                ,size: {$uploadImgSize} //最大允许上传的文件大小
+                ,exts: "{$uploadImgExt}"
+                ,before: function(obj){
+                    //预读本地文件
+                    loading = layer.load(2, {
+                        shade: [0.2, '#000'] //0.2透明度的白色背景
+                    });
+                }
+                ,done: function(data){
+                    //上传完毕回调
+                    if (data.code==1){
+                        layer.msg(data.msg, {icon: 1, time: 1000},function () {
+                            //上传成功
+                            $('#{$name}_show_id').attr('src', data.path);
+                            $('#{$name}').val(data.path);
+                        });
+                    } else {
+                        layer.msg(data.msg, {icon: 5, time: 1000});
+                    }
+
+                }
+                ,error: function(){
+                    //请求异常回调
+                    layer.close(loading);
+                    layer.msg("网络错误", {icon: 5, time: 1500});
+                }
+            });
+
+        }
+
+    });
+
+</script>

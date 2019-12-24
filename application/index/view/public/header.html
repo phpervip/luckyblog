@@ -1,0 +1,87 @@
+
+<style type="text/css">
+    body {
+        cursor: url({__HOME_PATH}images/1.png),default
+    }
+    a:hover {
+        cursor: url({__HOME_PATH}images/2.png),pointer
+    }
+</style>
+
+
+
+<header>
+    <!--menu begin-->
+    <div class="menu">
+        <nav class="nav" id="topnav">
+            <h1 class="logo" >{$setting.site_name|default="小贺博客"}</h1>
+            <li>
+                <a href="/" {if empty($nav_id) || $nav_id==0 } id="topnav_current" {/if}>网站首页</a>
+            </li>
+
+           {volist name="navigate_data" id="vo"}
+
+            <li>
+                <a  {if condition="$vo.model_id eq '7' || $vo.model_id eq '6'"}  href="{$vo.href}"  target="_blank"  {else /}  href="javascript:" {/if}  {eq name="$vo.id" value="$nav_id" } id="topnav_current" {/eq} >{$vo.title}</a>
+
+                {if isset($vo['children'])}
+                <ul class="sub-nav">
+                    {volist name="$vo['children']" id="v"}
+                    <li>
+                        <a  href="{$v.href}" {if condition="$v.model_id eq '7'"}  href="{$vo.href}"  target="_blank"  {else /} href="javascript:"  {/if}  {eq name="$v.id" value="$nav_id" } id="topnav_current" {/eq}>{$v.title}</a>
+                    </li>
+                    {/volist}
+
+                </ul>
+                {/if}
+            </li>
+
+            {/volist}
+
+
+
+
+            <!--search begin-->
+            <div id="search_bar" class="search_bar">
+                <form id="searchform" action="{:url('index/index/search')}" method="get" name="searchform">
+                    <input class="input" placeholder="输入关键词回车..." type="text" name="keywords" required="required" id="keyboard">
+                    <p class="search_ico"> <span></span></p>
+                </form>
+                <i class="fa"></i>
+            </div>
+            <!--search end-->
+
+        </nav>
+    </div>
+
+    <!--menu end-->
+    <!--mnav begin-->
+    <div id="mnav">
+        <h2>{$setting.site_name|default="小贺博客"}
+            <span class="navicon"></span>
+        </h2>
+        <dl class="list_dl">
+            <dt class="list_dt"> <a  {if empty($nav_id) || $nav_id==0 } class="current" {/if}  href="/">网站首页</a> </dt>
+
+            {volist name="navigate_data" id="vo"}
+
+            <dt class="list_dt"> <a  {if condition="$vo.model_id eq '7' || $vo.model_id eq '6'"}  href="{$vo.href}"  target="_blank"  {else /}  href="javascript:" {/if}  {eq name="$vo.id" value="$nav_id" }  class="current" {/eq}>{$vo.title}</a>
+            </dt>
+            {if isset($vo['children'])}
+            <!-- 这里是二级栏目的循环，不需要的可以删除，代码开始 -->
+            <dd class="list_dd">
+                <ul>
+                    {volist name="$vo['children']" id="v"}
+                    <li>
+                        <a href="{$v.href}" {if condition="$v.model_id eq '7'"}  href="{$vo.href}"  target="_blank"  {else /}  href="javascript:" {/if}  {eq name="$v.id" value="$nav_id" } class="current" {/eq}>{$v.title}</a>
+                    </li>
+                    {/volist}
+                </ul>
+            </dd>
+            {/if}
+            <!-- 这里是二级栏目的循环，不需要的可以删除，代码结束 -->
+            {/volist}
+        </dl>
+    </div>
+    <!--mnav end-->
+</header>

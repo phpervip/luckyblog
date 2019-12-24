@@ -1,0 +1,49 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/8/16-10:49
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: view_image.html
+ *-->
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>查看相册</title>
+
+    <link rel="stylesheet" type="text/css" href="{__HOME_PATH}css/normalize.css" /><!--CSS RESET-->
+    <!--必要样式-->
+    <link href="{__HOME_PATH}css/photopile.css" rel="stylesheet">
+    <link href="{__HOME_PATH}css/demo.css" rel="stylesheet">
+
+</head>
+<body>
+
+<div class="photopile-wrapper">
+    <ul class="photopile">
+
+        {volist name="data" id="v"}
+        <li>
+            <a href="{$v.img_url}">
+                <img src="{$v.img_url}" alt="{$v.create_time}" width="133" height="100" />
+            </a>
+        </li>
+        {/volist}
+
+    </ul>
+</div>
+
+<script src="{__HOME_PATH}js/jquery-1.11.0.min.js" type="text/javascript"></script>
+<script src="{__HOME_PATH}js/jquery-ui.min.js"></script>
+<script src="{__HOME_PATH}js/jquery.ui.touch-punch.min.js"></script>
+<script src="{__HOME_PATH}js/photopile.js"></script>
+<script type="text/javascript">
+    $(function(){
+        PhotoPile().scatter();
+    });
+</script>
+
+</body>
+</html>

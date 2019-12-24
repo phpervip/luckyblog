@@ -1,0 +1,46 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/8/2-15:35
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: crooper.html
+ *-->
+<!-- 引入基类模板 -->
+{extend name='public/ext' /}
+
+
+{block name="header"}
+
+{/block}
+
+{block name="content"} <!--表格区-->
+
+<div class="layui-form-item">
+    <label class="layui-form-label">头像截取：</label>
+    {:widget('forms/uploadImg',array('avatar',$admin_info['avatar'],'90x90','头像','300x300'))}
+</div>
+
+
+
+{/block}
+
+{block name="js"} <!--js处理区-->
+
+<script  src="{__ADMIN_PATH}js/base.js"></script >
+
+<script >
+
+    layui.use(['element','form', 'jquery', 'laydate','lucky'], function () {
+        var element = layui.element;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var laydate = layui.laydate;
+        var lucky=layui.lucky;
+
+        form.render();
+    });
+
+</script >
+
+
+{/block}

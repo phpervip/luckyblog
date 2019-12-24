@@ -1,0 +1,34 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/6/27-15:15
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: js.html
+ *-->
+
+<!--js逻辑-->
+<script src="{__ADMIN_PATH}js/jquery.min.js"></script>
+<script src="{__ADMIN_PATH}nprogress/nprogress.js"></script>
+
+<script src="{__ADMIN_PATH}js/base.js"></script>
+
+<script type="text/javascript">
+    NProgress.start();
+    window.onload = function () {
+        NProgress.done();
+    };
+
+    /**
+     *菜单提示
+     */
+   function tis(obj) {
+        var row=$(obj).attr("data-title"); //获取显示内容
+        //小tips
+        layer.tips(row,obj,{
+            tips:[1,"black"],
+            time:1000
+        })
+
+    }
+
+</script>

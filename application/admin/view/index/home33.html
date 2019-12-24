@@ -1,0 +1,487 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/6/26-16:31
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: home.html
+ *-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>LuckyAdmin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="{__ADMIN_PATH}css/home.css" media="all" />
+    <link rel="stylesheet" href="{__PLUG_PATH}layui/css/layui.css">
+    <script type="text/javascript" src="{__ADMIN_PATH}js/jquery.min.js"></script>
+    <script type="text/javascript" src="{__ADMIN_PATH}js/echarts.min.js"></script>
+</head>
+
+<body>
+
+<div class="layui-fluid" style="margin-top: 10px;">
+    <div class="layui-row layui-col-space15">
+
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header">快捷方式</div>
+                <div class="layui-card-body">
+                    <div class="layui-carousel layadmin-carousel layadmin-shortcut" lay-anim="" lay-indicator="inside" lay-arrow="none" style="width: 100%; height: 250px;">
+                        <div carousel-item="">
+                            <ul class="layui-row layui-col-space10 layui-this">
+                                <li class="layui-col-xs3">
+                                    <a lay-href="home/homepage1.html">
+                                        <i class="layui-icon layui-icon-console"></i>
+                                        <cite>主页一</cite>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs3">
+                                    <a lay-href="home/homepage2.html">
+                                        <i class="layui-icon layui-icon-chart"></i>
+                                        <cite>主页二</cite>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs3">
+                                    <a lay-href="component/layer/list.html">
+                                        <i class="layui-icon layui-icon-template-1"></i>
+                                        <cite>弹层</cite>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs3">
+                                    <a layadmin-event="im">
+                                        <i class="layui-icon layui-icon-chat"></i>
+                                        <cite>聊天</cite>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs3">
+                                    <a lay-href="component/progress/index.html">
+                                        <i class="layui-icon layui-icon-find-fill"></i>
+                                        <cite>进度条</cite>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs3">
+                                    <a lay-href="app/workorder/list.html">
+                                        <i class="layui-icon layui-icon-survey"></i>
+                                        <cite>工单</cite>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs3">
+                                    <a lay-href="user/user/list.html">
+                                        <i class="layui-icon layui-icon-user"></i>
+                                        <cite>用户</cite>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs3">
+                                    <a lay-href="set/system/website.html">
+                                        <i class="layui-icon layui-icon-set"></i>
+                                        <cite>设置</cite>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header">待办事项</div>
+                <div class="layui-card-body">
+
+                    <div class="layui-carousel layadmin-carousel layadmin-backlog" lay-anim="" lay-indicator="inside" lay-arrow="none" style="width: 100%; height: 230px;">
+                        <div carousel-item="">
+                            <ul class="layui-row layui-col-space10 layui-this">
+                                <li class="layui-col-xs6">
+                                    <a lay-href="app/content/comment.html" class="layadmin-backlog-body">
+                                        <h3>待审评论</h3>
+                                        <p><cite>66</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs6">
+                                    <a lay-href="app/forum/list.html" class="layadmin-backlog-body">
+                                        <h3>待审帖子</h3>
+                                        <p><cite>12</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs6">
+                                    <a lay-href="template/goodslist.html" class="layadmin-backlog-body">
+                                        <h3>待审商品</h3>
+                                        <p><cite>99</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs6">
+                                    <a href="javascript:;" onclick="layer.tips('不跳转', this, {tips: 3});" class="layadmin-backlog-body">
+                                        <h3>待发货</h3>
+                                        <p><cite>20</cite></p>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                       </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header">版本信息</div>
+                <div class="layui-card-body layui-text">
+                    <table class="layui-table">
+                        <colgroup>
+                            <col width="100">
+                            <col>
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <td>当前版本</td>
+                            <td>
+                             {$Lucky_Name}_{$Version} ( tp5.0版 )
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>基于框架</td>
+                            <td>
+                                <a href="https://www.layui.com/" target="_blank">layui-2.5.4</a > + <a href="http://www.thinkphp.cn/"  target="_blank">Thinkphp5.0</a >
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>快速下载</td>
+                            <td>
+                                <a class="layui-btn layui-btn-normal layui-btn-xs" href="https://gitee.com/luckygyl/LuckyAdmin" target="_blank">TP5.0版本</a>
+                                <a class="layui-btn layui-btn-warm layui-btn-xs" href="https://gitee.com/luckygyl/LuckyAdmin/tree/tp5.1/" target="_blank">TP5.1版本</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Gitee地址</td>
+                            <td><p><a href="http://luckyadmin.luckyhhy.cn">
+                                <img src="https://gitee.com/luckygyl/LuckyAdmin/badge/star.svg?theme=dark" alt="star"
+                                ></a>
+                                <a href="http://luckyadmin.luckyhhy.cn">
+                                    <img src="https://gitee.com/luckygyl/LuckyAdmin/badge/fork.svg?theme=dark" alt="fork">
+                                </a></p></td>
+                        </tr>
+                    <tr>
+                            <td>进群了解</td>
+                            <td style="padding-bottom: 0;">
+                                <div class="layui-btn-container">
+                                  <!--   <a href="https://gitee.com/luckygyl/LuckyAdmin" target="_blank" class="layui-btn layui-btn-xs">立即下载</a> -->
+                                    <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=7909af8d5f052f8f4d813497cdb3ce0f056f0048df22be9fce8393c146b70a67"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="LuckyAdmin" title="LuckyAdmin"></a>
+                                   
+                                </div>
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="layui-col-sm12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    系统下载量和访问量
+
+                </div>
+                <div class="layui-card-body">
+                    <div class="flot-chart" style="height:350px; ">
+                        <div class="flot-chart-content" id="table7" style="height:350px;">
+                            <script type="text/javascript">
+                                // 基于准备好的dom，初始化echarts实例
+                                var myChart = echarts.init(document.getElementById('table7'));
+                                var colors = ['#39aef5','#ed5565'];
+                                // 指定图表的配置项和数据
+                                option = {
+                                    title : {
+                                        //  text: '后勤与系统维护次数统计',
+                                        subtext: '此表仅统计本年的数据！'
+                                    },
+                                    tooltip : {
+                                        trigger: 'axis'
+                                    },
+                                    legend: {
+                                        data:['下载量','访问量']
+                                    },
+                                    toolbox: {
+                                        show : true,
+                                        feature : {
+                                            mark : {show: true},
+                                            dataView : {show: true, readOnly: false},
+                                            magicType : {show: true, type: ['line', 'bar']},
+                                            restore : {show: true},
+                                            saveAsImage : {show: true}
+                                        }
+                                    },
+                                    calculable : true,
+                                    xAxis : [
+                                        {
+                                            type : 'category',
+                                            data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+                                        }
+                                    ],
+                                    yAxis : [
+                                        {
+                                            type : 'value',
+                                            axisLabel : {
+                                                formatter: '{value} 个'
+                                            }
+                                        }
+                                    ],
+                                    series : [
+                                        {
+                                            name:'下载量',
+                                            type:'bar',
+                                            data:[1,2,3,4,5,6,7,8,9,10,11,12],
+                                            markPoint : {
+                                                data : [
+                                                    {type : 'max', name: '最高'},
+                                                    {type : 'min', name: '最低'}
+                                                ]
+                                            },
+                                            markLine : {
+                                                data : [
+                                                    {type : 'average', name: '平均'}
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            name:'访问量',
+                                            type:'bar',
+                                            data:[14,22,34,41,55,64,71,88,9,102,181,162],
+                                            markPoint : {
+                                                data : [
+                                                    {type : 'max', name: '最高'},
+                                                    {type : 'min', name: '最低'}
+                                                ]
+                                            },
+                                            markLine : {
+                                                data : [
+                                                    {type : 'average', name: '平均'}
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                };
+                                // 使用刚指定的配置项和数据显示图表。
+                                myChart.setOption(option);
+                            </script>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="layui-col-sm4">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    系统更新记录
+                    <!--<a href="javascript:;"  class="layui-btn layui-btn-xs see_more" style="margin-right: 2px; margin-top: 10px; float: right;">查看更多</a>-->
+                </div>
+                <div class="layui-card-body">
+                    <ul class="layui-timeline">
+
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis"></i>
+                            <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title">8月2日</h3>
+                                <p>
+                                   在此期间更新模板采用继承的写法，使用 widget,js 插件模块化，
+                                    引入，webuploader图片上传组件，cropper 图片上传截取，notice消息通知
+                                    ，soultable-表格搜索，代码优化，安装程序BUG修护。
+                                </p>
+                            </div>
+                        </li>
+
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis"></i>
+                            <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title">7月26日</h3>
+                                <p>
+                                    更新，文章列表，模型管理，用户留言，单页内容，每日一句，登陆验证码等等。
+                                </p>
+                            </div>
+                        </li>
+
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis"></i>
+                            <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title">7月22日</h3>
+                                <p>
+                                    喜欢此后台系统的可以给我的Gitee加个Star支持一下^v^
+                                    <br/>
+                                    <font color="red">备注：此后台系统开源免费，但请勿进行出售或者上传到任何素材网站，否则将追究相应的责任！</font>
+                                </p>
+                            </div>
+                        </li>
+
+
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis"></i>
+                            <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title">7月17日</h3>
+                                <p>
+                                    更新，首页锁屏页，友情链接，相册加密需要密码访问。
+                                </p>
+                            </div>
+                        </li>
+
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis"></i>
+                            <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title">7月16日</h3>
+                                <p>
+                                    更新，附件管理模块，API数据采集模块，系统日志模块。
+                                </p>
+                            </div>
+                        </li>
+
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis"></i>
+                            <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title">7月12日</h3>
+                                <p>
+                                    LuckyAdmin是一款基于ThinkPHP5.0 + layui2.5.4 + ECharts + Mysql+Redis开发的后台管理框架，
+                                    <br>集成了一般应用所必须的基础性功能，为开发者节省大量的时间。
+
+                                </p>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-sm8">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-sm12">
+
+
+
+                    <div class="layui-card">
+                        <div class="layui-card-header">最新访问者：
+                            <!-- <a href="javascript:;"  class="layui-btn layui-btn-xs layui-btn-warm more_renwu" style="margin-right: 2px; margin-top: 10px; float: right;">查看更多</a>-->
+                        </div>
+                        <div class="layui-card-body">
+
+                            <table class="layui-table layuiadmin-page-table" lay-skin="line">
+                                <thead>
+                                <tr style="text-align: center;">
+                                    <th>管理员名称</th>
+                                    <th>描述</th>
+                                    <th>浏览器</th>
+                                    <th>IP地址</th>
+                                    <th>操作时间</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {volist name="log" id="v"}
+
+                                <tr >
+                                    <td class="b_font">
+                                       {$v.admin_name}
+                                    </td>
+                                    <td class="b_font">
+                                       {eq name="$v.type" value="1"}
+                                        登录操作
+                                        {else /}
+                                        {$v.describe}
+
+                                        {/eq}
+
+                                    </td>
+                                    <td class="b_font">
+                                        {$v.browse}
+                                    </td>
+                                    <td class="b_font">
+                                        <a href="http://www.ip138.com/ips138.asp?ip={$v.ip}&action=2" target="_blank" title="点击查看IP所属地址" >{$v.ip}</a >
+                                    </td>
+                                    <td class="b_font">
+                                        {$v.time_formt}
+                                    </td>
+
+                                </tr>
+                                {/volist}
+
+
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+
+<script type="text/javascript" src="{__PLUG_PATH}layui/layui.js"></script>
+
+<script >
+
+    layui.use(['element', 'form', 'jquery'], function () {
+        var element = layui.element;
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+
+        /**
+         * 捐赠作者
+         */
+        $(".donate").click(function () {
+            layer.tab({
+                area: ["330px", "350px"],
+                tab: [{
+                    title: "支付宝",
+                    content: "<img src='{__ADMIN_PATH}images/zfb.jpeg' width='200' height='300' style='margin-left: 60px'>"
+                }, {
+                    title: "微信",
+                    content: "<img src='{__ADMIN_PATH}images/wx.png' width='200' height='300' style='margin-left: 60px'>"
+                }]
+            });
+        });
+
+
+        /**
+         * 联系作者
+         */
+        $("body").on("click", ".communication,#noticeQQ", function () {
+            window.location.href="tencent://message/?uin=2237696522&amp;Site=&amp;Menu=yes";
+        });
+    })
+
+
+</script >
+</body>
+
+</html>
+
+
+

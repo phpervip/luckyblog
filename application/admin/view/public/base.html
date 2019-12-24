@@ -1,0 +1,77 @@
+
+<!-- 引入头部 -->
+{include file="public/head" /}
+
+
+{block name="css"}   <!--样式区-->
+
+{/block}
+
+
+<!-- 主体部分开始 -->
+<div class="layui-fluid">
+
+    <div class="layui-row layui-col-space10">
+
+        <div class="layui-col-md12">
+
+            <div class="layui-card">
+                <div class="layui-card-body layui-row ">
+                    <form action="" class="layui-form" method="get" >
+                        <div class="layui-form-item">
+
+                            {block name="search"}
+
+                            {/block}
+
+                            <div class="layui-inline" style="padding-left: 20px;">
+                                <button class="layui-btn icon-btn" lay-filter="search" lay-submit="">
+                                    <i class="layui-icon"></i>搜索
+                                </button>
+                                <button class="layui-btn icon-btn layui-btn-normal"  onclick="javascript:window.location.reload();" >
+                                    <i class="layui-icon layui-icon-refresh"></i> 重置
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </form >
+                </div>
+
+            </div>
+
+
+
+            <div class="layui-card">
+                <div class="layui-card-header" style="line-height: 55px;">
+                    <div class="layui-btn-container do_btn">
+                        {block name="btn"}   <!--按钮区-->
+
+                        {/block}
+                    </div>
+                </div>
+                <div class="layui-card-body">
+
+                    {block name="table"} <!--表格区-->
+
+                    {/block}
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<!-- 主体部分结束 -->
+
+{include file="public/js" /}
+
+
+{block name="js"} <!--js处理区-->
+
+{/block}
+
+<!-- 引入脚部 -->
+{include file="public/footer" /}

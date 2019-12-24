@@ -1,0 +1,71 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/7/24-14:50
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: edit_model.html
+ *-->
+
+
+{include file="public/open_head" /}
+
+
+
+<div class="ok-body" >
+
+    <div class="layui-fluid" >
+
+        <form class="layui-form" style="margin-top: 30px;">
+
+            <input type="hidden"  name="id" value="{$info.id}">
+
+            {lv:inputform  label="模型名称：" name="name" place="请输入模型名称" style="width: 350px;"   value="$info.name"   verify="required"  class="name"   /}
+
+            {:token()}
+
+            {lv:inputform  label="模型表名：" name="tablename" place="请输入模型表名" style="width: 350px;"  value="$info.tablename"  /}
+
+            {lv:inputform  label="列表方法：" name="list_template" place="请输入列表方法" lang="inline"  value="$info.list_template"  word="查询该模型全部数据的方法名" /}
+
+            {lv:inputform  label="详细方法：" name="show_template" place="请输入详细方法" lang="inline"  value="$info.show_template"  word="查看单个数据详细的方法名" /}
+
+            <div class="layui-form-item " >
+                <label class="layui-form-label" >添加时间：</label >
+                <div class="layui-input-inline input-custom-width " style="width: 350px;" >
+                    <input type="text" value="{$info.time_formt}"   autocomplete="off"  class="layui-input" >
+                </div >
+            </div >
+
+            {:widget('forms/submit',array('add','立即保存',2))}
+
+
+        </form>
+    </div >
+
+</div >
+
+<script >
+
+
+    layui.use(['element', 'form', 'jquery', 'upload','lucky'], function () {
+        var element = layui.element;
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var upload = layui.upload;
+        var lucky=layui.lucky;
+
+        /**
+         * 提交表单数据
+         */
+        form.on('submit(add)', function (data) {
+            lucky.FormSubmit("{:url('model/AddModel')}", data.field, "table_id", 1);
+            return false;
+        });
+
+    });
+</script >
+
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/8/15-13:52
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: lists.html
+ *-->
+<!-- 引入基类模板 -->
+{extend name='public/base' /}
+
+{block name="content"}
+
+<div class="pagebg top_banner"></div>
+<div class="container">
+    <h1 class="t_nav">
+        {$nav_id|brand_nav}
+        <a href="/" class="n1">网站首页</a><a href="javascript:" class="n2">{$nav_id|get_nav_name}</a>
+    </h1>
+    <div class="timebox">
+        <ul id="list" >
+            {volist name="datas" id="v" empty="暂无数据"}
+            <li><span>{$v.time_formt}</span><a href="javascript:" title="{$v.title}">{$v.title}</a></li>
+           {/volist}
+        </ul>
+
+    </div>
+
+    <!--分页-->
+    <div style="margin: 30px 0;height:30px;text-align: center;line-height: 30px;">
+        {$page}
+    </div>
+</div>
+<div class="clearfix"></div>
+
+{/block}

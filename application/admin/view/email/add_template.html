@@ -1,0 +1,66 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/8/21-9:18
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: add_template.html
+ *-->
+
+{include file="public/open_head" /}
+
+<div class="ok-body" >
+
+    <div class="layui-fluid" >
+
+        <form class="layui-form" style="margin-top: 30px;">
+
+            {lv:inputform  name="name"  place="请输入标题" label="模板名称："  style="width: 350px;"  verify="required"    /}
+
+
+            {lv:inputform  name="tag"  place="请输入标识" label="模板标识："  style="width: 350px;"  verify="required"  word="用于邮件发送调用"   /}
+
+            {:token()}
+
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">是否启用：</label>
+                <div class="layui-input-inline input-custom-width">
+                    <input type="radio" name="status" value="2" title="否" lay-filter="" >
+                    <input type="radio" name="status" value="1" title="是" lay-filter=""  checked>
+                </div>
+                <div class="layui-form-mid layui-word-aux">关闭则不启用模板</div>
+
+            </div>
+
+            {:widget('forms/Ueditor',array('content|模板内容|模板内容|300'))}
+
+            {:widget('forms/submit',array('add','立即提交',2))}
+
+        </form>
+    </div >
+
+</div >
+
+<script >
+    layui.use(['element', 'form', 'jquery', 'upload','lucky'], function () {
+        var element = layui.element;
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var upload = layui.upload;
+        var lucky=layui.lucky;
+
+        /**
+         * 提交表单数据
+         */
+        form.on('submit(add)', function (data) {
+            lucky.FormSubmit("{:url('email/AddTemplate')}", data.field, "table_id", 1);
+            return false;
+        });
+
+    })
+</script >
+
+
+</body>
+</html>

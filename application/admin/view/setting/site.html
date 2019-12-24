@@ -1,0 +1,133 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/7/4-11:26
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: site.html
+ *-->
+
+{include file="public/head" /}
+
+<body >
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">网站设置</div>
+                <div class="layui-card-body" pad15="">
+
+                    <div class="layui-form" wid100="" lay-filter="">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">网站名称</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="site_name"  lay-vertype="tips" lay-verify="required" value="{$info.site_name}" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">网站域名</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="site_domain" lay-vertype="tips" lay-verify="url|required" value="{$info.site_domain}" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">网站备案</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="icp" lay-vertype="tips" lay-verify=required" value="{$info.icp}" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">缓存时间</label>
+                            <div class="layui-input-inline" style="width: 120px;">
+                                <input type="text" name="site_cache" lay-vertype="tips" lay-verify="number|required" value="{$info.site_cache}" class="layui-input">
+                            </div>
+                            <div class="layui-input-inline layui-input-company">分钟</div>
+                            <div class="layui-form-mid layui-word-aux">本地开发一般推荐设置为 0，线上环境建议设置为 10。</div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">最大文件上传</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="size" lay-vertype="tips" lay-verify="number|required" value="{$info.size}" class="layui-input">
+                            </div>
+                            <div class="layui-input-inline layui-input-company">KB</div>
+                            <div class="layui-form-mid layui-word-aux">提示：1 M = 1024 KB</div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">上传文件类型</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="ext" lay-vertype="tips" lay-verify="required" value="{$info.ext}" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux layui-text text-warning">提示：不同类型之间用英文逗号隔开！</div>
+                        </div>
+
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label">首页标题</label>
+                            <div class="layui-input-block">
+                                <textarea name="home_title"  lay-vertype="tips" lay-verify="required" class="layui-textarea">{$info.home_title}</textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label">META关键词</label>
+                            <div class="layui-input-block">
+                                <textarea name="meta" lay-vertype="tips" lay-verify="required" class="layui-textarea" placeholder="多个关键词用英文状态 , 号分割">{$info.meta}
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label">META描述</label>
+                            <div class="layui-input-block">
+                                <textarea name="meta_describe" lay-vertype="tips" lay-verify="required" class="layui-textarea">{$info.meta_describe}
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label">版权信息</label>
+                            <div class="layui-input-block">
+                                <textarea name="foot" lay-vertype="tips" lay-verify="required" class="layui-textarea">{$info.foot}
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit="" lay-filter="set_website">确认保存</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{include file="public/js" /}
+
+<script >
+    layui.use(['element','form', 'jquery', 'laydate','lucky','upload'], function () {
+        var element = layui.element;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var laydate = layui.laydate;
+        var lucky=layui.lucky;
+        var upload=layui.upload;
+
+        form.render();
+
+        /**
+         * 表格提交
+         */
+        form.on('submit(set_website)', function (data) {
+            lucky.FormSubmit("{:url('setting/site')}",data.field);
+            return false;
+        });
+
+
+
+
+    });
+
+
+</script >
+
+</body >
+</html >

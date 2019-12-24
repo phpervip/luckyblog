@@ -1,0 +1,157 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/7/19-16:01
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: add_article.html
+ *-->
+
+{include file="public/open_head" /}
+
+
+<div class="ok-body" >
+
+    <div class="layui-fluid" >
+
+       <form class="layui-form" style="margin-top: 30px;">
+
+            <div class="layui-form-item " style=""  >
+                <label class="layui-form-label" >所属栏目：</label >
+                <div class="layui-input-inline input-custom-width">
+
+                    <select name="navigate_id" lay-search=""  lay-verify="required" lay-verType="tips" lay-reqText="请选择栏目" >
+                        <option value="">请选择栏目</option>
+                        {volist name="navigate" id="v"}
+                        <option value="{$v.id}" {eq name="$v.pid" value="0" } disabled {/eq}>├─ {$v.title}</option>
+                        {/volist}
+                    </select>
+                </div >
+            </div >
+
+           {lv:inputform  label="文章标题：" name="title" place="请输入文章标题"  verify="required" class="name" style="width: 350px;" /}
+
+
+           {:widget('forms/Upthumb',array('image_url|缩略图|文章缩略图||选择图片','',700,600,1))}
+
+           <div class="layui-form-item">
+               <label class="layui-form-label">是否推荐：</label>
+               <div class="layui-input-inline input-custom-width">
+                   <input type="radio" name="is_recommend" value="1" title="是" >
+                   <input type="radio" name="is_recommend" value="0" title="否"  checked>
+               </div>
+               <div class="layui-form-mid layui-word-aux">用于前台推荐调用</div>
+           </div>
+
+           {:token()}
+
+           <div class="layui-form-item">
+               <label class="layui-form-label">是否置顶：</label>
+               <div class="layui-input-inline input-custom-width">
+                   <input type="radio" name="is_top" value="1" title="是" >
+                   <input type="radio" name="is_top" value="0" title="否"  checked>
+               </div>
+               <div class="layui-form-mid layui-word-aux">用于前台置顶调用</div>
+           </div>
+
+
+           {lv:inputform  label="关键词：" name="keywords" place="关键词" style="width: 350px;"   verify="required"  lang="inline" class="name"  word="关键词以英文逗号隔开" /}
+
+           {lv:textarea label="摘要："  style="width: 450px;"  name="description"  place="请输入摘要"  /}
+
+           {lv:inputform  label="点击量：" name="hits" value="1" place="文章点击量"  type="number" style="width: 350px;"   verify="required"  lang="inline"  word="文章的点击数量" /}
+
+
+           <div class="layui-form-item "  >
+               <label class="layui-form-label" >文章类型：</label >
+               <div class="layui-input-inline input-custom-width "  >
+                   <select name="source" >
+                       <option value="原创" >原创</option >
+                       <option value="转载" >转载</option >
+                   </select >
+               </div >
+               <label class="layui-form-label" >作者：</label >
+               <div class="layui-input-inline input-custom-width "  >
+                   <input type="text" name="author" value="杰瑞克" placeholder="文章作者" lay-verify="required" lay-verType="tips" lay-reqText="文章作者" autocomplete="off"  class="layui-input " >
+               </div >
+
+           </div >
+
+
+           {:widget('forms/Ueditor',array('content|文章内容|文章内容|420'))}
+
+
+           <div class="layui-form-item">
+                <label class="layui-form-label">是否显示：</label>
+                <div class="layui-input-inline input-custom-width ">
+                    <select name="status" >
+                        <option value="1" >显示</option>
+                        <option value="2">不显示</option>
+                    </select>
+                </div>
+               <div class="layui-form-mid layui-word-aux">是否在首页展示文章</div>
+
+               <label class="layui-form-label">内容首图：</label>
+               <div class="layui-input-inline input-custom-width">
+                   <input type="radio" name="pic" value="1" title="是" >
+                   <input type="radio" name="pic" value="0" title="否"  checked>
+               </div>
+               <div class="layui-form-mid layui-word-aux">提取内容第一张图片为缩略图</div>
+            </div>
+
+           <div class="layui-form-item">
+
+               <label class="layui-form-label">保存为草稿：</label>
+               <div class="layui-input-inline input-custom-width">
+                   <input type="radio" name="cao" value="1" title="是" >
+                   <input type="radio" name="cao" value="0" title="否"  checked>
+               </div>
+               <div class="layui-form-mid layui-word-aux">文章保存为草稿不发布</div>
+
+               <label class="layui-form-label">图片本地化：</label>
+               <div class="layui-input-inline input-custom-width">
+                   <input type="radio" name="img" value="1" title="是" >
+                   <input type="radio" name="img" value="0" title="否"  checked>
+               </div>
+               <div class="layui-form-mid layui-word-aux">文章远程图片本地化</div>
+           </div>
+
+
+           {:widget('forms/submit',array('add','立即提交',2))}
+
+
+       </form>
+
+    </div >
+
+
+</div >
+
+
+
+
+<script >
+
+    layui.use(['element', 'form', 'jquery','lucky','inputTags'], function () {
+        var element = layui.element;
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var lucky=layui.lucky;
+
+
+        /**
+         * 提交表单数据
+         */
+        form.on('submit(add)', function (data) {
+            lucky.FormSubmit("{:url('article/AddArticle')}", data.field, "table_id", 1);
+            return false;
+        });
+
+
+
+    });
+</script >
+
+
+</body>
+</html>

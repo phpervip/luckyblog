@@ -1,0 +1,83 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/8/23-14:29
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: add_account.html
+ *-->
+
+
+{include file="public/open_head" /}
+
+
+<div class="ok-body" >
+
+    <div class="layui-fluid" >
+
+        <form class="layui-form" style="margin-top: 30px;">
+
+            {:token()}
+
+
+            {lv:inputform  name="name" place="请输入名称" label="账号名称：" verify="required"  /}
+
+            {lv:inputform  name="username" place="请输入用户名" label="用户名：" verify="required"  /}
+
+            {lv:inputform  name="pass" place="请输入密码" label="密  码：" verify="required"  /}
+
+            <div class="layui-form-item " >
+                <label class="layui-form-label" >IP地址：</label >
+                <div class="layui-input-inline input-custom-width "  >
+                    <input type="text"  name="ip_url" value=""  autocomplete="off"  class="layui-input" placeholder="Ip地址-可不填" >
+                </div >
+
+                <label class="layui-form-label" >端口：</label >
+                <div class="layui-input-inline input-custom-width "  >
+                    <input type="text"  name="port" value=""  autocomplete="off"  class="layui-input" placeholder="端口可不填">
+                </div >
+
+            </div >
+
+            {lv:inputform  name="url" place="以http://开头，不是必填选项" label="连接地址：" verify=""  /}
+
+            {:widget('forms/submit',array('add','立即提交',2))}
+
+
+        </form>
+
+    </div >
+
+
+</div >
+
+
+
+<script >
+
+
+    layui.use(['element', 'form', 'jquery', 'upload','layedit','lucky'], function () {
+        var element = layui.element;
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var upload = layui.upload;
+        var layedit=layui.layedit;
+        var lucky=layui.lucky;
+
+
+        /**
+         * 提交表单数据
+         */
+        form.on('submit(add)', function (data) {
+            lucky.FormSubmit("{:url('password/AddAccount')}", data.field, "table_id", 1);
+            return false;
+        });
+
+
+
+    })
+</script >
+
+
+</body>
+</html>

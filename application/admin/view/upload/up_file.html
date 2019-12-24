@@ -1,0 +1,97 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/8/20-15:56
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: up_file.html
+ *-->
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+    <meta charset="UTF-8" >
+    <title >Title</title >
+    <script src="{__ADMIN_PATH}js/jquery.min.js"></script>
+    <link rel="stylesheet" href="{__PLUG_PATH}layui/css/layui.css">
+    <script src="{__PLUG_PATH}layui/layui.js"></script>
+
+</head >
+
+<body class="gray-bg">
+
+
+<div class="ok-body">
+
+    <div class="layui-fluid">
+        <div class="layui-card">
+
+            <div class="layui-card-body" style="padding: 15px;">
+
+                <div class="layui-form">
+
+                    <div class="wrapper wrapper-content animated fadeIn">
+                        <div class="row">
+                            {:widget('forms/Webuploader',array('imgurl','imageurl','required'))}
+                        </div>
+                    </div>
+
+                    {:widget('forms/submit',array('add','立即提交'))}
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+</div>
+</div>
+</div>
+
+
+<script>
+    layui.use(['element', 'form', 'jquery'], function () {
+        var element = layui.element;
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+
+        /**
+         * 提交表单数据
+         */
+        form.on('submit(add)', function (data) {
+            $.ajax({
+                url:"{:url('upload/up_file')}",
+                type:'post',
+                data:data.field,
+                error: function(error) {
+                    layer.msg("服务器错误或超时");
+                    return false;
+                },
+                beforeSend:function(){
+                    layer.load(2);
+                },
+                success:function(data)
+                {
+                    if (data.code==1) {
+                        layer.msg(data.msg,{icon: 1, time: 1500,shade:0.3, anim: 4},function () {
+                            parent.location.reload(); //刷新父页面
+                            parent.layer.close(parent.layer.getFrameIndex(window.name));
+                        });
+
+                    }else{
+                        layer.msg(data.msg,{icon:15,time:1500,shade:0.3,anim:4});
+                    }
+                },
+                complete:function(){
+                    layer.closeAll('loading');
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+
+</html >

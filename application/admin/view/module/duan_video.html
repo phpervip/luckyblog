@@ -1,0 +1,279 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/7/16-16:45
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: duan_video.html
+ **************************************************************
+ *                                                            *
+ *   .=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-.       *
+ *    |                     ______                     |      *
+ *    |                  .-"      "-.                  |      *
+ *    |                 /            \                 |      *
+ *    |     _          |              |          _     |      *
+ *    |    ( \         |,  .-.  .-.  ,|         / )    |      *
+ *    |     > "=._     | )(__/  \__)( |     _.=" <     |      *
+ *    |    (_/"=._"=._ |/     /\     \| _.="_.="\_)    |      *
+ *    |           "=._"(_     ^^     _)"_.="           |      *
+ *    |               "=\__|IIIIII|__/="               |      *
+ *    |              _.="| \IIIIII/ |"=._              |      *
+ *    |    _     _.="_.="\          /"=._"=._     _    |      *
+ *    |   ( \_.="_.="     `--------`     "=._"=._/ )   |      *
+ *    |    > _.="                            "=._ <    |      *
+ *    |   (_/                                    \_)   |      *
+ *    |                                                |      *
+ *    '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-='      *
+ *                                                            *
+ *                    JUST FIND YOUR BUG !                    *
+ **************************************************************
+ *-->
+
+{include file="public/head" /}
+
+<body>
+<!-- 正文开始 -->
+<div class="layui-fluid">
+
+    <div class="layui-row layui-col-space10">
+
+        <div class="layui-col-md12">
+
+            <div class="layui-card">
+                <div class="layui-card-body layui-row ">
+                    <form action="" class="layui-form" method="get" >
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">段子搜索：</label>
+                                <div class="layui-input-inline">
+                                    <input name="name" class="layui-input" value="" type="text" placeholder="请输入标题">
+                                </div>
+                            </div>
+
+
+                            <div class="layui-inline" style="padding-left: 20px;">
+                                <button class="layui-btn icon-btn" lay-filter="search" lay-submit="">
+                                    <i class="layui-icon"></i>搜索
+                                </button>
+                                <button class="layui-btn icon-btn layui-btn-normal"  onclick="javascript:window.location.reload();" >
+                                    <i class="layui-icon layui-icon-refresh"></i> 重置
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </form >
+                </div>
+
+            </div>
+
+            <!--右侧表格开始-->
+            <div class="layui-card">
+                <div class="layui-card-header" style="line-height: 55px;">
+                    <div class="layui-btn-container do_btn">
+                        <button class="layui-btn layui-btn-sm layui-btn-danger"  data-type="del"><i class="layui-icon layui-icon-delete"></i>批量删除</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary"  data-type="reload"> <i class="fa fa-refresh"></i> 刷新</button>
+                    </div>
+                </div>
+                <div class="layui-card-body">
+
+                    {:widget('forms/table')}
+
+                </div>
+            </div>
+            <!--右侧表格结束-->
+
+        </div>
+
+
+    </div>
+
+
+
+
+</div>
+
+<style type="text/css">
+    .layui-table-cell{
+        text-align:center;
+        height: auto;
+        white-space: normal;
+    }
+    .layui-table img{
+        max-width:300px;
+        max-height: 50px;
+    }
+</style>
+
+<!--模板-->
+<script type="text/html" id="operationTpl">
+    <a href="javascript:;"   class="layui-btn layui-btn-normal layui-btn-xs "  onmouseover="tis(this)"  data-title="查看视频" lay-event="view"><i class="layui-icon layui-icon-camera" ></i></a>
+    <a href="javascript:;"   class="layui-btn layui-btn-danger layui-btn-xs "  onmouseover="tis(this)"  data-title="删除新闻" lay-event="del"><i class="layui-icon " >&#xe640;</i></a>
+</script>
+
+
+
+
+{include file="public/js" /}
+
+
+<script>
+
+    layui.use(['element', 'table', 'form', 'jquery', 'laydate','lucky'], function () {
+        var element = layui.element;
+        var form = layui.form;
+        var table = layui.table;
+        var $ = layui.jquery;
+        var laydate = layui.laydate;
+        var lucky=layui.lucky;
+
+        form.render();
+
+        // layer.load(2);
+        table.render({
+            elem: '#tableFilter',
+            url:"{:url('module/duan_video')}",
+            //toolbar: '#toolbarDemo',
+            even: true, //开启隔行背景
+            id:'table_id',
+            page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['limit', 'count', 'prev', 'page', 'next', 'skip','last'] //自定义分页布局
+                //,curr: 5 //设定初始在第 5 页
+                ,groups: 5 //只显示 1 个连续页码
+                ,first: false //不显示首页
+                ,last: false //不显示尾页
+                ,limit:40
+                ,limits:[15,30,40,60,80,100]
+            },
+            //  height: 'full-100',
+            text: {
+                none: '暂无相关数据'
+            },
+            cols: [[
+                {type: 'checkbox'},
+                // {field: 'id',  title: 'ID',width:60},
+                {field: 'thumbnail', title: '缩略图', style:'cursor: pointer;',width: 150, height:100, align: "center",templet:function (d) {
+                        return '<div><img src="'+d.thumbnail+'"  class="open" layer-index="100" alt="无图" /></div>';
+                    }},
+                {field: 'text', minWidth: 250, title: '标题名称'},
+                {field: 'header',style:'cursor: pointer;',title: '头像',width: 85,templet:function (d) {
+            return '<div><img src="'+d.header+'"  class="layui-nav-img" layer-index="100" alt="无图" /></div>';
+        }},
+                {field: 'name',style:'cursor: pointer;',title: '发布者',width: 100},
+                {field: 'up',style:'cursor: pointer;',title: '喜欢数',width: 100,sort:true},
+                {field: 'down',style:'cursor: pointer;',title: '厌恶数',width: 100,sort:true},
+                {field: 'forward',style:'cursor: pointer;',title: '转发数',width: 100,sort:true},
+                {field: 'passtime', title: '发布时间',align: 'center',width:200},
+                {fixed: 'right',templet: '#operationTpl', width: 100, align: 'center', title: '操作'}
+            ]],
+
+            done: function (res) {
+                layer.closeAll('loading');
+                hoverOpenImg();
+            }
+        });
+
+
+        /**
+         * 鼠标悬浮显示大图
+         *
+         */
+        function hoverOpenImg(){
+            var img_show = null; // tips提示
+            $('td img').hover(function(){
+                var img = "<img class='img_msg' src='"+$(this).attr('src')+"' style='width:100%;max-height: 600px;' />";
+                img_show = layer.tips(img, this,{
+                    tips:[2, 'rgba(41,41,41,.0)']
+                    ,area: ['12%']
+                });
+            },function(){
+                layer.close(img_show);
+            });
+        }
+
+        /**
+         * 表格搜索
+         */
+        form.on('submit(search)', function (obj) {
+            lucky.CreateSearch("table_id",obj.field); //查询
+            return false;
+        });
+
+        /**
+         * 监听单行工具操作
+         */
+        table.on('tool(tableFilter)', function (obj) {
+            var data = obj.data;
+            // console.log(JSON.stringify(data));
+            var _id=parseInt(data.id);
+            var layEvent = obj.event;
+
+            if(layEvent==="del"){
+                lucky.Delete_data(_id,"{:url('module/delete_video')}","table_id");
+
+            }else if(layEvent==="view"){
+                layer.open({
+                    type: 2,
+                    title:data.text,
+                    offset:'50px',
+                    skin: 'layui-layer-rim', //加上边框
+                    maxmin: true,
+                    shade: 0.5,
+                    area: ['50%', '60%'], //宽高
+                    content: data.video
+                });
+            }
+            else {
+                layer.msg("功能待开发",{time:1500});return false;
+            }
+
+        });
+
+
+        var active = {
+
+            del: function(){ //获取选中数据
+                var checkStatus = table.checkStatus('table_id'),data = checkStatus.data;
+                var num=0;
+                var id=[];
+                for (var i in data) {
+                    num++;
+                    id.push(data[i].id);
+                }
+                if (num<1) {
+                    layer.msg("请选择一项",{time:1500});return false;
+                }
+                lucky.Delete_data(id,"{:url('module/delete_video')}","table_id");
+            },
+            reload: function(){
+                lucky.CreateReload("table_id");
+            },
+            move:function () {
+                var checkStatus = table.checkStatus('table_id'),data = checkStatus.data;
+                var num=0;
+                var id=[];
+                for (var i in data) {
+                    num++;
+                    id.push(data[i].id);
+                }
+                if (num<1) {
+                    layer.msg("请选择一项",{time:1500});return false;
+                }
+                layer.msg("功能待开发",{time:1500});return false;
+            }
+
+        };
+
+        $('.do_btn .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+
+
+    });
+
+</script >
+
+
+</body >
+</html >

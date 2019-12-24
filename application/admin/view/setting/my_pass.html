@@ -1,0 +1,85 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/7/4-11:21
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: my_pass.html
+ *-->
+{include file="public/head" /}
+
+<body>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">修改密码</div>
+                <div class="layui-card-body" pad15="">
+
+                    <div class="layui-form" lay-filter="">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">当前密码</label>
+                            <div class="layui-input-inline">
+                                <input type="password" name="oldpassword" lay-verify="required" lay-vertype="tips" placeholder="请输入当前密码" class="layui-input layui-form-danger">
+                            </div>
+                        </div>
+                        <input type="hidden" name="id"  value="{$admin_info.id}">
+                        {:token()}
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">新密码</label>
+                            <div class="layui-input-inline">
+                                <input type="password" name="password" lay-verify="required" lay-vertype="tips" placeholder="请输入新密码" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">6到16个字符</div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">确认新密码</label>
+                            <div class="layui-input-inline">
+                                <input type="password" name="repassword" lay-verify="required" lay-vertype="tips" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit="" lay-filter="setmypass">确认修改</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{__ADMIN_PATH}js/base.js"></script>
+
+
+<script >
+
+    layui.use(['element','form', 'jquery', 'laydate','lucky','upload'], function () {
+        var element = layui.element;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var laydate = layui.laydate;
+        var lucky=layui.lucky;
+        var upload=layui.upload;
+
+        form.render();
+
+        /**
+         * 表格提交
+         */
+            form.on('submit(setmypass)', function (data) {
+                lucky.FormSubmit("{:url('setting/MyPass')}",data.field);
+                return false;
+            });
+
+
+
+    });
+
+</script >
+
+
+</body >
+</html >

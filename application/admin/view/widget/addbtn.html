@@ -1,0 +1,10 @@
+
+
+{if condition="$t eq 1"}
+    <button class="layui-btn layui-btn-sm" data-type="{$type}" ><i class="layui-icon" >&#xe61f;</i >{$title}</button >
+
+    {else /}
+
+    <a href="javascript:;"  class="layui-btn layui-btn-xs "  onmouseover="tis(this)"  data-title="{$title}" lay-event="{$type}"><i class="layui-icon layui-icon-add-circle-fine"></i></a>
+
+{/if}

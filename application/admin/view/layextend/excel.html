@@ -1,0 +1,108 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/8/2-15:10
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: excel.html
+ *-->
+<!-- 引入基类模板 -->
+{extend name='public/ext' /}
+
+
+{block name="header"}
+<fieldset class="layui-elem-field layui-field-title"><legend>excel导出,选择excel文件</legend></fieldset>
+
+{/block}
+
+{block name="content"} <!--表格区-->
+
+<div class="layui-container">
+    <div class="layui-row">
+        <div class="layui-col-md11 layui-col-md-offset1">
+
+            <div class="layui-form">
+                <div class="layui-form-item">
+                    <div class="layui-form-label">导出操作</div>
+                    <div class="layui-form-block">
+                        <button type="button" class="layui-btn layui-btn-primary" onclick="exportDataByUser()">导出数据测试</button>
+                        <button type="button" class="layui-btn layui-btn-primary" onclick="exportExtendDemo()">导出复杂表头</button>
+                        <button type="button" class="layui-btn layui-btn-primary" onclick="exportStyleDemo()">批量设置样式</button>
+
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-form-label">导入操作</div>
+                    <div class="layui-form-block">
+                        <input type="file" class="layui-btn layui-btn-primary" id="LAY-excel-import-excel" multiple="multiple">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-form-label"></div>
+                    <div class="layui-form-block">
+                        <p class="help-block" style="color: #f00;">高级浏览器可以在本页面上直接将文件拖入</p>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-form-label">Upload模块</div>
+                    <div class="layui-form-block">
+                        <button type="button" class="layui-btn" id="LAY-excel-upload">
+                            <i class="layui-icon">&#xe67c;</i>上传文档
+                        </button>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-form-label">下载</div>
+                    <div class="layui-form-block">
+                        <a class="layui-btn layui-btn-primary" target="_blank" href="https://gitee.com/wangerzi/layui-excel">码云</a>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{/block}
+
+{block name="js"} <!--js处理区-->
+
+<script >
+    layui.config({
+        base:  local_url+ 'module/'
+    }).extend({
+        excel:'layui_excel/excel'
+    });
+</script >
+<script  src="{__ADMIN_PATH}js/module/layui_excel/index.js"></script >
+
+<script type="text/html" id="LAY-excel-export-ans">
+    {{# layui.each(d.data, function(index, item){ }}
+    <blockquote class="layui-elem-quote">{{d.files[index].name}}</blockquote>
+    <div class="layui-tab">
+        <ul class="layui-tab-title">
+            {{# layui.each(item, function(sheetname, content) { }}
+            <li>{{sheetname}}</li>
+            {{# }); }}
+        </ul>
+        <div class="layui-tab-content">
+            {{# layui.each(item, function(sheetname, content) { }}
+            <div class="layui-tab-item">
+                <table class="layui-table">
+                    {{# layui.each(content, function(index, value) { }}
+                    <tr>
+                        {{# layui.each(value, function(key, val) { }}
+                        <td>{{val}}</td>
+                        {{# });}}
+                    </tr>
+                    {{# });}}
+                </table>
+                <pre class="layui-code">{{JSON.stringify(content, null, 2)}}</pre>
+            </div>
+            {{# }); }}
+        </div>
+    </div>
+    {{# }) }}
+</script>
+
+{/block}

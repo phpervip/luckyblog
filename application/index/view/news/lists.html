@@ -1,0 +1,65 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/8/15-16:45
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: lists.html
+ *-->
+
+<!-- 引入基类模板 -->
+{extend name='public/base' /}
+
+{block name="content"}
+<div class="pagebg top_banner"></div>
+<div class="container">
+    <h1 class="t_nav">
+        {$nav_id|brand_nav}
+        <a href="/" class="n1">网站首页</a><a href="javascript:" class="n2">{$nav_id|get_nav_name}</a>
+    </h1>
+    <!--blogsbox begin-->
+    <div class="blogsbox">
+
+        {volist name="datas" id="v" empty="暂时没有数据"}
+        <div class="blogs" data-scroll-reveal="enter bottom over 1s">
+            <h3 class="blogtitle">
+                <a href="{$v.url}" target="_blank">
+                    <font style="font-weight: bold;font-size: 1.07em">{$v.title}</font>
+                </a>
+                <span class="layui-badge layui-bg-blue" style="float: right;">{$v.category}</span>
+            </h3>
+            <span class="blogpic"><a href="{$v.url}" target="_blank" title="{$v.title}">
+                <img data-original="{$v.thumbnail_pic_s}"  alt="{$v.title}" title="{$v.title}"></a>
+            </span>
+            <p class="blogtext">
+                {$v.title}
+            </p>
+            <div class="bloginfo">
+                <ul>
+                    <li class="author">
+                        <a href="javascript:void">{$v.author_name}</a>
+                    </li>
+                    <li class="lmname">
+                        <a href="javascript:">{$v.category}</a>
+                    </li>
+                    <li class="timer">{$v.date}</li>
+                </ul>
+            </div>
+        </div>
+        {/volist}
+
+        <!--分页-->
+        <div style="margin: 30px 0;height:30px;text-align: center;line-height: 30px;">
+            {$page}
+        </div>
+
+    </div>
+
+    {/block}
+
+
+    {block name="right"}
+
+    {include file="public/right" /}
+</div>
+
+    {/block}

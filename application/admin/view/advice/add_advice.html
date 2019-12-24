@@ -1,0 +1,166 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/8/20-16:17
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: add_advice.html
+ *-->
+
+
+{include file="public/open_head" /}
+
+<div class="ok-body">
+
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <!-- <div class="layui-card-header"></div>-->
+
+            <div class="layui-card-body" style="padding: 15px;">
+                <form class="layui-form" action="" lay-filter="component-form-group">
+
+                    {:token()}
+
+                    {lv:inputform  name="name" place="请输入广告名称" label="广告名称：" verify="required"  /}
+
+                    {lv:inputform  name="url" place="请输入连接地址:http://" label="连接地址：" verify="required|url"  /}
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">广告类型：</label>
+                        <div class="layui-input-block input-custom-width">
+                            <input type="radio" name="type" value="1" title="图片广告" lay-filter="radio" checked >
+                            <input type="radio" name="type" value="2" title="文字广告" lay-filter="radio"  >
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"></div>
+                    </div>
+
+                    <div class="layui-form-item tupian">
+                        <label class="layui-form-label">图片广告：</label>
+                        <div class="layui-input-inline">
+                            <input name="image" lay-verify="" lay-verType="tips"  id="LAY_avatarSrc" placeholder="图片地址"   readonly class="layui-input">
+                        </div>
+                        <div class="layui-input-inline layui-btn-container" style="width: auto;">
+                            <button type="button" class="layui-btn layui-btn-primary" id="LAY_avatarUpload">
+                                <i class="layui-icon">&#xe67c;</i>上传图片
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <div class="layui-form-item wenzi" style="display: none;">
+                        <label class="layui-form-label">广告文字：</label>
+                        <div class="layui-input-block input-custom-width">
+                           <textarea class="layui-textarea" autocomplete="off"  name="content" placeholder="请输入广告的文字"></textarea>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"></div>
+                    </div>
+
+
+
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否显示：</label>
+                        <div class="layui-input-inline input-custom-width">
+                            <input type="radio" name="status" value="1" title="显示" lay-filter=""  checked   >
+                            <input type="radio" name="status" value="2" title="隐藏" lay-filter="" >
+                        </div>
+
+                    </div>
+
+
+                    {lv:inputform  name="desc" type="text" place="广告描述" label="描述："  /}
+
+
+                    {:widget('forms/submit',array('add','立即提交'))}
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+<script>
+    layui.use(['element', 'form', 'jquery','upload','lucky'], function () {
+        var element = layui.element;
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var upload = layui.upload;
+        var lucky=layui.lucky;
+
+        //图片上传
+        upload.render({
+            elem:'#LAY_avatarUpload'
+            ,url: "{:url('admin/common/UpThumbImg')}" //头像上传地址
+            ,accept: 'images' //
+            ,acceptMime: 'image/*'
+            ,size: 1024*9
+            ,data:{width:300,height:200}
+            ,before:function (res) {
+                loading = layer.load(2, {
+                    shade: [0.2, '#000'] //0.2透明度的白色背景
+                });
+            }
+            ,done: function(data){
+                layer.close(loading);
+                if (data.code==1){
+                    layer.msg(data.msg, {icon: 1, time: 1000},function () {
+                        $("#LAY_avatarSrc").val(data.path);
+                    });
+                } else {
+                    layer.msg(data.msg, {icon: 5, time: 1000});
+                }
+            }
+            ,error:function (red) {
+                layer.close(loading);
+                layer.msg("网络错误", {icon: 5, time: 1500});
+            }
+        });
+
+
+        /**
+         * 鼠标显示
+         */
+        $('#LAY_avatarSrc').hover(function(){
+            var img = "<img class='img_msg' src='"+$(this).val()+"' style='width:100%;max-height: 600px;' />";
+            img_show = layer.tips(img, this,{
+                tips:[2, 'rgba(41,41,41,.0)']
+                ,area: ['12%']
+            });
+        },function(){
+            layer.close(img_show);
+        });
+
+        /**
+         *
+         */
+        form.on("radio(radio)",function (data) {
+            //console.log(data);
+            if (data.value==1){
+                $(".wenzi").hide(0);
+                $(".tupian").show(0);
+            } else {
+                $(".wenzi").show(0);
+                $(".tupian").hide(0);
+            }
+        });
+
+
+        form.on('submit(add)', function (data) {
+            lucky.FormSubmit("{:url('advice/AddAdvice')}",data.field,"tableFilter",1);
+            return false;
+        });
+
+
+
+    })
+</script>
+
+
+</body>
+</html>

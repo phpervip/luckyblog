@@ -1,0 +1,59 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/8/14-10:19
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: right.html
+ *-->
+
+<!--右侧-->
+<div class="sidebar">
+
+    <div class="zhuanti">
+        <h2 class="hometitle">特别推荐</h2>
+        <ul>
+
+            {lv:article  id="v" limit="3" where="is_recommend=1"}
+            <li> <i><img src="{$v.image_url}"></i>
+                <p>{$v.title|title_str_cut="70"} <span><a href="{$v.url}" target="_blank">阅读</a></span> </p>
+            </li>
+            {/lv:article}
+
+        </ul>
+    </div>
+
+
+    {if ($nav_id!=0)}
+    <div class="tuijian">
+        <h2 class="hometitle">相关文章</h2>
+       {volist name="right_article"  id="v"}
+
+        {if condition="$key eq '0'"}
+        <ul class="tjpic">
+            <i><img src="{$v.image_url}" alt="{$v.title}"></i>
+            <p>
+                <a href="{$v.url}" target="_blank">{$v.title|title_str_cut="60"}</a>
+            </p>
+        </ul>
+        {else /}
+
+        <ul class="sidenews">
+            <li> <i><img src="{$v.image_url}" alt="{$v.title}"></i>
+                <p>
+                    <a href="{$v.url}" target="_blank">{$v.title|title_str_cut="75"}</a>
+                </p>
+                <span>{$v.create_time|friend_time}</span>
+            </li>
+        </ul>
+        {/if}
+
+        {/volist}
+    </div>
+    {/if}
+
+    {include file="public/card" /}
+
+
+
+</div>
+</div>

@@ -1,0 +1,99 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/7/17-10:46
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: add_link.html
+ **************************************************************
+ *                                                            *
+ *   .=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-.       *
+ *    |                     ______                     |      *
+ *    |                  .-"      "-.                  |      *
+ *    |                 /            \                 |      *
+ *    |     _          |              |          _     |      *
+ *    |    ( \         |,  .-.  .-.  ,|         / )    |      *
+ *    |     > "=._     | )(__/  \__)( |     _.=" <     |      *
+ *    |    (_/"=._"=._ |/     /\     \| _.="_.="\_)    |      *
+ *    |           "=._"(_     ^^     _)"_.="           |      *
+ *    |               "=\__|IIIIII|__/="               |      *
+ *    |              _.="| \IIIIII/ |"=._              |      *
+ *    |    _     _.="_.="\          /"=._"=._     _    |      *
+ *    |   ( \_.="_.="     `--------`     "=._"=._/ )   |      *
+ *    |    > _.="                            "=._ <    |      *
+ *    |   (_/                                    \_)   |      *
+ *    |                                                |      *
+ *    '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-='      *
+ *                                                            *
+ *                    JUST FIND YOUR BUG !                    *
+ **************************************************************
+ *-->
+
+{include file="public/open_head" /}
+
+<div class="ok-body" >
+
+    <div class="layui-fluid" >
+
+        <form action=""class="layui-form"  style="margin-top: 20px;" >
+
+                    {lv:inputform  name="name" place="请输入网站名称" label="网站名称：" verify="required" class="name" /}
+
+                    {lv:inputform  name="href" place="网站地址需 http://" label="网站地址：" verify="required|url" class="href" /}
+
+                    <input type="hidden" name="id" value=""  class="id">
+
+                    {lv:inputform  name="email" place="站长邮箱" label="网站地址："  class="email" /}
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">所属分类：</label>
+                        <div class="layui-input-block">
+                            <select name="type"  class="link" lay-filter="link">
+                                <option value="1" >优秀个人博客</option>
+                                <option value="2">站长推荐</option>
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否显示：</label>
+                        <div class="layui-input-block">
+                            <select name="status" class="userGrade" lay-filter="userGrade">
+                                <option value="1" >显示</option>
+                                <option value="2">不显示</option>
+
+                            </select>
+                        </div>
+                    </div>
+
+                   {:widget('forms/submit',array('add','立即提交'))}
+
+        </form >
+
+    </div >
+
+
+</div >
+
+
+<script >
+    layui.use(['element', 'form', 'jquery', 'lucky'], function () {
+        var element = layui.element;
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var lucky = layui.lucky;
+
+        /**
+         * 提交表单数据
+         */
+        form.on('submit(add)', function (data) {
+            lucky.FormSubmit("{:url('module/addLink')}", data.field, "table_id", 1);
+            return false;
+        });
+    })
+</script >
+
+
+</body>
+</html>

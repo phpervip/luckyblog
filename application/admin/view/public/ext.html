@@ -1,0 +1,48 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/8/2-14:50
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: ext.html
+ *-->
+{include file="public/head" /}
+
+
+<script >var data_url="{__ADMIN_PATH}";</script >
+<!-- 主体部分开始 -->
+<div class="layui-fluid">
+
+    <div class="layui-row layui-col-space10">
+
+        <div class="layui-col-md12">
+
+
+
+            <div class="layui-card">
+                <div class="layui-card-header">
+                        {block name="header"}   <!--按钮区-->
+
+                        {/block}
+                </div>
+                <div class="layui-card-body">
+
+                    {block name="content"} <!--表格区-->
+
+                    {/block}
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+{block name="js"} <!--js处理区-->
+
+{/block}
+
+<!-- 引入脚部 -->
+{include file="public/footer" /}

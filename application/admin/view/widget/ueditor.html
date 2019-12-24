@@ -1,0 +1,19 @@
+<div class="layui-form-item ">
+    <label class="layui-form-label">{$laber}：</label>
+    <div class="layui-input-block" style="max-width:85%;">
+        <textarea name="{$name}"  placeholder="{$placeholder}"  id="{$name}"  >{$value}</textarea>
+    </div>
+</div>
+
+<!-- 配置文件 -->
+<script type="text/javascript" src="{__PLUG_PATH}ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="{__PLUG_PATH}ueditor/ueditor.all.js"></script>
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+    var ue = UE.getEditor("{$name}", {
+        autoHeightEnabled:false,
+        initialFrameHeight:{$ud_height},
+        zIndex : 0,
+    });
+</script>

@@ -1,0 +1,78 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/8/19-17:04
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: edit_bo.html
+ *-->
+
+
+{include file="public/open_head" /}
+
+<div class="ok-body">
+
+    <div class="layui-fluid">
+        <div class="layui-card">
+
+            <div class="layui-card-body" style="padding: 15px;">
+                <div class="layui-form">
+
+                    {:token()}
+
+                    {lv:InputForm label="标题名称：" name="title"  place="请输入标题名称"  verify="required"  value="$info.title"    /}
+
+                    {lv:InputForm label="连接地址：" name="url"  place="http://" verify="required"   value="$info.url"    /}
+
+
+                    {:widget('forms/Upthumb',array('image|轮播图片|轮播图片|required|选择图片',$info.image,800,800,1))}
+
+                    {lv:Input  name="id"  verify=""  value="$info.id"  type="hidden"  place=""   /}
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否显示：</label>
+                        <div class="layui-input-inline input-custom-width">
+                            <input type="radio" name="status" value="1" title="是"  {eq name="$info.status" value="1"} checked {/eq}>
+                            <input type="radio" name="status" value="2" title="否"  {eq name="$info.status" value="2"} checked {/eq} >
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">用于前台轮播调用</div>
+                    </div>
+
+                    {:widget('forms/submit',array('add','立即提交'))}
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+<script>
+
+    layui.use(['element', 'form', 'jquery','upload','authtree','lucky'], function () {
+        var element = layui.element;
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var authtree = layui.authtree;
+        var lucky=layui.lucky;
+
+
+        /**
+         * 提交表单数据
+         */
+        form.on('submit(add)', function (data) {
+            lucky.FormSubmit("{:url('bo/AddBo')}",data.field,"tableFilter",1);
+            return false;
+        });
+
+    })
+</script>
+
+
+</body>
+</html>

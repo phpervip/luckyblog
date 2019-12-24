@@ -1,0 +1,9 @@
+1、Luckyblog-博客系統是基于Luckyadmin开发的，演示地址： http://www.lovegyl.cn
+2、配置域名指定到 public 目录下
+3、导入安装必读目录下面的xxx.sql 文件到数据库，修改 db.php 的配置文件
+4、访问： http://你配置的域名/ ，后台：http://你配置的域名/admin
+5、默认的后台账号密码是： jackhhy,jackhhy
+6、加群：498186248  ，交流学习
+7、联系作者：jackhhy520@qq.com（如果你喜欢这个开源博客项目，记得给分Star哟，谢谢！）
+8、lucky导航：http://dao.jackhhy.cn
+9、安装问题：http://www.jackhhy.cn/article/49.html

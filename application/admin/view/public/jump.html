@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="{__ADMIN_PATH}js/jquery.min.js"></script>
+    <link rel="stylesheet" href="{__PLUG_PATH}layui/css/layui.css">
+    <script src="{__PLUG_PATH}layui/layui.js"></script>
+</head>
+<body>
+<input type="hidden" value="<?php echo($msg);?>" id="msg">
+<input type="hidden" value="<?php echo($url);?>" id="url">
+<input type="hidden" value="<?php echo($wait);?>" id="wait">
+
+    <script type="text/javascript">
+    var msg = $('#msg').val();
+    var url = $('#url').val();  
+    var wait = $('#wait').val();
+        (function(){
+            layui.use(['form', 'layer'], function(){
+                var $ = layui.$
+                    ,form = layui.form
+                    ,element = layui.element
+                    ,layer = layui.layer;
+
+                    layer.open({
+                        content: msg,
+                        yes: function(index, layero){
+                            layer.close(index); //如果设定了yes回调，需进行手工关闭
+                        }
+                    });
+                    var interval = setInterval(function(){
+                        var time = --wait;
+                        if(time <= 0) {
+                            location.href = url;
+                            clearInterval(interval);
+                        };
+                    }, 1000);
+            });
+
+        })();
+</script>
+
+         
+
+</body>
+</html>

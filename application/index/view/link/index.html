@@ -1,0 +1,130 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/8/20-10:50
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: indx.html
+ *-->
+
+
+{/*引入基类模板*/}
+{extend name='public/base' /}
+
+{block name="content"}
+<article>
+    <div class="container">
+        <h1 class="t_nav">
+
+            <a href="/" class="n1">网站首页</a><a href="javascript:" class="n2">{$nav_id|get_nav_name}</a>
+        </h1>
+
+
+        <div class="whitebg">
+            <h2 class="htitle">友情链接申请</h2>
+
+            <p>注意事项:<br>
+                ①贵站文章符合学习、技术、分享等要求；<br>
+                ②贵站需要和小贺|博客做友情链接，请先在贵站做好小贺|博客的链接&nbsp;本站内容如下:<br>
+                博客名:小贺|博客<br>
+                博客地址: <a href="{$domain}" target="_blank" style="font-weight: bold;color: #0f89a9" >{$domain}</a > <br>
+                博客介绍:PHP,web,mysql等等技术分享、LuckyAdmin<br><br>
+                <strong><span style="color:#FF0000;">注</span></strong>：请先将本站添置友链，然后申请友链，我收到后会立马处理，处理结果会以邮件形式通知你。
+                <br>
+                <br>
+                <a class="link" href="javascript:" onclick="apply_link()" >点击申请链接</a>
+                <style type="text/css">.link{
+                    box-shadow: 0px 1px 2px rgba(0,0,0,0.1);
+                    display: inline-block;
+                    margin-bottom: 0px;
+                    font-weight: 400;
+                    text-align: center;
+                    vertical-align: middle;
+                    cursor: pointer;
+                    background-image: none;
+                    border: 1px solid transparent;
+                    white-space: nowrap;
+                    padding: 6px 12px;
+                    font-size: 14px;
+                    line-height: 1.5;
+                    border-radius: 3px;
+                    -webkit-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
+                    user-select: none;
+                    color: #333;
+                    background-color: #fff;
+                    border-color: #ccc;
+                    text-decoration: none;
+                    margin-left: 7px;
+                    margin-right: 7px;
+                }
+                </style>
+            </p>
+        </div>
+
+
+
+        <div class="whitebg">
+            <h2 class="htitle">站长推荐</h2>
+            <ul class="site_tj ">
+                {lv:list table="friendlink" where="type=2 AND status=1" order="create_time desc" id="v"}
+                <li><a href="{$v.href}?from=www.jackhhy.cn" class="lucky_hhy" target="_blank" title="{$v.name}">{$v.name}</a></li>
+                {/lv:list}
+            </ul>
+        </div>
+
+
+       <div class="whitebg">
+            <h2 class="htitle">优秀个人博客</h2>
+            <ul class="site_tj  site_yx" >
+                {lv:list table="friendlink" where="type=1 AND status=1" order="create_time desc" id="vo"}
+                <li><a href="{$vo.href}?from=www.jackhhy.cn" target="_blank" class="lucky_hhy" title="{$vo.name}" >{$vo.name}</a></li>
+                {/lv:list}
+
+            </ul>
+        </div>
+
+    </div>
+    <script >
+        $(function(){
+            $(".lucky_hhy").each(
+                function(){
+                    $(this).css('color', '#' + Math.floor(16777216*Math.random()).toString(16))
+                }
+            );
+        });
+
+        /**
+         * 友情链接申请
+         */
+
+        function apply_link() {
+           layer.open({
+                title:"友情链接申请",
+                type: 2,
+                area: ["30%", "35%"],
+                // offset:'40px',
+                offset:'auto',
+                maxmin : true,
+                skin:'layui-layer-molv',
+                shade: 0.5,
+                content: "{:url('index/link/addlink')}",
+                success:function(){
+                    setTimeout(function(){
+                        layui.layer.tips('点击此处关闭弹出', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 3,time:1000
+                        });
+                    },500)
+                },
+            });
+        }
+
+
+    </script >
+
+
+</article>
+
+{/block}
+
+

@@ -1,0 +1,42 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/8/2-16:07
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: mulimg.html
+ *-->
+<!-- 引入基类模板 -->
+{extend name='public/ext' /}
+
+
+{block name="header"}
+多图上传 layui+TP
+
+{/block}
+
+{block name="content"} <!--表格区-->
+<div class="layui-form-item">
+    <label class="layui-form-label">多图上传：</label>
+    <div class="layui-input-block">
+        {:widget('forms/uploadMultImg',array('images','','上传图集','100x100',20))}
+    </div>
+</div>
+
+{/block}
+
+{block name="js"} <!--js处理区-->
+
+<script  src="{__ADMIN_PATH}js/base.js"></script >
+
+<script>
+    layui.use(['element', 'form', 'jquery'], function () {
+        var element = layui.element;
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+    })
+</script>
+
+
+
+{/block}

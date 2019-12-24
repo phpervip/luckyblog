@@ -1,0 +1,42 @@
+<!-- 引入基类模板 -->
+{extend name='public/base' /}
+
+
+{block name="search"}
+
+{:widget('forms/search',array('name','角色搜索','角色模糊搜索'))}
+
+{/block}
+
+{block name="btn"}
+<!--按钮区-->
+{:widget('forms/Delbtn',array('删除'))}
+{:widget('forms/Addbtn',array('新增角色',1,'add_menu'))}
+{:widget('forms/reload')}
+
+{/block}
+
+{block name="table"} <!--表格区-->
+
+
+{/block}
+
+{block name="js"} <!--js处理区-->
+
+
+
+<!--模板-->
+<script type="text/html" id="operationTpl">
+    {:widget('forms/Addbtn',array('新增子角色',2,'add'))}
+    {:widget('forms/Editbtn',array('编辑角色信息'))}
+    {:widget('forms/Delbtn',array('删除角色',2))}
+
+</script>
+
+<script type="text/html" id="status">
+    <input type="checkbox" name="status"  lay-data="{{d.status}}" value="{{d.id}}"  lay-filter="sexDemo" lay-skin="switch"  lay-text="开启|关闭"  {{ d.status == 1 ? 'checked' : '' }}>
+</script>
+
+
+
+{/block}

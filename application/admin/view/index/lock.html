@@ -1,0 +1,208 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/7/17-13:54
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: lock.html
+ **************************************************************
+ *                                                            *
+ *   .=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-.       *
+ *    |                     ______                     |      *
+ *    |                  .-"      "-.                  |      *
+ *    |                 /            \                 |      *
+ *    |     _          |              |          _     |      *
+ *    |    ( \         |,  .-.  .-.  ,|         / )    |      *
+ *    |     > "=._     | )(__/  \__)( |     _.=" <     |      *
+ *    |    (_/"=._"=._ |/     /\     \| _.="_.="\_)    |      *
+ *    |           "=._"(_     ^^     _)"_.="           |      *
+ *    |               "=\__|IIIIII|__/="               |      *
+ *    |              _.="| \IIIIII/ |"=._              |      *
+ *    |    _     _.="_.="\          /"=._"=._     _    |      *
+ *    |   ( \_.="_.="     `--------`     "=._"=._/ )   |      *
+ *    |    > _.="                            "=._ <    |      *
+ *    |   (_/                                    \_)   |      *
+ *    |                                                |      *
+ *    '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-='      *
+ *                                                            *
+ *                    JUST FIND YOUR BUG !                    *
+ **************************************************************
+ *-->
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="LuckyAmin">
+    <title >luckyAdmin锁屏界面</title >
+    <script src="{__ADMIN_PATH}js/jquery-1.7.2.min.js"></script>
+    <link rel="stylesheet" href="{__PLUG_PATH}layui/css/layui.css">
+    <script src="{__PLUG_PATH}layui/layui.js"></script>
+    <style >
+
+        /*锁屏css*/
+        .lock-screen{
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            background:#F1F2F7 url({__ADMIN_PATH}images/lockscreenbg.jpg) repeat fixed;
+            background-size:cover;
+            background-repeat:repeat;
+            z-index: 999999;
+        }
+        .lock-wrapper{
+            margin:10% auto;
+            max-width:400px;
+        }
+        #time{
+            width:100%;
+            color:#fff;
+            font-size:60px;
+            margin-bottom:80px;
+            display:inline-block;
+            text-align:center;
+        }
+        .lock-box{
+            background:rgba(255,255,255,.3);
+            padding:20px;border-radius:3px;
+            -webkit-border-radius:3px;
+            position:relative;
+            height: 215px;
+        }
+        .lock-wrapper img{
+            display: block;
+            width: 90px;
+            height: 90px;
+            position:absolute;
+            left:50%;
+            top:-45px;
+            margin-left: -45px;
+            border-radius:50%;
+            -webkit-border-radius:50%;
+            border:5px solid #fff;
+        }
+        .lock-wrapper h1{
+            display: block;
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            text-align:center;
+            color:#fff;
+            font-size:18px;
+            text-transform:uppercase;
+            padding:50px 0 0 0;
+            margin-bottom: 23px;
+        }
+        .lock-wrapper .lock-form{
+            width: 100%;
+            height: 105px;
+        }
+
+        .lock-wrapper .lock-form .layui-form-item{
+            width: 100%;
+            height: 50px;
+            padding: 0px;
+            margin: 0px;
+            margin-bottom: 15px;
+        }
+        .lock-wrapper .lock-form .layui-form-item input[type='password']{
+            width: 60%;
+            height: 40px;
+            margin: 0 auto;
+            border: solid 1px #E2E2E4;
+            cursor: auto;
+            font-size: 14px;
+            user-select: text;
+            text-rendering: auto;
+            letter-spacing: normal;
+            word-spacing: normal;
+            text-transform: none;
+            text-indent: 0px;
+            text-shadow: none;
+        }
+        .lock-wrapper .lock-form .layui-form-item button.layui-btn{
+            margin-left: 35%;
+        }
+        .lock-wrapper .lock-form .layui-form-item button.layui-btn:hover{
+            background: #F8C64F;
+        }
+
+    </style >
+</head >
+<body >
+
+<!-- 屏幕锁屏 -->
+<div class="lock-screen" >
+    <div class="lock-wrapper" id="lock-screen">
+        <div id="time"></div>
+        <div class="lock-box">
+            <img src="{empty  name='$admin_info.avatar'} {__ADMIN_PATH}images/user.jpg {else /} {$admin_info.avatar} {/empty}" alt="">
+            <h1>LuckyAdmin</h1>
+            <form action="" class="layui-form lock-form">
+                <div class="layui-form-item">
+                    <input type="password" name="pass" lay-verify="required" placeholder="锁屏状态，请输入密码解锁" autocomplete="off" class="layui-input"  autofocus="">
+                </div>
+                <div class="layui-form-item">
+                    <button class="layui-btn" lay-submit="" lay-filter="add">立即解锁</button>
+                    &nbsp;&nbsp;<a href="javascript:" class="forget" ><font color="red">忘记密码</font></a >
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script >
+    layui.use(['element', 'form', 'jquery'], function () {
+        var element = layui.element;
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+
+        /**
+         * 提交表单数据
+         */
+        form.on('submit(add)', function (data) {
+            $.post("{:url('index/unlock')}",data.field,function (res) {
+                if (res.code==1){
+                    layer.msg(res.msg,{icon: 1, time: 1500,shade:0.3, anim: 4},function () {
+                        window.location.reload();
+                    });
+                } else {
+                    layer.msg(res.msg,{icon: 15, time: 1500,shade:0.3, anim: 4});
+                }
+            });
+            return false;
+        });
+
+        /**
+         * 忘记密码
+         */
+        $(".forget").click(function () {
+            layer.prompt({
+                btn: ['确定'],
+                title: '请输入管理员登录密码进行解锁！',
+                closeBtn: 1,
+                formType: 1,
+                shade: 0.5,
+            }, function (value, index) {
+                    $.post("{:url('index/pass_lock')}",{password:value},function (res) {
+                        if (res.code==1){
+                            layer.close(index);
+                            layer.msg(res.msg,{icon: 1, time: 1500,shade:0.3, anim: 4},function () {
+                                window.location.reload();
+                            });
+                        }else {
+                            layer.msg(res.msg, {anim: 6});
+                            return false;
+                        }
+                    });
+            });
+        });
+    })
+</script >
+
+</body >
+</html >

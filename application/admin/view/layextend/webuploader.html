@@ -1,0 +1,61 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/8/2-15:41
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: webuploader.html
+ *-->
+
+<!-- 引入基类模板 -->
+{extend name='public/ext' /}
+
+
+{block name="header"}
+
+webuploader 图片上传组件
+<button class="layui-btn layui-btn-sm" id="ok">获取上传图片的值</button>
+
+{/block}
+
+{block name="content"} <!--表格区-->
+<div class="layui-form">
+
+    <div class="wrapper wrapper-content animated fadeIn">
+        <div class="row">
+              {:widget('forms/Webuploader',array('imgurl','imageurl','required'))}
+
+        </div>
+    </div>
+
+
+</div>
+
+{/block}
+
+{block name="js"} <!--js处理区-->
+
+<script  src="{__ADMIN_PATH}js/base.js"></script >
+
+
+<script>
+    layui.use(['element', 'form', 'jquery','layer'], function () {
+        var element = layui.element;
+        var $ = layui.jquery;
+        var layer=layui.layer;
+        $("#ok").click(function () {
+            var cal=$("#imageurl").val();
+            if (cal==""){
+                layer.msg("没有上传图片");
+            } else {
+                layer.msg(cal);
+            }
+
+            return false;
+        });
+
+    });
+</script>
+
+
+{/block}
+

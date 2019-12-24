@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>CLTPHP-后台管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="{__PLUG_PATH}layui/css/layui.css" media="all">
+    <script type="text/javascript" src="{__ADMIN_PATH}js/jquery.min.js"></script>
+    <link rel="stylesheet" href="{__ADMIN_PATH}css/home_1.css" media="all">
+    <link rel="stylesheet" href="{__ADMIN_PATH}css/layui-admin.css" media="all">
+</head>
+<body>
+
+<div class="layui-content-wrapper">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md8">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md6">
+                        <div class="layui-card">
+                            <div class="layui-card-header">快捷方式</div>
+                            <div class="layui-card-body">
+                                <div class="layui-carousel">
+                                    <div carousel-item>
+                                        <ul class="layui-row layui-col-space10">
+                                            <li class="layui-col-xs3">
+                                                <a lay-href="/admin/system/website.html">
+                                                    <i class="layui-icon layui-icon-set"></i>
+                                                    <cite>网站设置</cite>
+                                                </a>
+                                            </li>
+                                            <li class="layui-col-xs3">
+                                                <a lay-href="/admin/auth/rule.html">
+                                                    <i class="layui-icon layui-icon-auz"></i>
+                                                    <cite>权限管理</cite>
+                                                </a>
+                                            </li>
+                                            <li class="layui-col-xs3">
+                                                <a lay-href="/admin/module/index.html">
+                                                    <i class="layui-icon layui-icon-template-1"></i>
+                                                    <cite>模型管理</cite>
+                                                </a>
+                                            </li>
+                                            <li class="layui-col-xs3">
+                                                <a lay-href="/admin/category/index.html">
+                                                    <i class="layui-icon layui-icon-app"></i>
+                                                    <cite>栏目管理</cite>
+                                                </a>
+                                            </li>
+                                            <li class="layui-col-xs3">
+                                                <a lay-href="/admin/message/index.html">
+                                                    <i class="layui-icon layui-icon-dialogue"></i>
+                                                    <cite>留言管理</cite>
+                                                </a>
+                                            </li>
+                                            <li class="layui-col-xs3">
+                                                <a lay-href="/admin/template/index.html">
+                                                    <i class="layui-icon layui-icon-layouts"></i>
+                                                    <cite>模板管理</cite>
+                                                </a>
+                                            </li>
+                                            <li class="layui-col-xs3">
+                                                <a lay-href="/admin/users/index.html">
+                                                    <i class="layui-icon layui-icon-user"></i>
+                                                    <cite>会员管理</cite>
+                                                </a>
+                                            </li>
+                                            <li class="layui-col-xs3">
+                                                <a lay-href="/admin/wechat/index.html">
+                                                    <i class="layui-icon layui-icon-login-wechat"></i>
+                                                    <cite>微信管理</cite>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md6">
+                        <div class="layui-card">
+                            <div class="layui-card-header">站点统计</div>
+                            <div class="layui-card-body">
+
+                                <div class="layui-carousel layadmin-carousel layadmin-backlog">
+                                    <div carousel-item>
+                                        <ul class="layui-row layui-col-space10">
+                                            <li class="layui-col-xs6">
+                                                <a href="javascript:;" class="layadmin-backlog-body">
+                                                    <h3>待回复留言</h3>
+                                                    <p><cite>0</cite></p>
+                                                </a>
+                                            </li>
+                                            <li class="layui-col-xs6">
+                                                <a href="javascript:;" class="layadmin-backlog-body">
+                                                    <h3>一周新增用户</h3>
+                                                    <p><cite>0</cite></p>
+                                                </a>
+                                            </li>
+                                            <li class="layui-col-xs6">
+                                                <a href="javascript:;" class="layadmin-backlog-body">
+                                                    <h3>捐赠人数</h3>
+                                                    <p><cite>2</cite></p>
+                                                </a>
+                                            </li>
+                                            <li class="layui-col-xs6">
+                                                <a href="javascript:;" class="layadmin-backlog-body">
+                                                    <h3>捐赠金额</h3>
+                                                    <p><cite>49</cite></p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header">数据概览</div>
+                            <div class="layui-card-body">
+                                <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-dataview">
+                                    <div carousel-item id="LAY-index-dataview">
+                                        <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
+                                        <div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-card">
+                            <div class="layui-tab layui-tab-brief layadmin-latestData">
+                                <ul class="layui-tab-title">
+                                    <li class="layui-this">最新留言</li>
+                                </ul>
+                                <div class="layui-tab-content">
+                                    <div class="layui-tab-item layui-show">
+                                        <table id="message" lay-filter="message"></table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-col-md4">
+                <div class="layui-card">
+                    <div class="layui-card-header">版本信息</div>
+                    <div class="layui-card-body layui-text">
+                        <table class="layui-table">
+                            <colgroup>
+                                <col width="100">
+                                <col>
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                                <td>当前版本</td>
+                                <td>
+                                    <script type="text/html" template>
+
+                                        <a href="http://bbs.cltphp.com/detail-123.html" target="_blank" style="padding-left: 15px;">更新日志</a>
+                                    </script>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>基于框架</td>
+                                <td>
+                                    <script type="text/html" template>
+
+                                    </script>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>主要特色</td>
+                                <td>零门槛 / 响应式 / 清爽 / 极简</td>
+                            </tr>
+                            <tr>
+                                <td>获取渠道</td>
+                                <td style="padding-bottom: 0;">
+                                    <div class="layui-btn-container">
+                                        <a href="http://bbs.cltphp.com/pro.html" target="_blank" class="layui-btn layui-btn-danger">获取授权</a>
+                                        <a href="http://bbs.cltphp.com/prd.html" target="_blank" class="layui-btn">立即下载</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="layui-card">
+                    <div class="layui-card-header">产品动态</div>
+                    <div class="layui-card-body">
+                        <div class="layui-carousel layadmin-carousel layadmin-news" data-autoplay="true" data-anim="fade" lay-filter="news">
+                            <div carousel-item>
+                                <div><a href="http://bbs.cltphp.com/doc.html" target="_blank" class="layui-bg-red">CLTPHP在线文档</a>
+                                </div>
+                                <div><a href="http://bbs.cltphp.com/" target="_blank" class="layui-bg-green">CLTPHP 论坛</a>
+                                </div>
+                                <div><a href="http://bbs.cltphp.com/pro.html" target="_blank" class="layui-bg-blue">获得CLTPHP.Pro版本</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        作者心语
+                        <i class="layui-icon layui-icon-tips" lay-tips="要支持的噢" lay-offset="5"></i>
+                    </div>
+                    <div class="layui-card-body layui-text layadmin-text">
+                        <p>感谢一路走来有你的陪伴，在未来的道路上，我们会更加努力，争取把最好的东西呈献给最可爱的你。</p>
+                        <p>请尊重CLTPHP开发者的劳动成果，正版授权地址：<a href="http://bbs.cltphp.com/pro.html" target="_blank">CLTPHP.Pro</a></p>
+                        <p>CLTPHP.Pro 受国家计算机软件著作权保护（登记号：2018SR809252），不得恶意分享产品源代码、二次转售等，违者必究。</p>
+                        <p>—— chichu（<a href="http://www.cltphp.com/" target="_blank">cltphp.com</a>）</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script src="{__PLUG_PATH}layui/layui.js"></script>
+
+<script src="{__ADMIN_PATH}js/layui-mz-min.js"></script>
+
+<script >
+
+    layui.use(['element', 'form', 'jquery'], function () {
+        var element = layui.element;
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+
+    })
+
+
+</script >
+
+</body>
+</html>
+

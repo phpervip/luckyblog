@@ -1,0 +1,35 @@
+.picture_list_container{}
+.picture_list_container ul{margin-left: -1.1%}
+.picture_list_container li{width:15.4%;float: left;background: #fff;margin-bottom:1.2%;margin-left :1.2%;}
+.picture_list_container li:hover{box-shadow:0px 1px 16px -8px #000;}
+.picture_list_container li .pic{display: block;overflow: hidden;width:92%;margin:4%;position: relative;}
+.picture_list_container li .pic img{vertical-align: middle;width:100%;}
+.picture_list_container li .title{width:92%;margin:0px 4%;text-align: center;font-size: 18px;height: 24px;overflow:hidden;}
+.picture_list_container li .title a:hover{color:#009688;}
+.picture_list_container li .title a .top{font-size: 12px;display: inline-block;line-height: 20px;background: #f50000;border-radius: 2px;color:#fff;padding:0 5px;margin-right: 5px;}
+.picture_list_container li .desc{width:92%;margin:4%;height: 60px;line-height: 20px;font-size: 12px;color: #444;overflow: hidden;}
+.picture_list_container li .date_hits{width:92%;margin:4%;font-size: 12px;line-height: 24px;border-top: 1px dotted #eee;padding:10px 0 0;color:#666;position: relative;}
+.picture_list_container li .date_hits span{padding-right: 10px;}
+.picture_list_container li .date_hits .layui-btn{position: absolute;right:28%;bottom:4%;}
+.picture_list_container li .date_hits .demo_btn{position: absolute;right:2%;bottom:4%;}
+
+
+.trans_1{transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear; /* Firefox 4 */
+    -webkit-transition: all 0.1s linear; /* Safari å’Œ Chrome */
+    -o-transition: all 0.1s linear; /* Opera */}
+.trans_2{transition: all 0.2s linear;
+    -moz-transition: all 0.2s linear; /* Firefox 4 */
+    -webkit-transition: all 0.2s linear; /* Safari å’Œ Chrome */
+    -o-transition: all 0.2s linear; /* Opera */}
+.trans_3{transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear; /* Firefox 4 */
+    -webkit-transition: all 0.3s linear; /* Safari å’Œ Chrome */
+    -o-transition: all 0.3s linear; /* Opera */}
+.trans_5{transition: all 0.5s linear;
+    -moz-transition: all 0.5s linear; /* Firefox 4 */
+    -webkit-transition: all 0.5s linear; /* Safari å’Œ Chrome */
+    -o-transition: all 0.5s linear; /* Opera */}
+.border-box{box-sizing:border-box;
+    -moz-box-sizing:border-box; /* Firefox */
+    -webkit-box-sizing:border-box; /* Safari */}

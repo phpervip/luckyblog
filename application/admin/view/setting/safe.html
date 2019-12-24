@@ -1,0 +1,130 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/7/4-11:42
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: safe.html
+ *-->
+
+
+{include file="public/head" /}
+
+<body >
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">安全设置</div>
+                <div class="layui-card-body" pad15="">
+
+                    <div class="layui-form" wid100="" lay-filter="">
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">后台日志：</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="safe[admin_log]" value="1" title="开启" {eq name="$safe.admin_log" value="1"} checked {/eq}>
+                                <input type="radio" name="safe[admin_log]" value="2" title="关闭" {eq name="$safe.admin_log" value="2"} checked {/eq}>
+                            </div>
+                            <div class="layui-form-mid layui-word-aux layui-text text-success">提示：是否启用后台管理操作日志。</div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">前端留言：</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="safe[home_liuyan]" value="1" title="开启" {eq name="$safe.home_liuyan" value="1"} checked {/eq}>
+                                <input type="radio" name="safe[home_liuyan]" value="2" title="关闭" {eq name="$safe.home_liuyan" value="2"} checked {/eq}>
+                            </div>
+                            <div class="layui-form-mid layui-word-aux layui-text text-info">提示：是开启前端留言功能。</div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">友链申请：</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="safe[link_friend]" value="1" title="开启" {eq name="$safe.link_friend" value="1"} checked {/eq}>
+                                <input type="radio" name="safe[link_friend]" value="2" title="关闭" {eq name="$safe.link_friend" value="2"} checked {/eq}>
+                            </div>
+                            <div class="layui-form-mid layui-word-aux layui-text text-danger">提示：是否允许用户申请友链。</div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">评论审核：</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="safe[ping_check]" value="1" title="开启" {eq name="$safe.ping_check" value="1"} checked {/eq}>
+                                <input type="radio" name="safe[ping_check]" value="2" title="关闭" {eq name="$safe.ping_check" value="2"} checked {/eq}>
+                            </div>
+                            <div class="layui-form-mid layui-word-aux layui-text text-warning">提示：是否开启评论审核。</div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">游客评论：</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="safe[you_ping]" value="1" title="开启" {eq name="$safe.you_ping" value="1"} checked {/eq}>
+                                <input type="radio" name="safe[you_ping]" value="2" title="关闭" {eq name="$safe.you_ping" value="2"} checked {/eq}>
+                            </div>
+                            <div class="layui-form-mid layui-word-aux layui-text text-primary">提示：是否允许游客评论。</div>
+                        </div>
+
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">网站开启：</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="safe[site_open]" value="1" title="开启" {eq name="$safe.site_open" value="1"} checked {/eq}>
+                                <input type="radio" name="safe[site_open]" value="2" title="关闭" {eq name="$safe.site_open" value="2"} checked {/eq}>
+                            </div>
+                            <div class="layui-form-mid layui-word-aux layui-text text-success">提示：是否开启网站。</div>
+                        </div>
+
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label">禁止登陆IP：</label>
+                            <div class="layui-input-block">
+                                <textarea name="safe[forbid_ip]" placeholder="匹配ip段用'*'占位，如192.168.'*',多个ip段用英文逗号','分割" class="layui-textarea">
+                                    {$safe.forbid_ip}
+                                </textarea>
+                                <div class="layui-form-mid layui-word-aux layui-text text-danger">提示：匹配ip段用"*"占位，如192.168."*",多个ip段用英文逗号","分割。</div>
+                            </div>
+
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit="" lay-filter="set_website">确认保存</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{include file="public/js" /}
+
+<script >
+    layui.use(['element','form', 'jquery', 'laydate','lucky','upload'], function () {
+        var element = layui.element;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var laydate = layui.laydate;
+        var lucky=layui.lucky;
+        var upload=layui.upload;
+
+        form.render();
+
+        /**
+         * 表格提交
+         */
+        form.on('submit(set_website)', function (data) {
+            lucky.FormSubmit("{:url('setting/safe')}",data.field);
+            return false;
+        });
+
+
+
+    });
+
+
+</script >
+
+</body >
+</html >

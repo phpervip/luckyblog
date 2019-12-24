@@ -1,0 +1,9 @@
+<div class="layui-form-item">
+    <label class="layui-form-label">{$label}</label>
+    <div class="layui-input-block">
+        {volist name="radio" id="r" key="k"}
+        <input type="radio" name="{$name}" value="{$k}" title="{$r}" {eq name="$k" value="{$check_ID}"} checked {/eq}>
+        {/volist}
+    </div>
+    <div class="layui-form-mid layui-word-aux layui-text text-info">{notempty name="$word"} {$word} {/notempty}</div>
+</div>

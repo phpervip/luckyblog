@@ -1,0 +1,105 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/7/8-15:18
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: edit_role.html
+ *-->
+
+
+{include file="public/open_head" /}
+
+<div class="ok-body">
+
+    <div class="layui-fluid">
+        <div class="layui-card">
+
+            <div class="layui-card-body" style="padding: 15px;">
+                <div class="layui-form">
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">上级角色：</label>
+                        <div class="layui-input-block">
+
+                        <select name="pid" lay-verify="required" lay-search="" >
+                                <option value="0" {eq name="$pid" value="0"} selected {/eq}>顶级角色</option>
+                                {volist name="tree" id="t"}
+                                <option value="{$t.id}" {eq name="$pid" value="$t.id"} selected {/eq}>{$t.title_show}</option>
+                                {/volist}
+                        </select>
+                           <!-- <input type="hidden" name="id" value="{$info.id}" >-->
+                            {lv:Input  name="id"  verify=""  value="$info.id"  type="hidden"  place=""   /}
+
+                        </div>
+                    </div>
+
+
+                    {lv:InputForm label="角色名称：" name="name"  place="请输入角色名称" verify="required"  value="$info.name"     /}
+
+                    {:token()}
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">选择权限：</label>
+                        <div class="layui-input-block">
+                            <div id="LAY-auth-tree-index"></div>
+                        </div>
+                    </div>
+
+
+                    {:widget('forms/submit',array('add','立即保存'))}
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+<script>
+
+    layui.use(['element', 'form', 'jquery','upload','authtree','lucky'], function () {
+        var element = layui.element;
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var authtree = layui.authtree;
+        var lucky=layui.lucky;
+        var id='{$info.id}';
+        // 初始化
+        $.ajax({
+            url: "{:url('admin_role/authtreeData')}",
+            dataType: 'json',
+            type:'post',
+            data:{id:id},
+            success: function(data){
+                // 渲染时传入渲染目标ID，树形结构数据（具体结构看样例，checked表示默认选中），以及input表单的名字
+                authtree.render('#LAY-auth-tree-index', data.data, {
+                    inputname: 'rule[]'
+                    ,layfilter: 'lay-check-auth'
+                    ,autowidth: true
+                });
+            },
+            error: function(xml, errstr, err) {
+                layer.alert(errstr+'，获取数据失败！');
+            }
+        });
+
+        /**
+         * 提交表单数据
+         */
+        form.on('submit(add)', function (data) {
+            lucky.FormSubmit("{:url('admin_role/AddRole')}",data.field,"tableFilter",1);
+            return false;
+        });
+
+    })
+</script>
+
+
+</body>
+</html>

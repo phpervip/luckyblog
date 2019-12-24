@@ -1,0 +1,172 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/7/11-10:59
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: add_album.html
+ *-->
+
+{include file="public/open_head" /}
+
+<div class="ok-body">
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <!-- <div class="layui-card-header"></div>-->
+
+            <div class="layui-card-body" style="padding: 15px;">
+                <div class="layui-form">
+
+                    {:token()}
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">选择栏目：</label>
+                        <div class="layui-input-block">
+                            <select name="navigate_id" >
+                                {volist name="navigate" id="v"}
+                                <option value="{$v.id}" >{$v.title}</option >
+                                {/volist}
+                            </select >
+                        </div>
+                    </div>
+
+                    
+                    {lv:inputform  name="name" label="相册名称：" place="请输入相册名称" verify="required" /}
+
+                    {lv:textarea  label="相册描述：" place="请输入相册描述" name="describe" verify="required" word="相册的一些描述简介" /}
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否显示：</label>
+                        <div class="layui-input-inline input-custom-width">
+                           <input type="radio" name="is_show" value="2" title="否" lay-filter="" >
+                            <input type="radio" name="is_show" value="1" title="是" lay-filter=""  checked>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"></div>
+
+                        <label class="layui-form-label">是否置顶：</label>
+                        <div class="layui-input-inline input-custom-width">
+                            <input type="radio" name="is_top" value="0" title="否" lay-filter=""  checked>
+                            <input type="radio" name="is_top" value="1" title="是" lay-filter="" >
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"></div>
+                    </div>
+
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">相册标签：</label>
+                        <div class="layui-input-block">
+                            <div class="tags">
+                                <input type="text"  id="inTag" placeholder="回车生成标签" class="inputTag" autocomplete="off">
+                                <input type="hidden" id="val" name="tags">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">相册图片：</label>
+                        <div class="layui-input-block">
+                            {:widget('forms/uploadMultImg',array('images','','上传相册图集','100x100',20))}
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否加密：</label>
+                        <div class="layui-input-block input-custom-width">
+                            <input type="radio" name="is_open" value="0" title="否" lay-filter="radio"  checked>
+                            <input type="radio" name="is_open" value="1" title="是" lay-filter="radio" >
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"></div>
+                    </div>
+
+                    <div class="layui-form-item password"  style="display:none;" >
+                        <label class="layui-form-label">加密密码：</label>
+                        <div class="layui-input-block input-custom-width">
+                            <input type="password" name="pass"  value=""  placeholder="请输入相册的加密密码" lay-verify="" lay-verType="tips" lay-reqText="请输入相册的加密密码"  autocomplete="off"  class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux layui-text " >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        加密了的相册，访问时候需要输入加密的密码！
+                        </div>
+                    </div>
+
+
+                    {:widget('forms/Upthumb',array('img|相册封面|相册封面||选择图片','',250,190,1))}
+
+                    {:widget('forms/submit',array('add','立即提交'))}
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    layui.use(['element', 'form', 'jquery','lucky','inputTags'], function () {
+        var element = layui.element;
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var lucky=layui.lucky;
+        var inputTags=layui.inputTags;
+
+        inputTags.render({
+            elem:'#inTag',
+            content: [],
+            aldaBtn: false,
+            in_id: 'val',
+        });
+
+        /**
+         *
+         */
+        form.on("radio(radio)",function (data) {
+
+            //console.log(data);
+            if (parseInt(data.value)==1){
+                $(".password").show(0);
+            } else {
+                $(".password").hide(0);
+            }
+        });
+
+        /**
+         * 提交表单数据
+         */
+        form.on('submit(add)', function (data) {
+            $.ajax({
+                url:"{:url('album/AddAlbum')}",
+                type:'post',
+                data:data.field,
+                error: function(error) {
+                    layer.msg("服务器错误或超时");
+                    return false;
+                },
+                beforeSend:function(){
+                    layer.load(2);
+                },
+                success:function(data)
+                {
+                    if (data.code==1) {
+                        layer.msg(data.msg,{icon: 1, time: 1500,shade:0.3, anim: 4},function () {
+                            parent.location.reload(); //刷新父页面
+                            parent.layer.close(parent.layer.getFrameIndex(window.name));
+                        });
+
+                    }else{
+                        layer.msg(data.msg,{icon:15,time:1500,shade:0.3,anim:4});
+                    }
+                },
+                complete:function(){
+                    layer.closeAll('loading');
+                }
+            });
+            return false;
+        });
+    })
+</script>
+
+
+</body>
+</html>

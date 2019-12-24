@@ -1,0 +1,198 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/7/10-16:27
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: index.html
+ *-->
+
+{include file="public/head" /}
+
+<link rel="stylesheet" href="{__ADMIN_PATH}css/album.css?v=1.5">
+
+<body>
+<!-- 正文开始 -->
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md12">
+
+            <div class="layui-card">
+                <div class="layui-card-body layui-row ">
+                    <form action="{:url('admin/album/index')}" class="layui-form" method="get" >
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">相册名称：</label>
+                                <div class="layui-input-inline">
+                                    <input name="name" class="layui-input" value="" type="text" placeholder="输入名称">
+                                </div>
+                            </div>
+
+                            <div class="layui-inline" style="padding-left: 20px;">
+                                <button class="layui-btn icon-btn" lay-filter="search" lay-submit="">
+                                    <i class="layui-icon"></i>搜索
+                                </button>
+
+                            </div>
+                            <div class="layui-inline " >
+                                <button class="layui-btn icon-btn layui-btn-warm add_album" onmouseover="tis(this)" data-title="添加相册" >
+                                    <i class="layui-icon layui-icon-add-circle-fine"></i> 添加相册
+                                </button>
+
+                                <a class="layui-btn icon-btn layui-btn-normal " href="{:url('album/listalbum')}" onmouseover="tis(this)" data-title="切换到列表模式" >
+                                    <i class="layui-icon layui-icon-list"></i> 列表模式
+                                </a>
+                            </div>
+
+                        </div>
+
+                    </form >
+                </div>
+
+            </div>
+
+                    <!-- 图片列表开始 -->
+
+                        <div class="picture_list_container" >
+                            <a name="kv" ></a >
+                            <ul>
+
+
+                                {notempty name="data['data']"}
+                                {volist name="data['data']" id="vo"}
+                                <li class="trans_3">
+                                    <a href="javascript:" class="pic view" data-open="{$vo.is_open}" data-id="{$vo.id}">
+                                        <img class="lazy" data-original="{$vo.img}"  src="{__ADMIN_PATH}images/pic_loading_bg.png" alt="{$vo.name}" style="display: inline-block;width: 240px;height: 140px;">
+                                    </a>
+                                    <h2 class="title">
+                                        <a href="javascript:" class="view" data-open="{$vo.is_open}" data-id="{$vo.id}">
+                                           {eq name="$vo.is_top" value="1"}  <span class="layui-badge layui-bg-red">置顶</span> {/eq}
+                                        {$vo.name}
+                                            {eq name="$vo.is_open" value="1"}  <span class="layui-badge layui-bg-blue">加密</span> {/eq}
+                                        </a>
+                                    </h2>
+                                    <p class="desc">{$vo.describe}</p>
+                                    <div class="date_hits">
+                                        <p class="date"><span>{$vo.create_time|friend_time}</span></p>
+                                        <span class="hits"><i class="layui-icon" title="点击量"></i> {$vo.hits} ℃ &nbsp;&nbsp;数量：{$vo.nums}</span>
+
+                                        <button  class="layui-btn layui-btn-normal upimg layui-btn-sm" value="{$vo.id}">传图</button>
+                                        <button  class="layui-btn layui-btn-primary demo_btn  view layui-btn-sm" data-open="{$vo.is_open}" data-id="{$vo.id}">演示</button>
+                                    </div>
+                                </li>
+                                <div class="clear"></div>
+                                 {/volist}
+
+                                {/notempty}
+                            </ul>
+
+
+                        </div>
+
+
+            <!--分页开始-->
+            <div class="layui-row" style="text-align: center;">
+                        {$page}
+            </div>
+            <!--分页结束-->
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+</div>
+
+
+
+{include file="public/js" /}
+
+<script src="{__ADMIN_PATH}js/jquery.lazyload.min.js?v=1.9.1"></script>
+
+<script type="text/javascript" charset="utf-8">
+    $(function() {
+        $("img.lazy").lazyload({effect: "fadeIn"});
+    });
+</script>
+
+<script>
+
+    layui.use(['element', 'form', 'jquery', 'lucky'], function () {
+        var element = layui.element;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var lucky = layui.lucky;
+
+        /**
+         * 查看相册
+         */
+        $(".view").click(function () {
+            var id=parseInt($(this).attr("data-id"));
+            var open=parseInt($(this).attr("data-open"));
+           // alert(open);
+            if (open==1){
+                layer.prompt({
+                    btn: ['确定'],
+                    title: '请输入相册密码！',
+                    closeBtn: 1,
+                    formType: 1,
+                    shade: 0.5,
+                }, function (value, index) {
+                    $.post("{:url('album/pass_lock')}",{password:value,id:id},function (res) {
+                        if (res.code==1){
+                            layer.close(index);
+                            layer.msg(res.msg,{icon: 1, time: 1500,shade:0.3, anim: 4},function () {
+                                var url="/admin/album/ViewImages/id/"+id;
+                                var layid=Math.random();
+                                var p_layui = parent.layui;//获取父级的layui
+                                var p_okTab = p_layui.okTab();//拿到导航操作对象
+                                var page = '<a lay-id="u-"+layid href="javascript:;" data-url="' + url + '"><cite>查看相册</cite><span class="layui-badge-dot"></span></a>';
+                                p_okTab.tabAdd(page);
+                            });
+                        }else {
+                            layer.msg(res.msg, {anim: 6,time:1500});
+                            return false;
+                        }
+                    });
+                });
+            } else {
+                var url="/admin/album/ViewImages/id/"+id;
+                var layid=Math.random();
+                var p_layui = parent.layui;//获取父级的layui
+                var p_okTab = p_layui.okTab();//拿到导航操作对象
+                var page = '<a lay-id="u-"+layid href="javascript:;" data-url="' + url + '"><cite>查看相册</cite><span class="layui-badge-dot"></span></a>';
+                p_okTab.tabAdd(page);
+            }
+
+        });
+
+        /**
+         * 添加相册
+         */
+
+        $(".add_album").click(function () {
+            var url="{:url('album/AddAlbum')}";
+            lucky.CreateForm("添加相册",'70%','88%',url);
+            return false;
+        });
+
+        /**
+         * 上传图片
+         */
+        $(".upimg").click(function () {
+            var id=parseInt($(this).val());
+            var url="/admin/album/AddImages/id/"+id;
+            lucky.CreateForm("上传相册图片",'55%','65%',url);
+            return false;
+        });
+
+    });
+
+</script >
+
+
+</body >
+</html >

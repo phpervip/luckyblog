@@ -1,0 +1,63 @@
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/8/15-14:40
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: lists.html
+ *-->
+<!-- 引入基类模板 -->
+{extend name='public/base' /}
+
+{block name="content"}
+<article>
+<!--<div class="pagebg"> <img src="https://www.mochoublog.com/d/file/p/2018/pagebgpic/study.jpg"> </div>-->
+<div class="container">
+    <h1 class="t_nav">
+        {$nav_id|brand_nav}
+        <a href="/" class="n1">网站首页</a><a href="javascript:" class="n2">{$nav_id|get_nav_name}</a>
+    </h1>
+    <div class="fly-main" style="overflow: hidden;">
+        <ul class="fly-case-list">
+            {volist name="datas" id="v"}
+            <li data-id="123">
+                <a class="fly-case-img" href="javascript:" data-open="{$v.is_open}" data-id="{$v.id}"  onclick="view_album(this)" >
+                    <img data-original="{$v.img}" alt="{$v.name}">
+                    <cite class="layui-btn layui-btn-primary layui-btn-small">查相册</cite>
+                </a>
+                <h2><a href="javascript:" data-open="{$v.is_open}" data-id="{$v.id}"  onclick="view_album(this)" >{$v.name}</a></h2>
+                <p class="fly-case-desc">
+                    {$v.describe}
+                </p>
+
+                <div class="fly-case-info">
+                    <a href="javascript:" class="fly-case-user">
+                        <img data-original="{__HOME_PATH}images/avatar.jpg"></a>
+                    <p class="layui-elip" style="font-size: 12px;">{$v.create_time|friend_time}</p>
+                    <p>
+                        <a class="fly-case-nums fly-case-active " href="javascript:;" style=" padding:0 5px; color: #01AAED;">
+                            <font class="zan_{$v.id}">{$v.hits}</font></a>个赞
+                        <a class="fly-case-nums fly-case-active" href="javascript:;"  style=" padding:0 5px; color: #01AAED;">{$v.nums}</a>张图
+                    </p>
+                    <button class="layui-btn layui-btn-primary fly-case-active album_zan" data-id="{$v.id}">点赞</button>
+                </div>
+            </li>
+            {/volist}
+
+        </ul>
+
+    </div>
+
+    <!--分页-->
+    <div style="margin: 30px 0;height:30px;text-align: center;line-height: 30px;">
+        {$page}
+    </div>
+
+
+</div>
+
+<div class="clearfix"></div>
+
+</article>
+
+
+{/block}
