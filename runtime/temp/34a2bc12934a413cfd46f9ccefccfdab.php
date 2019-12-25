@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:78:"/Users/mac/data/tp/luckyblog/public/../application/index/view/index/index.html";i:1577237092;s:68:"/Users/mac/data/tp/luckyblog/application/index/view/public/base.html";i:1577193368;s:70:"/Users/mac/data/tp/luckyblog/application/index/view/public/header.html";i:1577193368;s:68:"/Users/mac/data/tp/luckyblog/application/index/view/public/card.html";i:1577199717;s:70:"/Users/mac/data/tp/luckyblog/application/index/view/public/footer.html";i:1577193368;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:6:{s:80:"/Users/mac/data/tp/luckyblog/public/../application/index/view/article/lists.html";i:1577238643;s:68:"/Users/mac/data/tp/luckyblog/application/index/view/public/base.html";i:1577193368;s:70:"/Users/mac/data/tp/luckyblog/application/index/view/public/header.html";i:1577193368;s:69:"/Users/mac/data/tp/luckyblog/application/index/view/public/right.html";i:1577193368;s:68:"/Users/mac/data/tp/luckyblog/application/index/view/public/card.html";i:1577199717;s:70:"/Users/mac/data/tp/luckyblog/application/index/view/public/footer.html";i:1577193368;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -132,90 +132,36 @@
 
 
 
-<article>
-    <!--banner begin-->
-    <div class="picsbox">
-        <div class="banner">
-            <div id="banner" class="fader">
-                <?php if(is_array($bo) || $bo instanceof \think\Collection || $bo instanceof \think\Paginator): $i = 0; $__LIST__ = $bo;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?>
-                <li class="slide">
-                    <a href="<?php echo $v['url']; ?>" target="_blank"><img src="<?php echo $v['image']; ?>" alt="<?php echo $v['title']; ?>" title="<?php echo $v['title']; ?>"><span class="imginfo"><?php echo $v['title']; ?></span></a>
-                </li>
-                <?php endforeach; endif; else: echo "" ;endif; ?>
 
-                <div class="fader_controls">
-                    <div class="page prev" data-target="prev">&lsaquo;</div>
-                    <div class="page next" data-target="next">&rsaquo;</div>
-                    <ul class="pager_list">
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <!--banner end-->
-
-        <div class="toppic">
-
-            <?php if(is_array($top_article) || $top_article instanceof \think\Collection || $top_article instanceof \think\Paginator): $i = 0; $__LIST__ = $top_article;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?>
-            <li>
-                <a href="<?php echo $v['url']; ?>" target="_blank" title="<?php echo $v['title']; ?>"> <i>
-                    <img data-original="<?php echo $v['image_url']; ?>" alt="<?php echo $v['title']; ?>">
-                </i>
-                    <h2><?php echo title_str_cut($v['title'],"80"); ?></h2>
-                    <span><?php echo $v['n_title']; ?></span> </a>
-            </li>
-            <?php endforeach; endif; else: echo "" ;endif; ?>
-
-        </div>
-
-    </div>
-    <div class="blank"></div>
-
-
-
-
+<div class="pagebg top_banner"></div>
+<div class="container">
+    <h1 class="t_nav">
+        <?php echo brand_nav($nav_id); ?>
+        <a href="/" class="n1">网站首页</a><a href="javascript:" class="n2"><?php echo get_nav_name($nav_id); ?></a>
+    </h1>
     <!--blogsbox begin-->
     <div class="blogsbox">
-        
-        <?php if(!(empty($advice_pic) || (($advice_pic instanceof \think\Collection || $advice_pic instanceof \think\Paginator ) && $advice_pic->isEmpty()))): ?>
-        <div class="pics">
-       <ul>
-        <?php $__LIST__ = db('advice')->where('status = 1  and type=1')->field('*')->limit('3')->order('create_time desc')->select();foreach ($__LIST__ as $key => $v) {?>
-          <li><a href="<?php echo $v['url']; ?>" target="_blank"><img src="<?php echo $v['image']; ?>" alt="<?php echo $v['name']; ?>" ></a ><span><?php echo $v['name']; ?></span></li>
-        <?php } ?>
-      </ul>
-        </div>
-        <?php endif; if(!(empty($advice_zi) || (($advice_zi instanceof \think\Collection || $advice_zi instanceof \think\Paginator ) && $advice_zi->isEmpty()))): ?>
-      	<ul id="blogtab">  
-        <li class="current">站长广告位</li>
 
-        <?php $__LIST__ = db('advice')->where('status = 1  and type=2')->field('*')->limit('8')->order('id desc')->select();foreach ($__LIST__ as $key => $v) {?>
-        <li><a href="<?php echo $v['url']; ?>" target="_blank"  title="<?php echo $v['name']; ?>"><?php echo $v['content']; ?></a ></li>
-        <?php } ?>
-        </ul>
-        <?php endif; ?>
-
-
-        <!--文章内容-->
-        <?php if(is_array($article_data) || $article_data instanceof \think\Collection || $article_data instanceof \think\Paginator): $i = 0; $__LIST__ = $article_data;if( count($__LIST__)==0 ) : echo "暂时没有数据" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?>
+        <?php if(is_array($datas) || $datas instanceof \think\Collection || $datas instanceof \think\Paginator): $i = 0; $__LIST__ = $datas;if( count($__LIST__)==0 ) : echo "暂时没有数据" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?>
         <div class="blogs" data-scroll-reveal="enter bottom over 1s">
             <h3 class="blogtitle">
                 <a href="<?php echo $v['url']; ?>" target="_blank">
-                   <?php if($v['is_top'] == '1'): ?> <font style="font-weight: bold;font-size: 1em;color: #f4645f;">【顶】</font> <?php endif; ?>
-                    <font style="font-weight: bold;font-size: 1.07em"><?php echo $v['title']; ?></font>
-            </a>
+                    <?php if($v['is_top'] == '1'): ?> <font style="font-weight: bold;font-size: 0.8em;color: #f4645f;">【顶】</font> <?php endif; ?>
+                    <font style="font-weight: bold;font-size: 1em"><?php echo $v['title']; ?></font>
+                </a>
                 <?php if($v['source'] == '原创'): ?>
                 <span class="layui-badge layui-bg-red" style="float: right;"><?php echo $v['source']; ?></span>
                 <?php else: ?>
                 <span class="layui-badge layui-bg-orange" style="float: right;"><?php echo $v['source']; ?></span>
                 <?php endif; ?>
             </h3>
-
+            <?php if((!empty($v['image_url']))): ?>
             <span class="blogpic"><a href="<?php echo $v['url']; ?>" title="<?php echo $v['title']; ?>">
                 <img data-original="<?php echo $v['image_url']; ?>" alt="<?php echo $v['title']; ?>" title="<?php echo $v['title']; ?>"></a>
             </span>
-
+            <?php endif; ?>
             <p class="blogtext">
-              <?php echo $v['description']; ?>
+                <?php echo $v['description']; ?>
             </p>
             <div class="bloginfo">
                 <ul>
@@ -228,89 +174,72 @@
                     <li class="timer"><?php echo friend_time($v['create_time']); ?></li>
                     <li class="view"><span><?php echo $v['hits']; ?></span>次阅读</li>
                     <li class="like"><?php echo $v['zan']; ?></li>
-
                 </ul>
             </div>
         </div>
         <?php endforeach; endif; else: echo "暂时没有数据" ;endif; ?>
-        <!--文章内容结束-->
 
         <!--分页-->
         <div style="margin: 30px 0;height:30px;text-align: center;line-height: 30px;">
             <?php echo $page; ?>
         </div>
 
-
     </div>
-    <!--blogsbox end-->
-    <!--内容区-->
-    
 
 
 
-    <div class="sidebar">
-        <div class="zhuanti">
-            <h2 class="hometitle">特别推荐</h2>
-            <ul>
 
-                <?php $__LIST__ = db('article')->where('status = 1  and is_recommend=1')->field('*')->limit('3')->order('id desc')->select();foreach ($__LIST__ as $key => $v) {?>
-                <li> <i><img src="<?php echo $v['image_url']; ?>"></i>
-                    <p><?php echo title_str_cut($v['title'],"70"); ?> <span><a href="<?php echo $v['url']; ?>" target="_blank">阅读</a></span> </p>
-                </li>
-                <?php } ?>
 
-            </ul>
-        </div>
+<!--
+ * Created by PhpStorm.
+ * 版权所有: 2019~2022 [ hhygyl ]
+ * Date: 2019/8/14-10:19
+ * Link: http://luckyadmin.luckyhhy.cn
+ * FileName: right.html
+ *-->
 
-        <div class="tuijian">
-            <h2 class="hometitle">点击排行</h2>
+<!--右侧-->
+<div class="sidebar">
 
-            <?php $__LIST__ = db('article')->where('status = 1 ')->field('*')->limit('5')->order('hits DESC,create_time DESC')->select();foreach ($__LIST__ as $key => $v) {if($key == '0'): ?>
-            <ul class="tjpic">
-                <i><img data-original="<?php echo $v['image_url']; ?>" alt="<?php echo $v['title']; ?>"></i>
+    <div class="zhuanti">
+        <h2 class="hometitle">特别推荐</h2>
+        <ul>
+
+            <?php $__LIST__ = db('article')->where('status = 1  and is_recommend=1')->field('*')->limit('3')->order('id desc')->select();foreach ($__LIST__ as $key => $v) {?>
+            <li> <i><img src="<?php echo $v['image_url']; ?>"></i>
+                <p><?php echo title_str_cut($v['title'],"70"); ?> <span><a href="<?php echo $v['url']; ?>" target="_blank">阅读</a></span> </p>
+            </li>
+            <?php } ?>
+
+        </ul>
+    </div>
+
+
+    <?php if(($nav_id!=0)): ?>
+    <div class="tuijian">
+        <h2 class="hometitle">相关文章</h2>
+       <?php if(is_array($right_article) || $right_article instanceof \think\Collection || $right_article instanceof \think\Paginator): $i = 0; $__LIST__ = $right_article;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;if($key == '0'): ?>
+        <ul class="tjpic">
+            <i><img src="<?php echo $v['image_url']; ?>" alt="<?php echo $v['title']; ?>"></i>
+            <p>
+                <a href="<?php echo $v['url']; ?>" target="_blank"><?php echo title_str_cut($v['title'],"60"); ?></a>
+            </p>
+        </ul>
+        <?php else: ?>
+
+        <ul class="sidenews">
+            <li> <i><img src="<?php echo $v['image_url']; ?>" alt="<?php echo $v['title']; ?>"></i>
                 <p>
-                    <a href="<?php echo $v['url']; ?>" target="_blank"><?php echo title_str_cut($v['title'],"60"); ?></a>
+                    <a href="<?php echo $v['url']; ?>" target="_blank"><?php echo title_str_cut($v['title'],"75"); ?></a>
                 </p>
-            </ul>
-            <?php else: ?>
+                <span><?php echo friend_time($v['create_time']); ?></span>
+            </li>
+        </ul>
+        <?php endif; endforeach; endif; else: echo "" ;endif; ?>
+    </div>
+    <?php endif; ?>
 
-            <ul class="sidenews">
-                <li> <i><img data-original="<?php echo $v['image_url']; ?>" alt="<?php echo $v['title']; ?>"></i>
-                    <p>
-                        <a href="<?php echo $v['url']; ?>" target="_blank"><?php echo title_str_cut($v['title'],"75"); ?></a>
-                    </p>
-                    <span><?php echo friend_time($v['create_time']); ?></span>
-                </li>
-            </ul>
-            <?php endif; } ?>
-
-
-
-
-        </div>
-
-        <div class="cloud" >
-            <h2 class="hometitle">标签云</h2>
-            <ul >
-                <?php if(is_array($tags) || $tags instanceof \think\Collection || $tags instanceof \think\Paginator): $i = 0; $__LIST__ = $tags;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$t): $mod = ($i % 2 );++$i;?>
-                <a href="/tags.html?tag=<?php echo $t; ?>" target="_blank" ><?php echo $t; ?></a>
-                <?php endforeach; endif; else: echo "" ;endif; ?>
-
-            </ul>
-        </div>
-        <div class="links">
-            <h2 class="hometitle">友情链接</h2>
-            <ul>
-                <?php $__LIST__ = db('friendlink')->where('status=1 and type=1')->field('*')->limit('15')->order('create_time DESC')->select();foreach ($__LIST__ as $key => $v) {?>
-                <li>
-                    <a href="<?php echo $v['href']; ?>?from=www.jackhhy.cn" target="_blank"><?php echo $v['name']; ?></a>
-                </li>
-                <?php } ?>
-            </ul>
-        </div>
-
-
-       <div class="guanzhu">
+    <div class="guanzhu">
     <h2 class="hometitle">亿莲名片</h2>
     <ul>
         <li class="tencent"><a href="javascript:" target="_self"><span>QQ群号</span>292626152</a></li>
@@ -321,11 +250,11 @@
     </ul>
 </div>
 
-    </div>
-</article>
-<div class="clearfix"></div>
 
-<!--右侧区-->
+
+</div>
+</div>
+</div>
 
 
 

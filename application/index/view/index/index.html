@@ -72,11 +72,11 @@
         <div class="blogs" data-scroll-reveal="enter bottom over 1s">
             <h3 class="blogtitle">
                 <a href="{$v.url}" target="_blank">
-                   {eq name="$v.is_top" value="1"} <font style="font-weight: bold;font-size: 1.07em;color: #3690cf;">【顶】</font> {/eq}
-                    <font style="font-weight: bold;font-size: 1.07em">{$v.title}</font>
+                   {eq name="$v.is_top" value="1"} <font style="font-weight: bold;font-size: 0.8em;color: #f4645f;">【顶】</font> {/eq}
+                    <font style="font-weight: bold;font-size: 1em">{$v.title}</font>
             </a>
                 {if condition="$v.source eq '原创'"}
-                <span class="layui-badge layui-bg-blue" style="float: right;">{$v.source}</span>
+                <span class="layui-badge layui-bg-red" style="float: right;">{$v.source}</span>
                 {else /}
                 <span class="layui-badge layui-bg-orange" style="float: right;">{$v.source}</span>
                 {/if}

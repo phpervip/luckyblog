@@ -47,7 +47,7 @@
 .blogsbox .pics ul li:hover span { opacity: 1; background: rgba(0,0,0,.5); }
 
 .blogs { overflow: hidden; margin-bottom: 20px; padding: 20px; background: #FFF; -webkit-box-shadow: 0 2px 5px 0 rgba(146, 146, 146, .1); -moz-box-shadow: 0 2px 5px 0 rgba(146, 146, 146, .1); box-shadow: 0 2px 5px 0 rgba(146, 146, 146, .1); -webkit-transition: all 0.6s ease; -moz-transition: all 0.6s ease; -o-transition: all 0.6s ease; transition: all 0.6s ease; }
-.blogs:before { position: absolute; content: ""; width: 5px; height: 26px; background: #3690cf; left: 0; top: 20px }
+.blogs:before { position: absolute; content: ""; width: 5px; height: 26px; background: #f4645f;; left: 0; top: 20px }
 .blogs .blogpic { float: left; width: 30%; max-height: 170px; margin-right: 20px; display: block; overflow: hidden; }
 .blogs .blogpic img { width: 100%; height: auto; max-height: 125px; -webkit-transition: all 0.6s ease; -moz-transition: all 0.6s ease; -o-transition: all 0.6s ease; transition: all 0.6s ease; margin-bottom: 10px }
 .blogs .blogpic :hover img { transform: scale(1.1) }
@@ -77,8 +77,8 @@
 /*sidebar*/
 .sidebar { width: 32%; overflow: hidden; float: right }
 .sidebar div { padding: 35px 30px; margin-bottom: 20px; background: #FFF; -webkit-box-shadow: 0 2px 5px 0 rgba(146, 146, 146, .1); -moz-box-shadow: 0 2px 5px 0 rgba(146, 146, 146, .1); box-shadow: 0 2px 5px 0 rgba(146, 146, 146, .1); }
-.hometitle { font-size: 18px; color: #282828; font-weight: 600; margin: 0; text-transform: uppercase; padding-bottom: 15px; margin-bottom: 25px; position: relative; }
-.hometitle:after { content: ""; background-color: #282828; left: 0; width: 50px; height: 2px; bottom: 0; position: absolute; -webkit-transition: 0.5s; -moz-transition: 0.5s; -ms-transition: 0.5s; -o-transition: 0.5s; transition: 0.5s; }
+.hometitle { font-size: 18px; color: #444; font-weight: 600; margin: 0; text-transform: uppercase; padding-bottom: 15px; margin-bottom: 25px; position: relative; }
+.hometitle:after { content: ""; background-color: #f5716c; left: 0; width: 50px; height: 2px; bottom: 0; position: absolute; -webkit-transition: 0.5s; -moz-transition: 0.5s; -ms-transition: 0.5s; -o-transition: 0.5s; transition: 0.5s; }
 .sidebar div:hover ::after { width: 70px; }
 /*//////////////sidebar//////////////////*/
 /* zhuanti */
@@ -161,8 +161,8 @@ _margin-top: 100px; }
 h1.t_nav span { float: right; color: #000; }
 h1.t_nav { border-bottom: #bfbfbf 1px solid; font-size: 14px; font-weight: normal; line-height: 40px; width: 100%; overflow: hidden; margin-bottom: 20px }
 .n1, .n2 { width: 100px; display: block; text-align: center; float: left; color: #fff; }
-.n1 { background: #000; }
-.n2 { background: #3a6ab5; }
+.n1 { background: #00b5ad; }
+.n2 { background: #03aaa3; }
 .sidebar .about { background: #FFF url(../images/banner.png) no-repeat top center; overflow: hidden; }
 .avatar { margin: 40px auto 20px; width: 100px }
 .avatar img { width: 100px; border-radius: 50% }
