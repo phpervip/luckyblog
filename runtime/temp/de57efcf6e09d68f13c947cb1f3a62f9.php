@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:78:"/Users/mac/data/tp/luckyblog/public/../application/index/view/index/index.html";i:1577237092;s:68:"/Users/mac/data/tp/luckyblog/application/index/view/public/base.html";i:1577193368;s:70:"/Users/mac/data/tp/luckyblog/application/index/view/public/header.html";i:1577193368;s:68:"/Users/mac/data/tp/luckyblog/application/index/view/public/card.html";i:1577199717;s:70:"/Users/mac/data/tp/luckyblog/application/index/view/public/footer.html";i:1577193368;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:78:"/Users/mac/data/tp/luckyblog/public/../application/index/view/index/index.html";i:1577238643;s:68:"/Users/mac/data/tp/luckyblog/application/index/view/public/base.html";i:1577193368;s:70:"/Users/mac/data/tp/luckyblog/application/index/view/public/header.html";i:1577193368;s:68:"/Users/mac/data/tp/luckyblog/application/index/view/public/card.html";i:1577199717;s:70:"/Users/mac/data/tp/luckyblog/application/index/view/public/footer.html";i:1577193368;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -200,8 +200,8 @@
         <div class="blogs" data-scroll-reveal="enter bottom over 1s">
             <h3 class="blogtitle">
                 <a href="<?php echo $v['url']; ?>" target="_blank">
-                   <?php if($v['is_top'] == '1'): ?> <font style="font-weight: bold;font-size: 1em;color: #f4645f;">【顶】</font> <?php endif; ?>
-                    <font style="font-weight: bold;font-size: 1.07em"><?php echo $v['title']; ?></font>
+                   <?php if($v['is_top'] == '1'): ?> <font style="font-weight: bold;font-size: 0.8em;color: #f4645f;">【顶】</font> <?php endif; ?>
+                    <font style="font-weight: bold;font-size: 1em"><?php echo $v['title']; ?></font>
             </a>
                 <?php if($v['source'] == '原创'): ?>
                 <span class="layui-badge layui-bg-red" style="float: right;"><?php echo $v['source']; ?></span>
