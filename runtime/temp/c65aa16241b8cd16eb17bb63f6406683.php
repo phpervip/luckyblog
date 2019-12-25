@@ -1,3 +1,0 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:80:"/Users/mac/data/tp/luckyblog/public/../application/admin/view/widget/addbtn.html";i:1577193368;s:81:"/Users/mac/data/tp/luckyblog/public/../application/admin/view/widget/editbtn.html";i:1577193368;}*/ ?>
-
-<a href="javascript:;"   class="layui-btn layui-btn-normal layui-btn-xs "  onmouseover="tis(this)"  data-title="<?php echo $title; ?>" lay-event="<?php echo $type; ?>"><i class="layui-icon">&#xe642;</i></a>
