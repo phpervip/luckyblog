@@ -63,7 +63,15 @@
                 return $cache_nickname;
             }
 
-            $nickname = file_get_contents('http://users.qzone.qq.com/fcg-bin/cgi_get_portrait.fcg?uins='.$qq);
+
+            $arrContextOptions = [
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                ]
+            ];
+
+            $nickname = file_get_contents('http://users.qzone.qq.com/fcg-bin/cgi_get_portrait.fcg?uins='.$qq,false,stream_context_create($arrContextOptions));
 
             $image = 'http://q.qlogo.cn/headimg_dl?dst_uin='.$qq.'&spec=100';
 
