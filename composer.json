@@ -24,7 +24,7 @@
         "tp5er/tp5-databackup": "dev-master",
         "phpoffice/phpexcel": "^1.8",
         "topthink/think-helper": "^1.0",
-        "phpmailer/phpmailer": "^5.2.23",
+        "phpmailer/phpmailer": "^6.1.6",
         "taskphp/taskphp": "dev-master",
         "zoujingli/wechat-developer": "^1.2"
     },
